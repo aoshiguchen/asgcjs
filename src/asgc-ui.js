@@ -24,17 +24,14 @@ Asgc.UI = (function(){
 			var config = Asgc.util.deepClone({},context.getConfigByType(options.type),options);
 			context[options.type](config);
 		},
-		remove: function(id){
-			var ele = document.getElementById(id);
-			if(ele) ele.parentNode.removeChild(ele);
+		unLoad: function(id){
+			context.unLoad(id);
 		},
 		hide: function(id){
-			var ele = document.getElementById(id);
-			if(ele) ele.style.setProperty('display','none');
+			context.hide(id);
 		},
 		show: function(id){
-			var ele = document.getElementById(id);
-			if(ele) ele.style.setProperty('display','block');
+			context.show(id);
 		},
 		//如果传入了callback，则异步回调（非阻塞），否则同步返回（阻塞）
 		alert: function(title,msg,callback){

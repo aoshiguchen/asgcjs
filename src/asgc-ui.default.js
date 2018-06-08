@@ -67,6 +67,9 @@ Asgc.UI.default = (function(){
 		this.unLoad = function(){
 			if(!this.isLoad) return;
 			this.isLoad = false;
+			this.isShow = false;
+			this.isCreate = false;
+			this.isRender = false;
 			this.ele.remove();
 			component[this.id] = undefined;
 			this.onUnLoad();
@@ -380,7 +383,15 @@ Asgc.UI.default = (function(){
 		init: function(){
 
 		},
-		
+		unLoad: function(id){
+			if(component[id]) component[id].unLoad();
+		},
+		hide: function(id){
+			if(component[id]) component[id].hide();
+		},
+		show: function(id){
+			if(component[id]) component[id].show();
+		},
 		msg: function(options){
 			var Msg = Asgc.Class.get('com.asgc.ui.default.Msg');
 			var msg = Msg.new(options);
