@@ -51,6 +51,7 @@ Asgc.dependents = [
 	'core://asgc-html.js',
 	'core://asgc-types.js',
 	'core://asgc-class.js',
+	'core://asgc-acl.js',
 	'core://asgc-regexp.js',
 	'core://asgc-util.js',
 	'core://asgc-cache.js',
@@ -287,7 +288,7 @@ Asgc.base = (function(){
 Asgc.isInit = false;
 Asgc.el = Asgc.base.el;
 Asgc.config = {
-	theme: 'default'
+	theme: 'win10'
 };
 
 Asgc.init = function(dependents){
@@ -310,7 +311,7 @@ Asgc.init = function(dependents){
 	}
 
 	Asgc.base.loadFiles(Asgc.dependents,function(){
-		window.logger = Asgc.Logger('Asgc UI');
+		window.logger = Asgc.Logger('Asgc JS');
 		for(var dependent of Asgc.dependents){
 			logger.info('load ' + dependent + '  finished.');
 		}
