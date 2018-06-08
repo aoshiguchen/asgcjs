@@ -1,0 +1,12 @@
+/*!
+ * file : asgc-ui.win10.js
+ * github : https://github.com/aoshiguchen
+ * author : 傲世孤尘/aoshiguchen
+ * version : v1.0.0
+ */
+.asgc-msg {
+	border: 1px solid #3baced;
+	box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 24px;
+	border-radius: 0px;
+	text-align: center;
+}
