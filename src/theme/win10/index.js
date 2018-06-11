@@ -27,8 +27,13 @@ Asgc.UI.win10 = (function(){
 
 		this.width = options.width;
 		this.height = options.height;
+		this.minWidth = options.minWidth;
+		this.minHeight = options.minHeight;
+		this.maxWidth = options.maxWidth;
+		this.maxHeight = options.maxHeight;
 		this.left = options.left;
 		this.top = options.top;
+		this.display = options.display || 'block';
 
 		//API
 		this.show = function(){
@@ -39,7 +44,7 @@ Asgc.UI.win10 = (function(){
 			this.load();
 			this.onShow();
 			this.isShow = true;
-			this.ele.style.setProperty('display','block');
+			this.ele.style.setProperty('display',this.display);
 		};
 
 		//API
@@ -84,7 +89,7 @@ Asgc.UI.win10 = (function(){
 
 			this.id = this.getId();
 			component[this.id] = this;
-			this.ele = document.createElement('div');
+			this.ele = document.createElement('div');//默认用div包裹
 			this.ele.setAttribute('id',this.id);
 		};
 
@@ -158,7 +163,9 @@ Asgc.UI.win10 = (function(){
 
 	//窗口
 	Class.define('com.asgc.ui.win10.Window',function(options){
-		
+
+		this.icon = options.icon;
+
 		this.statusBar = undefined;
 		this.menuBar = undefined;
 
@@ -189,11 +196,23 @@ Asgc.UI.win10 = (function(){
 
 		//API
 		//Override
+		this.create = function(){
+			this.super.create();
+
+			var controlBar = document.createElement('div');
+			controlBar.style.setProperty('display','inline-block');
+
+			if(this.icon){
+
+			}
+
+		};
+
+		//API
+		//Override
 		this.init = function(){
 			if(this.isInit) return;
 			this.isInit = true;
-
-			
 
 			if(this.menuBar) this.ele.appendChild(this.menuBar);
 
@@ -268,8 +287,9 @@ Asgc.UI.win10 = (function(){
 	},'com.asgc.ui.win10.Container');
 
 	//抽象的按钮
-	Class.define('com.asgc.ui.win10.AbstractButton',function(){
+	Class.define('com.asgc.ui.win10.AbstractButton',function(options){
 		
+		this.display = 'inline-block';
 
 
 	},'com.asgc.ui.win10.Container');
@@ -290,7 +310,22 @@ Asgc.UI.win10 = (function(){
 	},'com.asgc.ui.win10.ToggleButton');
 
 	//普通按钮
-	Class.define('com.asgc.ui.win10.Button',function(){
+	Class.define('com.asgc.ui.win10.Button',function(options){
+
+		this.text = options.text || '';
+
+		this.create = function(){
+			this.super.create();
+			this.ele.innerHTML = this.text;
+		};
+
+		this.render = function(){
+			this.super.render();
+
+			var ele = this.ele;
+
+			ele.classList.add('asgc-button'); 
+		};
 		
 	},'com.asgc.ui.win10.AbstractButton');
 
@@ -307,11 +342,13 @@ Asgc.UI.win10 = (function(){
 	//Msg提示信息
 	Class.define('com.asgc.ui.win10.Msg',function(options){
 
+		this.content = options.text || '';
+
 		//Override
 		this.create = function(){
 			this.super.create();
 			var content = document.createElement('div');
-			content.innerHTML = options.text || '';
+			content.innerHTML = this.content
 			this.ele.appendChild(content);
 		}
 
@@ -339,22 +376,29 @@ Asgc.UI.win10 = (function(){
 	//Msg提示信息
 	Class.define('com.asgc.ui.win10.Alert',function(options){
 
+		this.content = options.content || '';
+
 		//Override
 		this.create = function(){
 			this.super.create();
 			var content = document.createElement('div');
-			content.innerHTML = options.content || '';
+			content.innerHTML = this.content;
 			this.ele.appendChild(content);
+
+			var btnOk = Button.new({
+				text: '确定'
+			});
+			this.appendComponent(btnOk);
 		};
 
 		//Override
 		this.render = function(){
 			var ele = this.ele;
 
-			ele.style.setProperty('max-width',options.maxWidth);
-			ele.style.setProperty('max-height',options.maxHeight);
-			ele.style.setProperty('left',options.left);
-			ele.style.setProperty('top',options.top);
+			ele.style.setProperty('max-width',this.maxWidth);
+			ele.style.setProperty('max-height',this.maxHeight);
+			ele.style.setProperty('left',this.left);
+			ele.style.setProperty('top',this.top);
 
 			ele.classList.add('asgc-alert');
 
@@ -364,6 +408,7 @@ Asgc.UI.win10 = (function(){
 	},'com.asgc.ui.win10.Window');
 
 	var UIConsts = Asgc.Consts.UI;
+	var Button = Asgc.Class.get('com.asgc.ui.win10.Button');
 
 	var UI = {
 		config: {
@@ -372,6 +417,7 @@ Asgc.UI.win10 = (function(){
 				height: '300px',
 				left: '100px',
 				top: '100px',
+				display: 'block'
 			},
 			alert: {
 				width: '200px',
