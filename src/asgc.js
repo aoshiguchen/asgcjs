@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------
-//Asgc UI 1.0.0
+//Asgc JS 0.0.1
 //作者：傲世孤尘
 //QQ：1052045476
 //交流群：527393872
@@ -10,8 +10,8 @@ window.Asgc = Asgc;
 //--------------------------------------------------------------------
 //基本信息
 //--------------------------------------------------------------------
-Asgc.title = 'Asgc UI';
-Asgc.version = '1.0.0';
+Asgc.title = 'Asgc JS';
+Asgc.version = '0.0.1';
 Asgc.filename = 'asgc.js';
 Asgc.releaseDate = '2018-05-24';
 Asgc.logo = '                                        \n' +
@@ -46,7 +46,7 @@ Asgc.showBaseInfo = function(){
 //--------------------------------------------------------------------
 //外部依赖(前置js、css文件)
 //--------------------------------------------------------------------
-Asgc.dependents = [
+Asgc.dependentsLib = [
 	'core://asgc-svg.js',
 	'core://asgc-html.js',
 	'core://asgc-types.js',
@@ -56,10 +56,13 @@ Asgc.dependents = [
 	'core://asgc-util.js',
 	'core://asgc-cache.js',
 	'core://asgc-logger.js',
-	'core://asgc-ui.js',
-	'core://asgc-ui.{Asgc.config.theme}.css',
-	'core://asgc-ui.{Asgc.config.theme}.js'
+	'core://asgc-ui.js'
 	];
+
+Asgc.dependentsTheme = [
+	'core://theme/{Asgc.config.theme}/index.css',
+	'core://theme/{Asgc.config.theme}/index.js'
+];
 
 //--------------------------------------------------------------------
 //base
@@ -75,12 +78,12 @@ Asgc.base = (function(){
 				el.onreadystatechange = function () {
 					if (el.readyState == "loaded" || el.readyState == "complete") {
 						el.onreadystatechange = null;
-						callback();
+						callback(url);
 					}
 				};
 			} else {
 				el.onload = function () {
-					callback();
+					callback(url);
 				};
 			}
 		}
@@ -99,12 +102,12 @@ Asgc.base = (function(){
 				script.onreadystatechange = function () {
 					if (el.readyState == "loaded" || el.readyState == "complete") {
 						el.onreadystatechange = null;
-						callback();
+						callback(url);
 					}
 				};
 			} else {
 				el.onload = function () {
-					callback();
+					callback(url);
 				};
 			}
 		}
@@ -176,6 +179,12 @@ Asgc.base = (function(){
 
 	//加载文件
 	function loadFile(url,callback){
+
+		if(url.startsWith('core://')){
+			url = Asgc.path + '/' + url.substr(7);
+		}
+		url = Asgc.el(url);
+		
 		var suffix = getFileSuffix(url);
 		if('.js' === suffix){
 			loadJs(url,callback);
@@ -193,11 +202,13 @@ Asgc.base = (function(){
 	function loadFiles(urls,callback){
 		if(!urls) return;
 
+		var fileList = [];
 		function load(index){
-			loadFile(urls[index],function(){
+			loadFile(urls[index],function(url){
+				fileList.push(url);
 				if(index >= urls.length - 1){
 					if(typeof(callback) === 'function'){
-						callback();
+						callback(fileList);
 					}
 				}else{
 					load(index + 1);
@@ -287,6 +298,14 @@ Asgc.base = (function(){
 
 Asgc.isInit = false;
 Asgc.el = Asgc.base.el;
+Asgc.theme = {
+	default: {
+		isLoad: false
+	},
+	win10: {
+		isLoad: false
+	}
+};
 Asgc.config = {
 	theme: 'win10'
 };
@@ -299,21 +318,16 @@ Asgc.init = function(dependents){
 
 	Asgc.path = Asgc.base.getAsgcUIScriptUrl();
 
-	for(var i in Asgc.dependents){
-		if(Asgc.dependents[i].startsWith('core://')){
-			Asgc.dependents[i] = Asgc.path + '/' + Asgc.dependents[i].substr(7);
-		}
-		Asgc.dependents[i] = Asgc.el(Asgc.dependents[i]);
-	}
+	Asgc.dependents = Asgc.dependentsLib.concat(Asgc.dependentsTheme);
 
 	if(dependents){
 		Asgc.dependents = Asgc.dependents.concat(dependents);
 	}
 
-	Asgc.base.loadFiles(Asgc.dependents,function(){
+	Asgc.base.loadFiles(Asgc.dependents,function(fileList){
 		window.logger = Asgc.Logger('Asgc JS');
-		for(var dependent of Asgc.dependents){
-			logger.info('load ' + dependent + '  finished.');
+		for(var file of fileList){
+			logger.info('load ' + file + '  finished.');
 		}
 
 		Asgc.UI.init();

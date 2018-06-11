@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------
-//Asgc UI 1.0.0
+//Asgc JS 0.0.1
 //作者：傲世孤尘
 //QQ：1052045476
 //交流群：527393872
@@ -17,12 +17,12 @@ Asgc.util = (function(){
 				el.onreadystatechange = function () {
 					if (el.readyState == "loaded" || el.readyState == "complete") {
 						el.onreadystatechange = null;
-						callback();
+						callback(url);
 					}
 				};
 			} else {
 				el.onload = function () {
-					callback();
+					callback(url);
 				};
 			}
 		}
@@ -41,12 +41,12 @@ Asgc.util = (function(){
 				script.onreadystatechange = function () {
 					if (el.readyState == "loaded" || el.readyState == "complete") {
 						el.onreadystatechange = null;
-						callback();
+						callback(url);
 					}
 				};
 			} else {
 				el.onload = function () {
-					callback();
+					callback(url);
 				};
 			}
 		}
@@ -57,6 +57,12 @@ Asgc.util = (function(){
 
 	//加载文件
 	function loadFile(url,callback){
+
+		if(url.startsWith('core://')){
+			url = Asgc.path + '/' + url.substr(7);
+		}
+		url = Asgc.el(url);
+		
 		var suffix = getFileSuffix(url);
 		if('.js' === suffix){
 			loadJs(url,callback);
@@ -74,11 +80,13 @@ Asgc.util = (function(){
 	function loadFiles(urls,callback){
 		if(!urls) return;
 
+		var fileList = [];
 		function load(index){
-			loadFile(urls[index],function(){
+			loadFile(urls[index],function(url){
+				fileList.push(url);
 				if(index >= urls.length - 1){
 					if(typeof(callback) === 'function'){
-						callback();
+						callback(fileList);
 					}
 				}else{
 					load(index + 1);
@@ -222,6 +230,18 @@ Asgc.util = (function(){
 		}
 
 		return url;
+	}
+
+	function arrayIndexOf(array,item){
+		var ret = -1;
+
+		for(var i in array){
+			if(array[i] === item){
+				return i;
+			}
+		}
+
+		return ret;
 	}
 
 	//日期格式化
@@ -668,6 +688,7 @@ Asgc.util = (function(){
 		getElementPos: getElementPos,
 		fillString: fillString,
 		sequence: sequence,
-		getUuid: getUuid
+		getUuid: getUuid,
+		arrayIndexOf: arrayIndexOf
 	};
 })();

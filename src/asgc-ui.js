@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------
-//Asgc UI 1.0.0
+//Asgc JS 0.0.1
 //作者：傲世孤尘
 //QQ：1052045476
 //交流群：527393872
@@ -9,6 +9,25 @@ Asgc.UI = (function(){
 	var context = null;
 
 	var UI = {
+		setTheme: function(theme){
+			if(!Asgc.theme[theme]){
+				throw new Error('theme:' + thmeme + '不存在!');
+			}
+
+			Asgc.config.theme = theme;
+
+			if(Asgc.theme[theme].isLoad) return;
+
+			var ctx = this;
+			Asgc.util.loadFiles(Asgc.dependentsTheme,function(fileList){
+				for(var file of fileList){
+					logger.info('load ' + file + '  finished.');
+				}
+
+				ctx.init();
+			});
+			
+		},
 		/**
 		 * 根据类型名获取默认配置（alert、prompt、comfim）
 		 */
@@ -19,6 +38,7 @@ Asgc.UI = (function(){
 			context = Asgc.UI[Asgc.config.theme];
 			context.getConfigByType = this.getConfigByType;
 			context.init();
+			Asgc.theme[Asgc.config.theme].isLoad = true;
 		},
 		create: function(options){
 			var config = Asgc.util.deepClone({},context.getConfigByType(options.type),options);
