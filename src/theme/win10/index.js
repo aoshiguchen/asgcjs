@@ -16,6 +16,7 @@ Asgc.UI.win10 = (function(){
 		this.isShow = false;
 		this.isCreate = false;
 		this.isRender = false;
+		this.isInit = false;
 		this.ele = undefined;
 
 		this.onShow = options.onShow || function(){};
@@ -32,10 +33,12 @@ Asgc.UI.win10 = (function(){
 		//API
 		this.show = function(){
 			if(this.isShow) return;
-			this.load();
-			this.isShow = true;
+			this.create();
+			this.init();
 			this.render()
+			this.load();
 			this.onShow();
+			this.isShow = true;
 			this.ele.style.setProperty('display','block');
 		};
 
@@ -58,7 +61,6 @@ Asgc.UI.win10 = (function(){
 		this.load = function(){
 			if(this.isLoad) return;
 			this.isLoad = true;
-			this.create();
 			document.body.appendChild(this.ele);
 			this.onLoad();
 		};
@@ -87,6 +89,11 @@ Asgc.UI.win10 = (function(){
 		};
 
 		//需后代实现
+		this.init = function(){
+			if(this.isInit) return;
+			this.isInit = true;
+		};
+
 		this.render = function(){
 			if(this.isRender) return;
 			this.isRender = true;
@@ -125,15 +132,10 @@ Asgc.UI.win10 = (function(){
 
 		//API
 		//Override
-		this.create = function(){
-			if(this.isCreate) return;
-			this.isCreate = true;
+		this.init = function(){
+			if(this.isInit) return;
+			this.isInit = true;
 
-			this.id = this.getId();
-			component[this.id] = this;
-			this.ele = document.createElement('div');
-			this.ele.setAttribute('id',this.id);
-		
 			for(var comp of this.component){
 				comp.create();
 
@@ -157,14 +159,8 @@ Asgc.UI.win10 = (function(){
 	//窗口
 	Class.define('com.asgc.ui.win10.Window',function(options){
 		
-		this.controlBar = undefined;
 		this.statusBar = undefined;
 		this.menuBar = undefined;
-
-		//API
-		this.setControlBar = function(controlBar){
-			this.controlBar = controlBar;
-		};
 
 		//API
 		this.setStatusBar = function(statusBar){
@@ -181,7 +177,6 @@ Asgc.UI.win10 = (function(){
 		this.refresh = function(){
 			if(this.isShow) return;
 
-			if(this.controlBar) this.controlBar.refresh();
 			if(this.statusBar) this.statusBar.refresh();
 			if(this.menuBar) this.menuBar.refresh();
 
@@ -194,16 +189,12 @@ Asgc.UI.win10 = (function(){
 
 		//API
 		//Override
-		this.create = function(){
-			if(this.isCreate) return;
-			this.isCreate = true;
+		this.init = function(){
+			if(this.isInit) return;
+			this.isInit = true;
 
-			this.id = this.getId();
-			component[this.id] = this;
-			this.ele = document.createElement('div');
-			this.ele.setAttribute('id',this.id);
-		
-			if(this.controlBar) this.ele.appendChild(this.controlBar);
+			
+
 			if(this.menuBar) this.ele.appendChild(this.menuBar);
 
 			for(var comp of this.component){
@@ -213,12 +204,6 @@ Asgc.UI.win10 = (function(){
 
 			if(this.statusBar) this.ele.appendChild(this.statusBar);
 		};
-
-		//Override
-		this.getId = function(){
-			return 'asgc-window-' + Asgc.util.getUuid();
-		};
-
 
 	},'com.asgc.ui.win10.Container');
 
@@ -260,11 +245,6 @@ Asgc.UI.win10 = (function(){
 			this.ele.innerHTML = this.text;
 		};
 
-		//Override
-		this.getId = function(){
-			return 'asgc-label-' + Asgc.util.getUuid();
-		};
-
 	},'com.asgc.ui.win10.Container');
 
 	//列表
@@ -290,6 +270,8 @@ Asgc.UI.win10 = (function(){
 	//抽象的按钮
 	Class.define('com.asgc.ui.win10.AbstractButton',function(){
 		
+
+
 	},'com.asgc.ui.win10.Container');
 
 	//点击后会变化的按钮
@@ -324,17 +306,19 @@ Asgc.UI.win10 = (function(){
 
 	//Msg提示信息
 	Class.define('com.asgc.ui.win10.Msg',function(options){
-		
-		var Label = Asgc.Class.get('com.asgc.ui.win10.Label');
-		var label = Label.new({text: options.text || ''});
-		this.appendComponent(label);
+
+		//Override
+		this.create = function(){
+			this.super.create();
+			var content = document.createElement('div');
+			content.innerHTML = options.text || '';
+			this.ele.appendChild(content);
+		}
 
 		//Override
 		this.render = function(){
 			var ele = this.ele;
 
-			// ele.style.setProperty('width',options.width);
-			// ele.style.setProperty('height',options.height);
 			ele.style.setProperty('max-width',options.maxWidth);
 			ele.style.setProperty('max-height',options.maxHeight);
 			ele.style.setProperty('left',options.left);
@@ -350,12 +334,36 @@ Asgc.UI.win10 = (function(){
 			
 		};
 
+	},'com.asgc.ui.win10.Window');
+
+	//Msg提示信息
+	Class.define('com.asgc.ui.win10.Alert',function(options){
+
 		//Override
-		this.getId = function(){
-			return 'asgc-msg-' + Asgc.util.getUuid();
+		this.create = function(){
+			this.super.create();
+			var content = document.createElement('div');
+			content.innerHTML = options.content || '';
+			this.ele.appendChild(content);
+		};
+
+		//Override
+		this.render = function(){
+			var ele = this.ele;
+
+			ele.style.setProperty('max-width',options.maxWidth);
+			ele.style.setProperty('max-height',options.maxHeight);
+			ele.style.setProperty('left',options.left);
+			ele.style.setProperty('top',options.top);
+
+			ele.classList.add('asgc-alert');
+
+			this.super.render();
 		};
 
 	},'com.asgc.ui.win10.Window');
+
+	var UIConsts = Asgc.Consts.UI;
 
 	var UI = {
 		config: {
@@ -364,18 +372,22 @@ Asgc.UI.win10 = (function(){
 				height: '300px',
 				left: '100px',
 				top: '100px',
-				controlBar: true,
-				menuBar: false,
-				statusBar: false,
 			},
 			alert: {
 				width: '200px',
 				height: '150px',
+				maxWidth: '210px',
+				minMenu: UIConsts.Usability.invisible,
+				minable: UIConsts.Usability.invisible,
+				maxMenu: UIConsts.Usability.invisible,
+				maxble: UIConsts.Usability.invisible,
+				closeMenu: UIConsts.Usability.invisible,
+				closeBle: UIConsts.Usability.available,
+				icon: Asgc.Consts.default //不配置则无图标，default为默认图标，自定义图标则传入图标路径
 			},
 			msg: {
 				width: '100px',
 				height: '30px',
-				controlBar: false,
 				menuBar: false,
 				aliveTime: 2000,
 				maxWidth: '150px'
@@ -383,6 +395,11 @@ Asgc.UI.win10 = (function(){
 		},
 		init: function(){
 
+		},
+		getInstance: function(_class,options){
+			var _Class = Asgc.Class.get('com.asgc.ui.win10.' + _class);
+			var obj = _Class.new(options);
+			return obj;
 		},
 		unLoad: function(id){
 			if(component[id]) component[id].unLoad();
@@ -394,8 +411,7 @@ Asgc.UI.win10 = (function(){
 			if(component[id]) component[id].show();
 		},
 		msg: function(options){
-			var Msg = Asgc.Class.get('com.asgc.ui.win10.Msg');
-			var msg = Msg.new(options);
+			var msg = this.getInstance('Msg',options);
 			msg.show();
 
 			setTimeout(function(){
@@ -403,7 +419,8 @@ Asgc.UI.win10 = (function(){
 			},options.aliveTime);
 		},
 		alert: function(options){
-
+			var alert = this.getInstance('Alert',options);
+			alert.show();
 		}
 	};
 

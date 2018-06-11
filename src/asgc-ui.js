@@ -57,16 +57,58 @@ Asgc.UI = (function(){
 			context.show(id);
 		},
 		//如果传入了callback，则异步回调（非阻塞），否则同步返回（阻塞）
-		alert: function(title,msg,callback){
-			this.create({
-				type: 'alert',
-				contentType: 'panel'
-			});
+		alert: function(p1,p2,p3){
+
+			if(arguments.length === 1){
+
+				if(Asgc.types.isObject(p1)){
+					this.create(Asgc.util.deepClone({},p1,{type: 'alert'}));
+				}else if(Asgc.types.isString(p1)){
+					this.create(Asgc.util.deepClone({},{
+						type: 'alert',
+						title: '系统提示',
+						content: p1
+					}));
+				}else{
+					throw new Error('参数有误!');
+				}
+
+			}else if(arguments.length === 2){
+
+				if(Asgc.types.isString(p1) && Asgc.types.isFunction(p2)){
+					this.create(Asgc.util.deepClone({},{
+						type: 'alert',
+						title: '系统提示',
+						content: p1,
+						callback: p2
+					}));
+				}else if(Asgc.types.isString(p1) && Asgc.types.isString(p2)){
+					this.create(Asgc.util.deepClone({},{
+						type: 'alert',
+						title: p1,
+						content: p2
+					}));
+				}else{
+					throw new Error('参数有误!');
+				}
+
+			}else if(arguments.length >= 3){
+				if(Asgc.types.isString(p1) && Asgc.types.isString(p2) && Asgc.types.isFunction(p3)){
+					this.create(Asgc.util.deepClone({},{
+						type: 'alert',
+						title: p1,
+						content: p2,
+						callback: p3
+					}));
+				}else{
+					throw new Error('参数有误!');
+				}
+			}
+			
 		},
 		msg: function(msg){
 			this.create({
 				type: 'msg',
-				contentType: 'html',
 				text: msg
 			});
 		},

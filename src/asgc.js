@@ -47,6 +47,7 @@ Asgc.showBaseInfo = function(){
 //外部依赖(前置js、css文件)
 //--------------------------------------------------------------------
 Asgc.dependentsLib = [
+	'core://asgc-consts.js',
 	'core://asgc-svg.js',
 	'core://asgc-html.js',
 	'core://asgc-types.js',
