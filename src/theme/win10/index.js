@@ -333,14 +333,16 @@ Asgc.UI.win10 = (function(){
 		this.render = function(){
 			var ele = this.ele;
 
-			ele.style.setProperty('width',options.width);
-			ele.style.setProperty('height',options.height);
+			// ele.style.setProperty('width',options.width);
+			// ele.style.setProperty('height',options.height);
+			ele.style.setProperty('max-width',options.maxWidth);
+			ele.style.setProperty('max-height',options.maxHeight);
 			ele.style.setProperty('left',options.left);
 			ele.style.setProperty('top',options.top);
 
 			ele.classList.add('asgc-msg');
 
-			if(this.hasSuper) this.super.render();
+			this.super.render();
 		};
 
 		//Override
@@ -375,7 +377,8 @@ Asgc.UI.win10 = (function(){
 				height: '30px',
 				controlBar: false,
 				menuBar: false,
-				aliveTime: 2000
+				aliveTime: 2000,
+				maxWidth: '150px'
 			}
 		},
 		init: function(){
@@ -397,7 +400,7 @@ Asgc.UI.win10 = (function(){
 
 			setTimeout(function(){
 				msg.unLoad();
-			},options.aliveTime)
+			},options.aliveTime);
 		},
 		alert: function(options){
 
