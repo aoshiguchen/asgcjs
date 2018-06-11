@@ -16,7 +16,10 @@ Asgc.UI = (function(){
 
 			Asgc.config.theme = theme;
 
-			if(Asgc.theme[theme].isLoad) return;
+			if(Asgc.theme[theme].isLoad){
+				this.init();
+				return;
+			}
 
 			var ctx = this;
 			Asgc.util.loadFiles(Asgc.dependentsTheme,function(fileList){
