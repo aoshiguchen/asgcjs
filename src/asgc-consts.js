@@ -20,7 +20,7 @@ Asgc.Consts = {
 		Usability: {
 			invisible: 'invisible',//不可见
 			unavailable: 'unavailable',//不可用（可见）
-			available: 'unavailable'//可用
+			available: 'available'//可用
 		}
 	}
 

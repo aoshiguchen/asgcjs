@@ -165,9 +165,14 @@ Asgc.UI.win10 = (function(){
 	Class.define('com.asgc.ui.win10.Window',function(options){
 
 		this.icon = options.icon;
-
+		this.title = options.title || '';
+		this.minMenu = options.minMenu;
+		this.maxMenu = options.maxMenu;
+		this.closeMenu = options.closeMenu;
+		this.controlBar = options.controlBar;
 		this.statusBar = undefined;
 		this.menuBar = undefined;
+		this.position = options.position;
 
 		//API
 		this.setStatusBar = function(statusBar){
@@ -199,12 +204,80 @@ Asgc.UI.win10 = (function(){
 		this.create = function(){
 			this.super.create();
 
+			if(!this.controlBar) return;
+
+			var ele = this.ele;
+
 			var controlBar = document.createElement('div');
-			controlBar.style.setProperty('display','inline-block');
+			controlBar.style.setProperty('height','20px');
+
+			var leftBar = document.createElement('div');
+			var rightBar = document.createElement('div');
+			leftBar.style.setProperty('display','inline-block');
+			rightBar.style.setProperty('display','inline-block');
+			rightBar.style.setProperty('float','right');
 
 			if(this.icon){
-
+				var icon = document.createElement('div');
+				icon.style.setProperty('display','inline-block');
+				icon.style.setProperty('margin','0px 5px 0px 5px');
+				//默认图标
+				if(this.icon === Asgc.Consts.default){
+					icon.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-default-icon"></use></svg>';
+				}else{
+					//TODO 自定义图标
+					icon.innerHTML = this.icon;
+				}
+				leftBar.appendChild(icon);
 			}
+
+			var title = document.createElement('div');
+			title.style.setProperty('display','inline-block');
+			title.style.setProperty('user-select','none');
+			title.innerHTML = this.title;
+			leftBar.appendChild(title);
+
+			controlBar.appendChild(leftBar);
+
+			if(this.minMenu){
+				var minMenu = document.createElement('div');
+				minMenu.classList.add('asgc-menu-icon');
+				minMenu.style.setProperty('margin','0px 5px 0px 0px');
+				minMenu.style.setProperty('display','inline-block');
+				if(this.minMenu === UIConsts.Usability.available){
+					minMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-min"></use></svg>';
+				}
+				rightBar.appendChild(minMenu);
+			}
+
+			if(this.maxMenu){
+				var maxMenu = document.createElement('div');
+				maxMenu.classList.add('asgc-menu-icon');
+				maxMenu.style.setProperty('margin','0px 5px 0px 0px');
+				maxMenu.style.setProperty('display','inline-block');
+				if(this.maxMenu === UIConsts.Usability.available){
+					maxMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-max"></use></svg>';
+				}
+				rightBar.appendChild(maxMenu);
+			}
+
+			if(this.closeMenu){
+				var closeMenu = document.createElement('div');
+				closeMenu.classList.add('asgc-menu-icon');
+				closeMenu.style.setProperty('border-radius','0px 5px 0px 0px');
+				closeMenu.style.setProperty('margin','0px');
+				closeMenu.style.setProperty('padding','5px'); 
+				closeMenu.style.setProperty('display','inline-block');
+				if(this.closeMenu === UIConsts.Usability.available){
+					closeMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-destroy"></use></svg>';
+				}
+				rightBar.appendChild(closeMenu);
+			}
+
+			controlBar.appendChild(rightBar);
+
+			ele.appendChild(controlBar);
+
 
 		};
 
@@ -222,6 +295,19 @@ Asgc.UI.win10 = (function(){
 			}
 
 			if(this.statusBar) this.ele.appendChild(this.statusBar);
+		};
+
+		//API
+		//Override
+		this.render = function(){
+			var ele = this.ele;
+
+            ele.style.width = this.width + "px";
+            ele.style.height = this.height + "px";
+            ele.style.minWidth = this.minWidth + "px";
+            ele.style.minHeight =this.minHeight + "px";
+            ele.style.top = this.top + "px";
+            ele.style.left = this.left + "px";
 		};
 
 	},'com.asgc.ui.win10.Container');
@@ -324,6 +410,7 @@ Asgc.UI.win10 = (function(){
 
 			var ele = this.ele;
 
+
 			ele.classList.add('asgc-button'); 
 		};
 		
@@ -370,7 +457,7 @@ Asgc.UI.win10 = (function(){
 		this.update = function(){
 			
 		};
-
+ 
 	},'com.asgc.ui.win10.Window');
 
 	//Msg提示信息
@@ -381,28 +468,41 @@ Asgc.UI.win10 = (function(){
 		//Override
 		this.create = function(){
 			this.super.create();
-			var content = document.createElement('div');
-			content.innerHTML = this.content;
-			this.ele.appendChild(content);
-
-			var btnOk = Button.new({
-				text: '确定'
-			});
-			this.appendComponent(btnOk);
+			
 		};
 
 		//Override
 		this.render = function(){
 			var ele = this.ele;
 
-			ele.style.setProperty('max-width',this.maxWidth);
-			ele.style.setProperty('max-height',this.maxHeight);
-			ele.style.setProperty('left',this.left);
-			ele.style.setProperty('top',this.top);
+			this.super.render();
 
 			ele.classList.add('asgc-alert');
 
-			this.super.render();
+			var content = document.createElement('div');
+			content.style.setProperty('margin','10px auto 10px 10px');
+			content.style.setProperty('font-size','14px');
+			content.style.setProperty('color','#039');
+			content.style.setProperty('height','46%');
+			content.innerHTML = this.content;
+			ele.appendChild(content);
+
+			var bottom = document.createElement('div');
+			var btnOk = document.createElement('div');
+
+			bottom.style.setProperty('border-radius','0px 0px 5px 5px');
+			bottom.style.setProperty('height','25%');
+			bottom.style.setProperty('background-color','#f0f0f0');
+
+			btnOk.classList.add('asgc-button');
+			btnOk.style.setProperty('float','right');
+			btnOk.style.setProperty('margin','5px 10px 0px 0px');
+			btnOk.innerHTML = '确定';
+
+			bottom.appendChild(btnOk);
+
+			ele.appendChild(bottom);
+
 		};
 
 	},'com.asgc.ui.win10.Window');
@@ -423,13 +523,15 @@ Asgc.UI.win10 = (function(){
 				width: '200px',
 				height: '150px',
 				maxWidth: '210px',
+				controlBar: true,
 				minMenu: UIConsts.Usability.invisible,
 				minable: UIConsts.Usability.invisible,
 				maxMenu: UIConsts.Usability.invisible,
 				maxble: UIConsts.Usability.invisible,
-				closeMenu: UIConsts.Usability.invisible,
+				closeMenu: UIConsts.Usability.available,
 				closeBle: UIConsts.Usability.available,
-				icon: Asgc.Consts.default //不配置则无图标，default为默认图标，自定义图标则传入图标路径
+				icon: Asgc.Consts.default, //不配置则无图标，default为默认图标，自定义图标则传入图标路径
+				position: 'ct',
 			},
 			msg: {
 				width: '100px',
