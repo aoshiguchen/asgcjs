@@ -48,8 +48,9 @@ Asgc.UI.win10 = (function(){
 			}
 
 			this.onShow();
-			
+			this.showBefore();
 			this.ele.style.setProperty('display',this.display);
+			this.showAfter();
 		};
 
 		//API
@@ -57,7 +58,9 @@ Asgc.UI.win10 = (function(){
 			if(!this.isShow) return;
 			this.isShow = false;
 			this.onHide();
+			this.hideBefore();
 			this.ele.style.setProperty('display','none');
+			this.hideAfter();
 		};
 
 		//API
@@ -96,6 +99,7 @@ Asgc.UI.win10 = (function(){
 		//API
 		this.unLoad = function(){
 			if(!this.isLoad) return;
+			this.unLoadBefore();
 			this.isLoad = false;
 			this.isShow = false;
 			this.isCreate = false;
@@ -103,6 +107,7 @@ Asgc.UI.win10 = (function(){
 			this.ele.remove();
 			component[this.id] = undefined;
 			this.onUnLoad();
+			this.unLoadAfter();
 		};
 
 		//API
@@ -127,6 +132,30 @@ Asgc.UI.win10 = (function(){
 		};
 
 		this.bindEvent = function(){
+
+		};
+
+		this.showBefore = function(){
+
+		};
+
+		this.showAfter = function(){
+
+		};
+
+		this.hideBefore = function(){
+
+		};
+
+		this.hideAfter = function(){
+
+		};
+
+		this.unLoadBefore = function(){
+
+		};
+
+		this.unLoadAfter = function(){
 
 		};
 
@@ -187,6 +216,7 @@ Asgc.UI.win10 = (function(){
 		this.statusBar = undefined;
 		this.menuBar = undefined;
 		this.position = options.position;
+		this.shadeConf = options.shade;
 
 		//API
 		this.setStatusBar = function(statusBar){
@@ -223,6 +253,11 @@ Asgc.UI.win10 = (function(){
 			var leftBar = document.createElement('div');
 			var rightBar = document.createElement('div');
 			var title = document.createElement('div');
+
+			if(this.shadeConf){
+				var shade = document.createElement("div");
+				this.shade = shade;
+			}
 
 			if(this.iconConf){
 				var icon = document.createElement('div');
@@ -270,11 +305,13 @@ Asgc.UI.win10 = (function(){
 			controlBar.appendChild(leftBar);
 			controlBar.appendChild(rightBar);
 			ele.appendChild(controlBar);
+			document.body.appendChild(shade);
 
 			this.controlBar = controlBar;
 			this.leftBar = leftBar;
 			this.title = title;
 			this.rightBar = rightBar;
+
 		};
 
 		//API
@@ -302,6 +339,7 @@ Asgc.UI.win10 = (function(){
 			var minMenu = this.minMenu;
 			var maxMenu = this.maxMenu;
 			var closeMenu = this.closeMenu;
+			var shade = this.shade;
 
             ele.style.setProperty('width',this.width);
             ele.style.setProperty('height',this.height);
@@ -351,6 +389,37 @@ Asgc.UI.win10 = (function(){
 				closeMenu.style.setProperty('margin','0px');
 				closeMenu.style.setProperty('padding','5px'); 
 				closeMenu.style.setProperty('display','inline-block');
+			}
+
+			if(shade){
+				shade.classList.add("asgc-shade"); 
+			}
+		};
+
+		this.showBefore = function(){
+			
+		};
+
+		this.unLoadAfter = function(){
+			if(this.shade){
+				this.shade.remove();
+			}
+		};
+
+		this.bindEvent = function(){
+			if(this.shade){ 
+				var ele = this.ele;
+				var shade = this.shade;                
+                shade.onclick = function (e) {
+                    if (ele.classList.contains('asgc-flicker')) {
+	                    ele.classList.remove('asgc-flicker');
+	                }
+	                ele.classList.add('asgc-flicker');
+	                flickerTimer = setTimeout(function () {
+	                    ele.classList.remove('asgc-flicker');
+	                    clearTimeout(flickerTimer);
+	                }, 120 * 8);
+                };
 			}
 		};
 
@@ -557,6 +626,8 @@ Asgc.UI.win10 = (function(){
 		};
 
 		this.bindEvent = function(){
+			this.super.bindEvent();
+
 			var ctx = this;
 
 			this.btnOk.onclick = function(){
@@ -604,6 +675,7 @@ Asgc.UI.win10 = (function(){
 				closeBle: UIConsts.Usability.available,
 				icon: Asgc.Consts.default, //不配置则无图标，default为默认图标，自定义图标则传入图标路径
 				position: 'ct',
+				shade: true
 			},
 			msg: {
 				width: '100px',

@@ -69,6 +69,58 @@
     color: #fff;
 }
 
+.asgc-shade{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+}
+
+.asgc-flicker {
+    animation-name: asgc-flicker;
+    -webkit-animation-name: asgc-flicker;
+    -moz-animation-name: asgc-flicker;
+    -o-animation-name: asgc-flicker;
+    animation-duration: 0.12s;
+    -webkit-animation-duration: 0.12s;
+    -moz-animation-duration: 0.12s;
+    -o-animation-duration: 0.12s;
+    animation-iteration-count: 8;
+    -webkit-animation-iteration-count: 8;
+    -moz-animation-iteration-count: 8;
+    -o-animation-iteration-count: 8;
+}
+
+@keyframes asgc-flicker {
+    from {
+        -webkit-box-shadow: 1px 1px 24px rgba(0, 0, 0, .3);
+        box-shadow: 1px 1px 24px rgba(0, 0, 0, .3);
+    }
+
+    to {
+        -webkit-box-shadow: 1px 1px 12px rgba(0, 0, 0, .3);
+        box-shadow: 1px 1px 12px rgba(0, 0, 0, .3);
+    }
+}
+
+@-webkit-keyframes asgc-flicker {
+    from {
+        -webkit-box-shadow: 1px 1px 24px rgba(0, 0, 0, .3);
+        box-shadow: 1px 1px 24px rgba(0, 0, 0, .3);
+        opacity: 1;
+    }
+
+    to {
+        -webkit-box-shadow: 1px 1px 12px rgba(0, 0, 0, .3);
+        box-shadow: 1px 1px 12px rgba(0, 0, 0, .3);
+        opacity: 0.5;
+    }
+}
+
 /* 
 以下是移植的layx样式
  */
