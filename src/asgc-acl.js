@@ -9,4 +9,27 @@
 //Asgc Class Library
 Asgc.ACL = (function(){
 	
+	var Class = Asgc.Class;
+
+	Class.define('com.asgc.lang.Object',function(options){
+
+		this.toString = function(){
+
+		};
+
+		this.equals = function(obj){
+
+		};
+
+		this.hashCode = function(){
+
+		};
+
+		this.clone = function(){
+
+		};
+
+
+	});
+
 })();

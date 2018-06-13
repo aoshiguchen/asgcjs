@@ -17,6 +17,7 @@ Asgc.UI.win10 = (function(){
 		this.isCreate = false;
 		this.isRender = false;
 		this.isInit = false;
+		this.isBindEvent = false;
 		this.ele = undefined;
 
 		this.onShow = options.onShow || function(){};
@@ -24,6 +25,7 @@ Asgc.UI.win10 = (function(){
 		this.onLoad = options.onLoad || function(){};
 		this.onUnLoad = options.onUnLoad || function(){};
 		this.onRefresh = options.onRefresh || function(){};
+		this.onClose = options.callback || function(){};
 
 		this.width = options.width;
 		this.height = options.height;
@@ -38,12 +40,15 @@ Asgc.UI.win10 = (function(){
 		//API
 		this.show = function(){
 			if(this.isShow) return;
-			this.create();
-			this.init();
-			this.render()
-			this.load();
-			this.onShow();
 			this.isShow = true;
+
+			if(!this.isLoad){
+				this.isLoad = true;
+				this.load();
+			}
+
+			this.onShow();
+			
 			this.ele.style.setProperty('display',this.display);
 		};
 
@@ -64,8 +69,26 @@ Asgc.UI.win10 = (function(){
 
 		//API
 		this.load = function(){
-			if(this.isLoad) return;
-			this.isLoad = true;
+			if(!this.isCreate){
+				this.isCreate = true;
+				this.create();
+			}
+			
+			if(!this.isInit){
+				this.isInit = true;
+				this.init();
+			}
+
+			if(!this.isRender){
+				this.isRender = true;
+				this.render();
+			}
+
+			if(!this.isBindEvent){
+				this.isBindEvent = true;
+				this.bindEvent();
+			}
+
 			document.body.appendChild(this.ele);
 			this.onLoad();
 		};
@@ -84,9 +107,6 @@ Asgc.UI.win10 = (function(){
 
 		//API
 		this.create = function(){
-			if(this.isCreate) return;
-			this.isCreate = true;
-
 			this.id = this.getId();
 			component[this.id] = this;
 			this.ele = document.createElement('div');//默认用div包裹
@@ -95,16 +115,18 @@ Asgc.UI.win10 = (function(){
 
 		//需后代实现
 		this.init = function(){
-			if(this.isInit) return;
-			this.isInit = true;
+
 		};
 
 		this.render = function(){
-			if(this.isRender) return;
-			this.isRender = true;
+
 		};
 
 		this.update = function(){
+
+		};
+
+		this.bindEvent = function(){
 
 		};
 
@@ -126,8 +148,6 @@ Asgc.UI.win10 = (function(){
 		//API
 		//Override
 		this.refresh = function(){
-			if(this.isShow) return;
-
 			for(var comp of this.component){
 				comp.refresh();
 			}
@@ -138,9 +158,6 @@ Asgc.UI.win10 = (function(){
 		//API
 		//Override
 		this.init = function(){
-			if(this.isInit) return;
-			this.isInit = true;
-
 			for(var comp of this.component){
 				comp.create();
 
@@ -150,9 +167,6 @@ Asgc.UI.win10 = (function(){
 
 		//Override
 		this.render = function(){
-			if(this.isRender) return;
-			this.isRender = true;
-
 			for(var comp of this.component){
 				comp.render();
 			}
@@ -164,12 +178,12 @@ Asgc.UI.win10 = (function(){
 	//窗口
 	Class.define('com.asgc.ui.win10.Window',function(options){
 
-		this.icon = options.icon;
-		this.title = options.title || '';
-		this.minMenu = options.minMenu;
-		this.maxMenu = options.maxMenu;
-		this.closeMenu = options.closeMenu;
-		this.controlBar = options.controlBar;
+		this.iconConf = options.icon;
+		this.titleText = options.title || '';
+		this.minMenuConf = options.minMenu;
+		this.maxMenuConf = options.maxMenu;
+		this.closeMenuConf = options.closeMenu;
+		this.controlBarConf = options.controlBar;
 		this.statusBar = undefined;
 		this.menuBar = undefined;
 		this.position = options.position;
@@ -187,8 +201,6 @@ Asgc.UI.win10 = (function(){
 		//API
 		//Override
 		this.refresh = function(){
-			if(this.isShow) return;
-
 			if(this.statusBar) this.statusBar.refresh();
 			if(this.menuBar) this.menuBar.refresh();
 
@@ -204,89 +216,70 @@ Asgc.UI.win10 = (function(){
 		this.create = function(){
 			this.super.create();
 
-			if(!this.controlBar) return;
+			if(!this.controlBarConf) return;
 
 			var ele = this.ele;
-
 			var controlBar = document.createElement('div');
-			controlBar.style.setProperty('height','20px');
-
 			var leftBar = document.createElement('div');
 			var rightBar = document.createElement('div');
-			leftBar.style.setProperty('display','inline-block');
-			rightBar.style.setProperty('display','inline-block');
-			rightBar.style.setProperty('float','right');
+			var title = document.createElement('div');
 
-			if(this.icon){
+			if(this.iconConf){
 				var icon = document.createElement('div');
-				icon.style.setProperty('display','inline-block');
-				icon.style.setProperty('margin','0px 5px 0px 5px');
 				//默认图标
-				if(this.icon === Asgc.Consts.default){
+				if(this.iconConf === Asgc.Consts.default){
 					icon.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-default-icon"></use></svg>';
 				}else{
 					//TODO 自定义图标
-					icon.innerHTML = this.icon;
+					icon.innerHTML = this.iconConf;
 				}
 				leftBar.appendChild(icon);
+				this.icon = icon;
 			}
 
-			var title = document.createElement('div');
-			title.style.setProperty('display','inline-block');
-			title.style.setProperty('user-select','none');
-			title.innerHTML = this.title;
-			leftBar.appendChild(title);
-
-			controlBar.appendChild(leftBar);
-
-			if(this.minMenu){
+			if(this.minMenuConf){
 				var minMenu = document.createElement('div');
-				minMenu.classList.add('asgc-menu-icon');
-				minMenu.style.setProperty('margin','0px 5px 0px 0px');
-				minMenu.style.setProperty('display','inline-block');
-				if(this.minMenu === UIConsts.Usability.available){
+				if(this.minMenuConf === UIConsts.Usability.available){
 					minMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-min"></use></svg>';
 				}
 				rightBar.appendChild(minMenu);
+				this.minMenu = minMenu;
 			}
 
-			if(this.maxMenu){
+			if(this.maxMenuConf){
 				var maxMenu = document.createElement('div');
-				maxMenu.classList.add('asgc-menu-icon');
-				maxMenu.style.setProperty('margin','0px 5px 0px 0px');
-				maxMenu.style.setProperty('display','inline-block');
-				if(this.maxMenu === UIConsts.Usability.available){
+				if(this.maxMenuConf === UIConsts.Usability.available){
 					maxMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-max"></use></svg>';
 				}
 				rightBar.appendChild(maxMenu);
+				this.maxMenu = maxMenu;
 			}
 
-			if(this.closeMenu){
+			if(this.closeMenuConf){
 				var closeMenu = document.createElement('div');
-				closeMenu.classList.add('asgc-menu-icon');
-				closeMenu.style.setProperty('border-radius','0px 5px 0px 0px');
-				closeMenu.style.setProperty('margin','0px');
-				closeMenu.style.setProperty('padding','5px'); 
-				closeMenu.style.setProperty('display','inline-block');
-				if(this.closeMenu === UIConsts.Usability.available){
+				if(this.closeMenuConf === UIConsts.Usability.available){
 					closeMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-destroy"></use></svg>';
 				}
 				rightBar.appendChild(closeMenu);
+				this.closeMenu = closeMenu;
 			}
 
-			controlBar.appendChild(rightBar);
+			title.innerHTML = this.titleText;
 
+			leftBar.appendChild(title);
+			controlBar.appendChild(leftBar);
+			controlBar.appendChild(rightBar);
 			ele.appendChild(controlBar);
 
-
+			this.controlBar = controlBar;
+			this.leftBar = leftBar;
+			this.title = title;
+			this.rightBar = rightBar;
 		};
 
 		//API
 		//Override
 		this.init = function(){
-			if(this.isInit) return;
-			this.isInit = true;
-
 			if(this.menuBar) this.ele.appendChild(this.menuBar);
 
 			for(var comp of this.component){
@@ -301,13 +294,64 @@ Asgc.UI.win10 = (function(){
 		//Override
 		this.render = function(){
 			var ele = this.ele;
+			var controlBar = this.controlBar;
+			var leftBar = this.leftBar;
+			var rightBar = this.rightBar;
+			var icon = this.icon;
+			var title = this.title;
+			var minMenu = this.minMenu;
+			var maxMenu = this.maxMenu;
+			var closeMenu = this.closeMenu;
 
-            ele.style.width = this.width + "px";
-            ele.style.height = this.height + "px";
-            ele.style.minWidth = this.minWidth + "px";
-            ele.style.minHeight =this.minHeight + "px";
-            ele.style.top = this.top + "px";
-            ele.style.left = this.left + "px";
+            ele.style.setProperty('width',this.width);
+            ele.style.setProperty('height',this.height);
+            ele.style.setProperty('min-width',this.minWidth);
+            ele.style.setProperty('min-height',this.minHeight);
+            ele.style.setProperty('top',this.top);
+            ele.style.setProperty('left',this.left);
+
+            if(controlBar){
+            	controlBar.style.setProperty('height','20px');
+            }
+            
+            if(leftBar){
+            	leftBar.style.setProperty('display','inline-block');
+            }
+			
+			if(rightBar){
+				rightBar.style.setProperty('display','inline-block');
+				rightBar.style.setProperty('float','right');
+			}
+
+			if(icon){
+				icon.style.setProperty('display','inline-block');
+				icon.style.setProperty('margin','0px 5px 0px 5px');
+			}
+
+			if(title){
+				title.style.setProperty('display','inline-block');
+				title.style.setProperty('user-select','none');
+			}
+			
+			if(minMenu){
+				minMenu.classList.add('asgc-menu-icon');
+				minMenu.style.setProperty('margin','0px 5px 0px 0px');
+				minMenu.style.setProperty('display','inline-block');
+			}
+
+			if(maxMenu){
+				maxMenu.classList.add('asgc-menu-icon');
+				maxMenu.style.setProperty('margin','0px 5px 0px 0px');
+				maxMenu.style.setProperty('display','inline-block');
+			}
+
+			if(closeMenu){
+				closeMenu.classList.add('asgc-menu-icon');
+				closeMenu.style.setProperty('border-radius','0px 5px 0px 0px');
+				closeMenu.style.setProperty('margin','0px');
+				closeMenu.style.setProperty('padding','5px'); 
+				closeMenu.style.setProperty('display','inline-block');
+			}
 		};
 
 	},'com.asgc.ui.win10.Container');
@@ -336,11 +380,14 @@ Asgc.UI.win10 = (function(){
 			this.text = text;
 		};
 
+		this.create = function(){
+			this.super.create();
+
+
+		};
+
 		//Override
 		this.render = function(){
-			if(this.isRender) return;
-			this.isRender = true;
-
 			this.ele.innerHTML = this.text;
 			this.ele.classList.add('asgc-label');
 		};
@@ -429,13 +476,13 @@ Asgc.UI.win10 = (function(){
 	//Msg提示信息
 	Class.define('com.asgc.ui.win10.Msg',function(options){
 
-		this.content = options.text || '';
+		this.contentText = options.text || '';
 
 		//Override
 		this.create = function(){
 			this.super.create();
 			var content = document.createElement('div');
-			content.innerHTML = this.content
+			content.innerHTML = this.contentText
 			this.ele.appendChild(content);
 		}
 
@@ -449,8 +496,6 @@ Asgc.UI.win10 = (function(){
 			ele.style.setProperty('top',options.top);
 
 			ele.classList.add('asgc-msg');
-
-			this.super.render();
 		};
 
 		//Override
@@ -463,47 +508,74 @@ Asgc.UI.win10 = (function(){
 	//Msg提示信息
 	Class.define('com.asgc.ui.win10.Alert',function(options){
 
-		this.content = options.content || '';
-
+		this.contentText = options.content || '';
 		//Override
 		this.create = function(){
 			this.super.create();
 			
+			var ele = this.ele;
+			var content = document.createElement('div');
+			var bottom = document.createElement('div');
+			var btnOk = document.createElement('div');
+
+			content.innerHTML = this.contentText;
+			btnOk.innerHTML = '确定';
+
+			ele.appendChild(content);
+			bottom.appendChild(btnOk);
+			ele.appendChild(bottom);
+
+			this.content = content;
+			this.bottom = bottom;
+			this.btnOk = btnOk;
 		};
 
 		//Override
 		this.render = function(){
-			var ele = this.ele;
-
 			this.super.render();
+
+			var ele = this.ele;
+			var content = this.content;
+			var bottom = this.bottom;
+			var btnOk = this.btnOk;
 
 			ele.classList.add('asgc-alert');
 
-			var content = document.createElement('div');
 			content.style.setProperty('margin','10px auto 10px 10px');
 			content.style.setProperty('font-size','14px');
 			content.style.setProperty('color','#039');
-			content.style.setProperty('height','46%');
-			content.innerHTML = this.content;
-			ele.appendChild(content);
-
-			var bottom = document.createElement('div');
-			var btnOk = document.createElement('div');
+			content.style.setProperty('height','47%');
+			content.style.setProperty('user-select','none');
 
 			bottom.style.setProperty('border-radius','0px 0px 5px 5px');
-			bottom.style.setProperty('height','25%');
+			bottom.style.setProperty('height','26%');
 			bottom.style.setProperty('background-color','#f0f0f0');
 
 			btnOk.classList.add('asgc-button');
 			btnOk.style.setProperty('float','right');
 			btnOk.style.setProperty('margin','5px 10px 0px 0px');
-			btnOk.innerHTML = '确定';
+		};
 
-			bottom.appendChild(btnOk);
+		this.bindEvent = function(){
+			var ctx = this;
 
-			ele.appendChild(bottom);
+			this.btnOk.onclick = function(){
+				ctx.close();
+			};
+
+			this.closeMenu.onclick = function(){
+				ctx.close();
+			};
 
 		};
+
+		this.close = function(){
+			this.unLoad();
+			this.onClose();
+		};
+
+
+		
 
 	},'com.asgc.ui.win10.Window');
 

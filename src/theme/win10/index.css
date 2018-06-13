@@ -26,8 +26,8 @@
     border-radius: 5px;
     width: 200px;
     height: 140px;
-    margin-left: auto; 
-    margin-right: auto; 
+    margin: auto; 
+    position: absolute; 
 }
 
 .asgc-button {
