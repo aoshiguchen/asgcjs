@@ -22,12 +22,27 @@ Asgc.UI = (function(){
 			}
 
 			var ctx = this;
-			Asgc.util.loadFiles(Asgc.dependentsTheme,function(fileList){
+			Asgc.util.loadFiles([Asgc.theme[theme].path + 'index.js'],function(fileList){
 				for(var file of fileList){
-					logger.info('load ' + file + '  finished.');
+					logger.info('set theme load ' + file + '  finished.');
 				}
 
-				ctx.init();
+				//加载主题的依赖
+				var themeDeps = Asgc.UI[theme].dependents;
+				if(themeDeps && themeDeps.length > 0){
+					for(var i in themeDeps){
+						themeDeps[i] = Asgc.theme[theme].path + themeDeps[i];
+					}
+
+					Asgc.util.loadFiles(themeDeps,function(fileList){
+						for(var file of fileList){
+							logger.info('theme dependents load ' + file + '  finished.');
+						}
+						ctx.init();
+					});
+				}else{
+					ctx.init();
+				}
 			});
 			
 		},

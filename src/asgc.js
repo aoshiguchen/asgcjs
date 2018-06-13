@@ -60,10 +60,10 @@ Asgc.dependentsLib = [
 	'core://asgc-ui.js'
 	];
 
-Asgc.dependentsTheme = [
-	'core://theme/{Asgc.config.theme}/index.css',
-	'core://theme/{Asgc.config.theme}/index.js'
-];
+// Asgc.dependentsTheme = [
+// 	'core://theme/{Asgc.config.theme}/index.css',
+// 	'core://theme/{Asgc.config.theme}/index.js'
+// ];
 
 //--------------------------------------------------------------------
 //base
@@ -175,6 +175,10 @@ Asgc.base = (function(){
 			}
 		}
 
+		if(ret.startsWith('core://')){
+			ret = Asgc.path + '/' + ret.substr(7);
+		}
+
 		return ret;
 	}
 
@@ -277,7 +281,7 @@ Asgc.base = (function(){
 	//获取当前js文件的路径（不是引入js文件的html的路径）
 	function getAsgcUIScriptUrl(){
 		var url = '';
-
+ 
 		for(var script of document.scripts){
 			if(getFileName(script.src) === Asgc.filename){
 				return getFilePath(script.src);
@@ -308,10 +312,10 @@ Asgc.theme = {
 	}
 };
 Asgc.config = {
-	theme: 'win10'
+	theme: ''
 };
 
-Asgc.init = function(dependents){
+Asgc.init = function(dependents = []){
 	if(Asgc.isInit) return;
 	Asgc.isInit = true;
 
@@ -319,20 +323,22 @@ Asgc.init = function(dependents){
 
 	Asgc.path = Asgc.base.getAsgcUIScriptUrl();
 
-	Asgc.dependents = Asgc.dependentsLib.concat(Asgc.dependentsTheme);
-
-	if(dependents){
-		Asgc.dependents = Asgc.dependents.concat(dependents);
+	//初始化主题的路径
+	for(var theme in Asgc.theme){
+		Asgc.theme[theme].path = Asgc.path + '/theme/' + theme + '/';
 	}
+	
+	var deps = Asgc.dependentsLib.concat(dependents);
 
-	Asgc.base.loadFiles(Asgc.dependents,function(fileList){
+	Asgc.base.loadFiles(deps,function(fileList){
 		window.logger = Asgc.Logger('Asgc JS');
 		for(var file of fileList){
 			logger.info('load ' + file + '  finished.');
 		}
 
-		Asgc.UI.init();
-		logger.info('Asgc inited.')
+		Asgc.UI.setTheme('win10');
+
+		logger.info('Asgc JS inited.')
 	});
 
 };

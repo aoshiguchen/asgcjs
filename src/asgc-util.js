@@ -57,6 +57,7 @@ Asgc.util = (function(){
 
 	//加载文件
 	function loadFile(url,callback){
+		if(!url)return;
 
 		if(url.startsWith('core://')){
 			url = Asgc.path + '/' + url.substr(7);

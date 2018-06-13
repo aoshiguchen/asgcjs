@@ -1,8 +1,8 @@
 /*!
- * file : asgc-ui.default.js
+ * file : asgc-ui.win10.js
  * github : https://github.com/aoshiguchen
  * author : 傲世孤尘/aoshiguchen
- * version : v1.0.0
+ * version : v0.0.1
  */
 Asgc.UI.default = (function(){
 
