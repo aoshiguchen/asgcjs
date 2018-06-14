@@ -48,7 +48,7 @@ Asgc.UI.win10 = (function(){
 	 
 		},'com.asgc.ui.win10.Window');
 
-		//Msg提示信息
+		//Alert提示信息
 		Class.define('com.asgc.ui.win10.Alert',function(options){
 
 			this.contentText = options.content || '';
@@ -129,6 +129,107 @@ Asgc.UI.win10 = (function(){
 
 		},'com.asgc.ui.win10.Window');
 
+		//Confirm提示信息
+		Class.define('com.asgc.ui.win10.Confirm',function(options){
+
+			this.onOk = options.onOk || function(){};
+			this.onCancel = options.onCancel || function(){};
+			this.contentText = options.content || '';
+
+			//Override
+			this.create = function(){
+				this.super.create();
+				
+				var ele = this.ele;
+				var content = document.createElement('div');
+				var bottom = document.createElement('div');
+				var btnOk = document.createElement('div');
+				var btnCancel = document.createElement('div');
+
+				content.innerHTML = this.contentText;
+				btnOk.innerHTML = '确定';
+				btnCancel.innerHTML = '取消';
+
+				ele.appendChild(content);
+				bottom.appendChild(btnCancel);
+				bottom.appendChild(btnOk);
+				ele.appendChild(bottom);
+
+				this.content = content;
+				this.bottom = bottom;
+				this.btnOk = btnOk;
+				this.btnCancel = btnCancel;
+				logger.info(logInfo + 'confirm id:' + this.id,' create finished.');
+			};
+
+			//Override
+			this.render = function(){
+				this.super.render();
+
+				var ele = this.ele;
+				var content = this.content;
+				var bottom = this.bottom;
+				var btnOk = this.btnOk;
+				var btnCancel = this.btnCancel;
+
+				ele.classList.add('asgc-confirm');
+
+				content.style.setProperty('margin','10px auto 10px 10px');
+				content.style.setProperty('font-size','14px');
+				content.style.setProperty('color','#039');
+				content.style.setProperty('height','47%');
+				content.style.setProperty('user-select','none');
+
+				bottom.style.setProperty('border-radius','0px 0px 5px 5px');
+				bottom.style.setProperty('height','26%');
+				bottom.style.setProperty('background-color','#f0f0f0');
+
+				btnOk.classList.add('asgc-button');
+				btnOk.style.setProperty('float','right');
+				btnOk.style.setProperty('margin','5px 10px 0px 0px');
+
+				btnCancel.classList.add('asgc-button');
+				btnCancel.style.setProperty('float','right');
+				btnCancel.style.setProperty('margin','5px 10px 0px 0px');
+
+				logger.info(logInfo + 'confirm id:' + this.id,' render finished.');
+			};
+
+			this.bindEvent = function(){
+				this.super.bindEvent();
+
+				var ctx = this;
+
+				this.btnOk.onclick = function(){
+					ctx.unLoad();
+					ctx.onOk();
+					ctx.onClose('ok');
+					logger.info(logInfo + 'confirm id:' + this.id,' close finished.');
+				};
+
+				this.btnCancel.onclick = function(){
+					ctx.unLoad();
+					ctx.onCancel();
+					ctx.onClose('cancel');
+					logger.info(logInfo + 'confirm id:' + this.id,' close finished.');
+				};
+
+				this.closeMenu.onclick = function(){
+					ctx.close();
+				};
+
+				logger.info(logInfo + 'confirm id:' + this.id,' bindEvent finished.');
+			};
+
+			this.close = function(){
+				this.unLoad();
+				this.onClose();
+				logger.info(logInfo + 'confirm id:' + this.id,' close finished.');
+			};
+			
+
+		},'com.asgc.ui.win10.Window');
+
 	}
 	
 
@@ -186,7 +287,14 @@ Asgc.UI.win10 = (function(){
 			
 			alert.show();
 
-		}
+		},
+		confirm: function(options){
+			logger.info(logInfo + 'confirm ',JSON.stringify(options));
+
+			var confirm = this.getInstance('Confirm',options);
+			
+			confirm.show();
+		},
 	};
 
 

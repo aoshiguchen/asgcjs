@@ -18,16 +18,29 @@
     margin-right: auto; 
     padding: 5px;
     word-break: break-all;
+    background-color: #fff;
 }
 
 .asgc-alert {
     border: 1px solid #3baced;
-    box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 24px;
+    box-shadow: rgb(0, 0, 0, 0.3) 1px 1px 24px;
     border-radius: 5px;
     width: 200px;
     height: 140px;
     margin: auto; 
     position: absolute; 
+    background-color: #fff;
+}
+
+.asgc-confirm {
+    border: 1px solid #3baced;
+    box-shadow: rgb(0, 0, 0, 0.3) 1px 1px 24px;
+    border-radius: 5px;
+    width: 200px;
+    height: 140px;
+    margin: auto; 
+    position: absolute; 
+    background-color: #fff;
 }
 
 .asgc-button {

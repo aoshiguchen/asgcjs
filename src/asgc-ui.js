@@ -134,6 +134,57 @@ Asgc.UI = (function(){
 				text: msg
 			});
 		},
+		confirm: function(p1,p2,p3){
+
+			if(arguments.length === 1){
+
+				if(Asgc.types.isObject(p1)){
+					this.create(Asgc.util.deepClone({},p1,{type: 'confirm'}));
+				}else if(Asgc.types.isString(p1)){
+					this.create(Asgc.util.deepClone({},{
+						type: 'confirm',
+						title: '系统提示',
+						content: p1
+					}));
+				}else{
+					throw new Error('参数有误!');
+				}
+
+			}else if(arguments.length === 2){
+
+				if(Asgc.types.isString(p1) && Asgc.types.isFunction(p2)){
+					this.create(Asgc.util.deepClone({},{
+						type: 'confirm',
+						title: '系统提示',
+						content: p1,
+						callback: p2
+					}));
+				}else if(Asgc.types.isString(p1) && Asgc.types.isString(p2)){
+					this.create(Asgc.util.deepClone({},{
+						type: 'confirm',
+						title: p1,
+						content: p2
+					}));
+				}else{
+					throw new Error('参数有误!');
+				}
+
+			}else if(arguments.length >= 3){
+
+				if(Asgc.types.isString(p1) && Asgc.types.isString(p2) && Asgc.types.isFunction(p3)){
+					this.create(Asgc.util.deepClone({},{
+						type: 'confirm',
+						title: p1,
+						content: p2,
+						callback: p3
+					}));
+				}else{
+					throw new Error('参数有误!');
+				}
+				
+			}
+
+		}
 	};
 
 	
