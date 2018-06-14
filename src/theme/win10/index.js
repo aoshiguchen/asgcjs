@@ -6,10 +6,12 @@
  */
 Asgc.UI.win10 = (function(){
 
-	
+	var component;
 
 	function init(){
-		var component = Asgc.UI.win10.component.component;
+
+
+		component = Asgc.UI.win10.component.component;
 		var Class = Asgc.Class;
 
 		//Msg提示信息
@@ -23,6 +25,7 @@ Asgc.UI.win10 = (function(){
 				var content = document.createElement('div');
 				content.innerHTML = this.contentText
 				this.ele.appendChild(content);
+				logger.info(logInfo + 'msg id:' + this.id,' create finished.');
 			}
 
 			//Override
@@ -35,6 +38,7 @@ Asgc.UI.win10 = (function(){
 				ele.style.setProperty('top',options.top);
 
 				ele.classList.add('asgc-msg');
+				logger.info(logInfo + 'msg id:' + this.id,' render finished.');
 			};
 
 			//Override
@@ -67,6 +71,7 @@ Asgc.UI.win10 = (function(){
 				this.content = content;
 				this.bottom = bottom;
 				this.btnOk = btnOk;
+				logger.info(logInfo + 'alert id:' + this.id,' create finished.');
 			};
 
 			//Override
@@ -93,6 +98,8 @@ Asgc.UI.win10 = (function(){
 				btnOk.classList.add('asgc-button');
 				btnOk.style.setProperty('float','right');
 				btnOk.style.setProperty('margin','5px 10px 0px 0px');
+
+				logger.info(logInfo + 'alert id:' + this.id,' render finished.');
 			};
 
 			this.bindEvent = function(){
@@ -108,11 +115,13 @@ Asgc.UI.win10 = (function(){
 					ctx.close();
 				};
 
+				logger.info(logInfo + 'alert id:' + this.id,' bindEvent finished.');
 			};
 
 			this.close = function(){
 				this.unLoad();
 				this.onClose();
+				logger.info(logInfo + 'alert id:' + this.id,' close finished.');
 			};
 
 
@@ -126,33 +135,43 @@ Asgc.UI.win10 = (function(){
 	
 	var Button = Asgc.Class.get('com.asgc.ui.win10.Button');
 	var UIConsts = Asgc.Consts.UI;
+	var logInfo = 'theme win10 ';
 
 	var UI = {
 		dependents: [
 			'index.css',
 			'config.js',
+			'drag.js',
 			'component.js'
 		],
 		init: function(){
+			logger.info(logInfo + 'init...');
 			this.component.init();
 			init();
-
+			logger.info(logInfo + 'init finished.');
 		},
 		getInstance: function(_class,options){
 			var _Class = Asgc.Class.get('com.asgc.ui.win10.' + _class);
 			var obj = _Class.new(options);
 			return obj;
 		},
+		getComponentById: function(id){
+			return component[id];
+		},
 		unLoad: function(id){
+			logger.info(logInfo + 'unLoad id:' + id);
 			if(component[id]) component[id].unLoad();
 		},
 		hide: function(id){
+			logger.info(logInfo + 'hide id:' + id);
 			if(component[id]) component[id].hide();
 		},
 		show: function(id){
+			logger.info(logInfo + 'show id:' + id);
 			if(component[id]) component[id].show();
 		},
 		msg: function(options){
+			logger.info(logInfo + 'msg ',JSON.stringify(options));
 			var msg = this.getInstance('Msg',options);
 			msg.show();
 
@@ -161,8 +180,12 @@ Asgc.UI.win10 = (function(){
 			},options.aliveTime);
 		},
 		alert: function(options){
+			logger.info(logInfo + 'alert ',JSON.stringify(options));
+
 			var alert = this.getInstance('Alert',options);
+			
 			alert.show();
+
 		}
 	};
 

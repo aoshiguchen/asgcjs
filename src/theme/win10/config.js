@@ -14,7 +14,8 @@ Asgc.UI.win10.config = (function(){
 				height: '300px',
 				left: '100px',
 				top: '100px',
-				display: 'block'
+				display: 'block',
+				movable: false,
 			},
 			alert: {
 				width: '200px',
@@ -29,7 +30,8 @@ Asgc.UI.win10.config = (function(){
 				closeBle: UIConsts.Usability.available,
 				icon: Asgc.Consts.default, //不配置则无图标，default为默认图标，自定义图标则传入图标路径
 				position: 'ct',
-				shade: true
+				shade: true,
+				movable: true
 			},
 			msg: {
 				width: '100px',

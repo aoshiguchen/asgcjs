@@ -9,7 +9,7 @@ Asgc.UI = (function(){
 	var context = null;
 
 	var UI = {
-		setTheme: function(theme){
+		setTheme: function(theme,callback){
 			if(!Asgc.theme[theme]){
 				throw new Error('theme:' + thmeme + '不存在!');
 			}
@@ -22,6 +22,8 @@ Asgc.UI = (function(){
 			}
 
 			var ctx = this;
+			callback = callback || function(){};
+
 			Asgc.util.loadFiles([Asgc.theme[theme].path + 'index.js'],function(fileList){
 				for(var file of fileList){
 					logger.info('set theme load ' + file + '  finished.');
@@ -39,9 +41,11 @@ Asgc.UI = (function(){
 							logger.info('theme dependents load ' + file + '  finished.');
 						}
 						ctx.init();
+						callback();
 					});
 				}else{
 					ctx.init();
+					callback();
 				}
 			});
 			
@@ -51,6 +55,9 @@ Asgc.UI = (function(){
 		 */
 		getConfigByType: function(type){
 			return Asgc.util.deepClone({},context.config.common,context.config[type]);
+		},
+		getComponentById: function(id){
+			return context.getComponentById(id);
 		},
 		init: function(){
 			context = Asgc.UI[Asgc.config.theme];

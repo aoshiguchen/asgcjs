@@ -60,11 +60,6 @@ Asgc.dependentsLib = [
 	'core://asgc-ui.js'
 	];
 
-// Asgc.dependentsTheme = [
-// 	'core://theme/{Asgc.config.theme}/index.css',
-// 	'core://theme/{Asgc.config.theme}/index.js'
-// ];
-
 //--------------------------------------------------------------------
 //base
 //--------------------------------------------------------------------
@@ -336,9 +331,10 @@ Asgc.init = function(dependents = []){
 			logger.info('load ' + file + '  finished.');
 		}
 
-		Asgc.UI.setTheme('win10');
+		Asgc.UI.setTheme('win10',function(){
+			logger.info('Asgc JS inited.')
+		});
 
-		logger.info('Asgc JS inited.')
 	});
 
 };
