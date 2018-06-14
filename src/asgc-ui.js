@@ -81,7 +81,9 @@ Asgc.UI = (function(){
 		//如果传入了callback，则异步回调（非阻塞），否则同步返回（阻塞）
 		alert: function(p1,p2,p3){
 
-			if(arguments.length === 1){
+			if(arguments.length === 0){
+				logger.error('参数有误!');
+			}else if(arguments.length === 1){
 
 				if(Asgc.types.isObject(p1)){
 					this.create(Asgc.util.deepClone({},p1,{type: 'alert'}));
@@ -92,7 +94,7 @@ Asgc.UI = (function(){
 						content: p1
 					}));
 				}else{
-					throw new Error('参数有误!');
+					logger.error('参数有误!');
 				}
 
 			}else if(arguments.length === 2){
@@ -111,7 +113,7 @@ Asgc.UI = (function(){
 						content: p2
 					}));
 				}else{
-					throw new Error('参数有误!');
+					logger.error('参数有误!');
 				}
 
 			}else if(arguments.length >= 3){
@@ -123,7 +125,7 @@ Asgc.UI = (function(){
 						callback: p3
 					}));
 				}else{
-					throw new Error('参数有误!');
+					logger.error('参数有误!');
 				}
 			}
 			
@@ -136,7 +138,9 @@ Asgc.UI = (function(){
 		},
 		confirm: function(p1,p2,p3){
 
-			if(arguments.length === 1){
+			if(arguments.length === 0){
+				logger.error('参数有误!');
+			}else if(arguments.length === 1){
 
 				if(Asgc.types.isObject(p1)){
 					this.create(Asgc.util.deepClone({},p1,{type: 'confirm'}));
@@ -147,7 +151,7 @@ Asgc.UI = (function(){
 						content: p1
 					}));
 				}else{
-					throw new Error('参数有误!');
+					logger.error('参数有误!');
 				}
 
 			}else if(arguments.length === 2){
@@ -166,7 +170,7 @@ Asgc.UI = (function(){
 						content: p2
 					}));
 				}else{
-					throw new Error('参数有误!');
+					logger.error('参数有误!');
 				}
 
 			}else if(arguments.length >= 3){
@@ -179,9 +183,76 @@ Asgc.UI = (function(){
 						callback: p3
 					}));
 				}else{
-					throw new Error('参数有误!');
+					logger.error('参数有误!');
 				}
 				
+			}
+
+		},
+		prompt: function(p1,p2,p3,p4){
+
+			if(arguments.length === 0){
+				logger.error('参数有误!');
+			}else if(arguments.length === 1){
+
+				if(Asgc.types.isObject(p1)){
+					this.create(Asgc.util.deepClone({},p1,{type: 'prompt'}));
+				}else if(Asgc.types.isString(p1)){
+					this.create(Asgc.util.deepClone({},{
+						type: 'prompt',
+						title: '系统提示',
+						hint: p1
+					}));
+				}else{
+					logger.error('参数有误!');
+				}
+
+			}else if(arguments.length === 2){
+
+				if(Asgc.types.isString(p1) && Asgc.types.isFunction(p2)){
+					this.create(Asgc.util.deepClone({},{
+						type: 'prompt',
+						title: '系统提示',
+						hint: p1,
+						callback: p2
+					}));
+				}else if(Asgc.types.isString(p1) && Asgc.types.isString(p2)){
+					this.create(Asgc.util.deepClone({},{
+						type: 'prompt',
+						title: p1,
+						hint: p2
+					}));
+				}else{
+					logger.error('参数有误!');
+				}
+
+			}else if(arguments.length === 3){
+
+				if(Asgc.types.isString(p1) && Asgc.types.isString(p2) && Asgc.types.isFunction(p3)){
+					this.create(Asgc.util.deepClone({},{
+						type: 'prompt',
+						title: p1,
+						hint: p2,
+						callback: p3
+					}));
+				}else{
+					logger.error('参数有误!');
+				}
+
+			}else if(arguments.length >= 4){
+
+				if(Asgc.types.isString(p1) && Asgc.types.isString(p2) && Asgc.types.isString(p3) && Asgc.types.isFunction(p4)){
+					this.create(Asgc.util.deepClone({},{
+						type: 'prompt',
+						title: p1,
+						hint: p2,
+						defaultValue: p3,
+						callback: p4
+					}));
+				}else{
+					logger.error('参数有误!');
+				}
+
 			}
 
 		}

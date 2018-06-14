@@ -108,19 +108,25 @@ Asgc.UI.win10 = (function(){
 				var ctx = this;
 
 				this.btnOk.onclick = function(){
-					ctx.close();
+					ctx.close({
+						btn: 'ok'
+					});
 				};
 
-				this.closeMenu.onclick = function(){
-					ctx.close();
-				};
-
+				if(this.closeMenu){
+					this.closeMenu.onclick = function(){
+						ctx.close({
+							btn: 'close'
+						});
+					};
+				}
+				
 				logger.info(logInfo + 'alert id:' + this.id,' bindEvent finished.');
 			};
 
-			this.close = function(){
+			this.close = function(res){
 				this.unLoad();
-				this.onClose();
+				this.onClose(res);
 				logger.info(logInfo + 'alert id:' + this.id,' close finished.');
 			};
 
@@ -201,30 +207,167 @@ Asgc.UI.win10 = (function(){
 				var ctx = this;
 
 				this.btnOk.onclick = function(){
-					ctx.unLoad();
-					ctx.onOk();
-					ctx.onClose('ok');
+					var res = {
+						btn: 'ok'
+					};
+
+					ctx.close(res);
+					ctx.onOk(res);
 					logger.info(logInfo + 'confirm id:' + this.id,' close finished.');
 				};
 
 				this.btnCancel.onclick = function(){
-					ctx.unLoad();
-					ctx.onCancel();
-					ctx.onClose('cancel');
+					var res = {
+						btn: 'cancel'
+					};
+
+					ctx.close(res);
+					ctx.onCancel(res);
 					logger.info(logInfo + 'confirm id:' + this.id,' close finished.');
 				};
 
-				this.closeMenu.onclick = function(){
-					ctx.close();
-				};
+				if(this.closeMenu){
+					this.closeMenu.onclick = function(){
+						ctx.close({
+							btn: 'close'
+						});
+					};
+				}
 
 				logger.info(logInfo + 'confirm id:' + this.id,' bindEvent finished.');
 			};
 
-			this.close = function(){
+			this.close = function(res){
 				this.unLoad();
-				this.onClose();
+				this.onClose(res);
 				logger.info(logInfo + 'confirm id:' + this.id,' close finished.');
+			};
+			
+
+		},'com.asgc.ui.win10.Window');
+
+		//Prompt提示信息
+		Class.define('com.asgc.ui.win10.Prompt',function(options){
+
+			this.onOk = options.onOk || function(){};
+			this.onCancel = options.onCancel || function(){};
+			this.hintText = options.hint || '';
+			this.defaultValue = options.defaultValue || '';
+
+			//Override
+			this.create = function(){
+				this.super.create();
+				
+				var ele = this.ele;
+				var hint = document.createElement('div');
+				var textarea = document.createElement('textarea');
+				var bottom = document.createElement('div');
+				var btnOk = document.createElement('div');
+				var btnCancel = document.createElement('div');
+
+				hint.innerHTML = this.hintText;
+				textarea.innerHTML = this.defaultValue;
+				btnOk.innerHTML = '确定';
+				btnCancel.innerHTML = '取消';
+
+				ele.appendChild(hint);
+				ele.appendChild(textarea);
+				bottom.appendChild(btnCancel);
+				bottom.appendChild(btnOk);
+				ele.appendChild(bottom);
+
+				this.hint = hint;
+				this.textarea = textarea;
+				this.bottom = bottom;
+				this.btnOk = btnOk;
+				this.btnCancel = btnCancel;
+				logger.info(logInfo + 'prompt id:' + this.id,' create finished.');
+			};
+
+			//Override
+			this.render = function(){
+				this.super.render();
+
+				var ele = this.ele;
+				var hint = this.hint;
+				var textarea = this.textarea;
+				var bottom = this.bottom;
+				var btnOk = this.btnOk;
+				var btnCancel = this.btnCancel;
+
+				ele.classList.add('asgc-prompt');
+
+				hint.style.setProperty('margin','10px auto 10px 10px');
+				hint.style.setProperty('font-size','14px');
+				hint.style.setProperty('color','#039');
+				hint.style.setProperty('height','20%');
+				hint.style.setProperty('user-select','none');
+
+				textarea.style.setProperty('display','block');
+				textarea.style.setProperty('border','1px solid #dfdfdf');
+				textarea.style.setProperty('width','90%');
+				textarea.style.setProperty('resize','none');
+				textarea.style.setProperty('height','28%');
+				textarea.style.setProperty('margin','8px');
+				textarea.style.setProperty('font-size','15px');
+				textarea.style.setProperty('color','#000');
+
+				bottom.style.setProperty('border-radius','0px 0px 5px 5px');
+				bottom.style.setProperty('height','22%');
+				bottom.style.setProperty('background-color','#f0f0f0');
+
+				btnOk.classList.add('asgc-button');
+				btnOk.style.setProperty('float','right');
+				btnOk.style.setProperty('margin','5px 10px 0px 0px');
+
+				btnCancel.classList.add('asgc-button');
+				btnCancel.style.setProperty('float','right');
+				btnCancel.style.setProperty('margin','5px 10px 0px 0px');
+
+				logger.info(logInfo + 'prompt id:' + this.id,' render finished.');
+			};
+
+			this.bindEvent = function(){
+				this.super.bindEvent();
+
+				var ctx = this;
+
+				this.btnOk.onclick = function(){
+					var res = {
+						btn: 'ok',
+						value: ctx.textarea.value
+					};
+
+					ctx.close(res);
+					ctx.onOk(res);
+					logger.info(logInfo + 'prompt id:' + this.id,' close finished.');
+				};
+
+				this.btnCancel.onclick = function(){
+					var res = {
+						btn: 'cancel'
+					};
+
+					ctx.close(res);
+					ctx.onCancel(res);
+					logger.info(logInfo + 'prompt id:' + this.id,' close finished.');
+				};
+
+				if(this.closeMenu){
+					this.closeMenu.onclick = function(){
+						ctx.close({
+							btn: 'close'
+						});
+					};
+				}
+
+				logger.info(logInfo + 'prompt id:' + this.id,' bindEvent finished.');
+			};
+
+			this.close = function(res){
+				this.unLoad();
+				this.onClose(res);
+				logger.info(logInfo + 'prompt id:' + this.id,' close finished.');
 			};
 			
 
@@ -295,6 +438,13 @@ Asgc.UI.win10 = (function(){
 			
 			confirm.show();
 		},
+		prompt: function(options){
+			logger.info(logInfo + 'prompt ',JSON.stringify(options));
+
+			var prompt = this.getInstance('Prompt',options);
+			
+			prompt.show();
+		}
 	};
 
 

@@ -43,6 +43,17 @@
     background-color: #fff;
 }
 
+.asgc-prompt {
+    border: 1px solid #3baced;
+    box-shadow: rgb(0, 0, 0, 0.3) 1px 1px 24px;
+    border-radius: 5px;
+    width: 200px;
+    height: 140px;
+    margin: auto; 
+    position: absolute; 
+    background-color: #fff;
+}
+
 .asgc-button {
     -webkit-appearance: button; 
     text-align: center;
