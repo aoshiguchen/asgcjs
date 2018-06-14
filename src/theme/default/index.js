@@ -29,6 +29,9 @@ Asgc.UI.default = (function(){
 				aliveTime: 2000
 			}
 		},
+		dependents: [
+			'index.css'
+		],
 		init: function(){
 
 		},
