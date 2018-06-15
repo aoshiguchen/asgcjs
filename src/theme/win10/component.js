@@ -32,7 +32,7 @@ Asgc.UI.win10.component = (function(){
 				this.onLoad = options.onLoad || function(){};
 				this.onUnLoad = options.onUnLoad || function(){};
 				this.onRefresh = options.onRefresh || function(){};
-				this.onClose = options.callback || function(){};
+				this.onClose = new Asgc.Callback(options.callback || function(){});
 
 				this.width = options.width;
 				this.height = options.height;
@@ -128,7 +128,7 @@ Asgc.UI.win10.component = (function(){
 
 				this.close = function(res){
 					this.unLoad();
-					this.onClose(res);
+					this.onClose.invoked(res);
 					logger.info(logInfo + 'component id:' + this.id,' close finished.');
 				};
 

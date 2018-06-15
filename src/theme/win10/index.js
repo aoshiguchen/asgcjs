@@ -153,8 +153,8 @@ Asgc.UI.win10 = (function(){
 		//Confirm提示信息
 		Class.define('com.asgc.ui.win10.Confirm',function(options){
 
-			this.onOk = options.onOk || function(){};
-			this.onCancel = options.onCancel || function(){};
+			this.onOk = new Asgc.Callback(options.onOk || function(){});
+			this.onCancel = new Asgc.Callback(options.onCancel || function(){});
 			this.contentText = options.content || '';
 
 			//Override
@@ -241,7 +241,7 @@ Asgc.UI.win10 = (function(){
 					};
 
 					ctx.close(res);
-					ctx.onOk(res);
+					ctx.onOk.invoked(res);
 					logger.info(logInfo + 'confirm id:' + this.id,' close finished.');
 				};
 
@@ -251,7 +251,7 @@ Asgc.UI.win10 = (function(){
 					};
 
 					ctx.close(res);
-					ctx.onCancel(res);
+					ctx.onCancel.invoked(res);
 					logger.info(logInfo + 'confirm id:' + this.id,' close finished.');
 				};
 
@@ -272,8 +272,8 @@ Asgc.UI.win10 = (function(){
 		//Prompt提示信息
 		Class.define('com.asgc.ui.win10.Prompt',function(options){
 
-			this.onOk = options.onOk || function(){};
-			this.onCancel = options.onCancel || function(){};
+			this.onOk = new Asgc.Callback(options.onOk || function(){});
+			this.onCancel = new Asgc.Callback(options.onCancel || function(){});
 			this.hintText = options.hint || '';
 			this.defaultValue = options.defaultValue || '';
 
@@ -362,7 +362,7 @@ Asgc.UI.win10 = (function(){
 					};
 
 					ctx.close(res);
-					ctx.onOk(res);
+					ctx.onOk.invoked(res);
 					logger.info(logInfo + 'prompt id:' + this.id,' close finished.');
 				};
 
@@ -372,7 +372,7 @@ Asgc.UI.win10 = (function(){
 					};
 
 					ctx.close(res);
-					ctx.onCancel(res);
+					ctx.onCancel.invoked(res);
 					logger.info(logInfo + 'prompt id:' + this.id,' close finished.');
 				};
 

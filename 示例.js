@@ -39,6 +39,15 @@ Asgc.UI.alert({
 
 Asgc.UI.alert({
 	title: '标题',
+	content: '另一种回调风格',
+	closeMenu: 'invisible',
+	callback: ['btn',function(res){
+		console.log('关闭',res);
+	}]
+});
+
+Asgc.UI.alert({
+	title: '标题',
 	content: '带成功的弹框',
 	closeMenu: 'available',
 	hintIcon: 'success',

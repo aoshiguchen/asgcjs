@@ -106,6 +106,17 @@ function main(){
 		});
 	});
 
+	$('#29').click(function(){
+		Asgc.UI.alert({
+			title: '标题',
+			content: '另一种回调风格',
+			closeMenu: 'invisible',
+			callback: ['btn',function(res){
+				console.log('关闭',res);
+			}]
+		});
+	});
+
 	$('#31').click(function(){
 		Asgc.UI.confirm('默认标题询问');
 	});
@@ -226,6 +237,27 @@ function main(){
 		});
 	});
 
+	$('#39').click(function(){
+		Asgc.UI.confirm({
+			title: '标题',
+			content: '带成功的询问',
+			closeMenu: 'available',
+			hintIcon: 'success',
+			//点击ok、cancel都会回调，res：ok/cancel
+			callback: function(res){
+				console.log('关闭',res);
+			},
+			//点击ok时回调
+			onOk: ['btn',function(res){
+				console.log('确定',res);
+			}],
+			//点击cancel时回调
+			onCancel: function(res){
+				console.log('取消',res);
+			}
+		});
+	});
+
 	$('#41').click(function(){
 		Asgc.UI.prompt('默认标题输入');
 	});
@@ -254,6 +286,28 @@ function main(){
 			onOk: function(res){
 				console.log('确定',res);
 			},
+			//点击cancel时回调
+			onCancel: function(res){
+				console.log('取消',res);
+			}
+		});
+
+	});
+
+	$('#45').click(function(){
+		Asgc.UI.prompt({
+			title: '标题',
+			hint: '带回调的输入2',
+			defaultValue: '默认值',
+			closeMenu: 'available',
+			//点击ok、cancel都会回调，res：ok/cancel
+			callback: function(res){
+				console.log('关闭',res);
+			},
+			//点击ok时回调
+			onOk: ['value',function(value){
+				console.log('确定',value);
+			}],
 			//点击cancel时回调
 			onCancel: function(res){
 				console.log('取消',res);
