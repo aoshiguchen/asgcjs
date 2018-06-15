@@ -148,15 +148,6 @@ Asgc.UI.win10 = (function(){
 				logger.info(logInfo + 'alert id:' + this.id,' bindEvent finished.');
 			};
 
-			this.close = function(res){
-				this.unLoad();
-				this.onClose(res);
-				logger.info(logInfo + 'alert id:' + this.id,' close finished.');
-			};
-
-
-			
-
 		},'com.asgc.ui.win10.Window');
 
 		//Confirm提示信息
@@ -273,12 +264,6 @@ Asgc.UI.win10 = (function(){
 				}
 
 				logger.info(logInfo + 'confirm id:' + this.id,' bindEvent finished.');
-			};
-
-			this.close = function(res){
-				this.unLoad();
-				this.onClose(res);
-				logger.info(logInfo + 'confirm id:' + this.id,' close finished.');
 			};
 			
 
@@ -401,12 +386,6 @@ Asgc.UI.win10 = (function(){
 
 				logger.info(logInfo + 'prompt id:' + this.id,' bindEvent finished.');
 			};
-
-			this.close = function(res){
-				this.unLoad();
-				this.onClose(res);
-				logger.info(logInfo + 'prompt id:' + this.id,' close finished.');
-			};
 			
 
 		},'com.asgc.ui.win10.Window');
@@ -459,12 +438,6 @@ Asgc.UI.win10 = (function(){
 
 				
 				logger.info(logInfo + 'rectangleLodding id:' + this.id,' bindEvent finished.');
-			};
-
-			this.close = function(res){
-				this.unLoad();
-				this.onClose(res);
-				logger.info(logInfo + 'rectangleLodding id:' + this.id,' close finished.');
 			};
 			
 

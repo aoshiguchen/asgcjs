@@ -265,7 +265,7 @@ function main(){
 	$('#51').click(function(){
 		var lodding = Asgc.UI.rectangleLodding();
 		setTimeout(function(){
-			lodding.unLoad();
+			lodding.close();
 		},3000);
 	});
 
@@ -275,7 +275,7 @@ function main(){
 			color2: 'white'
 		});
 		setTimeout(function(){
-			lodding.unLoad();
+			lodding.close();
 		},3000);
 	});
 
@@ -285,7 +285,7 @@ function main(){
 			color2: 'blue'
 		});
 		setTimeout(function(){
-			lodding.unLoad();
+			lodding.close();
 		},3000);
 	});
 

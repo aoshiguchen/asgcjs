@@ -10,6 +10,7 @@ Asgc.UI.win10.component = (function(){
 	var component = {};
 	var UIConsts = Asgc.Consts.UI;
 	var themeContext = Asgc.UI.win10; 
+	var logInfo = 'theme win10 ';
 
 	return {
 		component: component,
@@ -123,6 +124,12 @@ Asgc.UI.win10.component = (function(){
 					component[this.id] = this;
 					this.ele = document.createElement('div');//默认用div包裹
 					this.ele.setAttribute('id',this.id);
+				};
+
+				this.close = function(res){
+					this.unLoad();
+					this.onClose(res);
+					logger.info(logInfo + 'component id:' + this.id,' close finished.');
 				};
 
 				//需后代实现
