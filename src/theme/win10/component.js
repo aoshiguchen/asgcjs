@@ -304,7 +304,7 @@ Asgc.UI.win10.component = (function(){
 						this.icon = icon;
 					}
 
-					if(this.minMenuConf){
+					if(this.minMenuConf === Asgc.Consts.UI.Usability.available){
 						var minMenu = document.createElement('div');
 						if(this.minMenuConf === UIConsts.Usability.available){
 							minMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-min"></use></svg>';
@@ -313,7 +313,7 @@ Asgc.UI.win10.component = (function(){
 						this.minMenu = minMenu;
 					}
 
-					if(this.maxMenuConf){
+					if(this.maxMenuConf  === Asgc.Consts.UI.Usability.available){
 						var maxMenu = document.createElement('div');
 						if(this.maxMenuConf === UIConsts.Usability.available){
 							maxMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-max"></use></svg>';
@@ -322,7 +322,7 @@ Asgc.UI.win10.component = (function(){
 						this.maxMenu = maxMenu;
 					}
 
-					if(this.closeMenuConf){
+					if(this.closeMenuConf === Asgc.Consts.UI.Usability.available){
 						var closeMenu = document.createElement('div');
 						if(this.closeMenuConf === UIConsts.Usability.available){
 							closeMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-destroy"></use></svg>';
