@@ -42,6 +42,7 @@ Asgc.UI.win10.component = (function(){
 				this.left = options.left;
 				this.top = options.top;
 				this.display = options.display || 'block';
+				this.type = options.type || '';
 
 				//API
 				this.show = function(){
@@ -229,6 +230,7 @@ Asgc.UI.win10.component = (function(){
 				this.onMove = options.onMove || function(e){};
 				this.moveBefore = options.moveBefore || function(e){};
 				this.moveAfter = options.moveAfter  || function(e){};
+				this.hintIconConf = options.hintIcon || Asgc.Consts.UI.hintIcon.none;
 
 				//API
 				this.setStatusBar = function(statusBar){
@@ -257,6 +259,24 @@ Asgc.UI.win10.component = (function(){
 				//Override
 				this.create = function(){
 					this.super.create();
+
+					if(this.hintIconConf != Asgc.Consts.UI.hintIcon.none){
+						var hintIcon = document.createElement("div");
+						if(this.hintIconConf === Asgc.Consts.UI.hintIcon.success){
+							hintIcon.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-right"></use></svg>';
+							hintIcon.style.setProperty('color','#01aaed');
+						}else if(this.hintIconConf === Asgc.Consts.UI.hintIcon.warn){
+							hintIcon.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-warn"></use></svg>';
+							hintIcon.style.setProperty('color','#ffb800');
+						}else if(this.hintIconConf === Asgc.Consts.UI.hintIcon.error){
+							hintIcon.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-error"></use></svg>';
+							hintIcon.style.setProperty('color','#f00');
+						}else if(this.hintIconConf === Asgc.Consts.UI.hintIcon.help){
+							hintIcon.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-help"></use></svg>';
+							hintIcon.style.setProperty('color','#009688');
+						}
+						this.hintIcon = hintIcon;
+					}
 
 					if(!this.controlBarConf) return;
 

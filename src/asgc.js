@@ -46,11 +46,12 @@ Asgc.showBaseInfo = function(){
 //--------------------------------------------------------------------
 //外部依赖(前置js、css文件)
 //--------------------------------------------------------------------
-Asgc.dependentsLib = [
+Asgc.dependents = [
 	'core://asgc-consts.js',
 	'core://asgc-svg.js',
 	'core://asgc-html.js',
 	'core://asgc-types.js',
+	'core://asgc-callback.js',
 	'core://asgc-class.js',
 	'core://asgc-acl.js',
 	'core://asgc-regexp.js',
@@ -310,29 +311,35 @@ Asgc.config = {
 	theme: ''
 };
 
-Asgc.init = function(dependents = []){
+Asgc.init = function(dependents = [],callback){
 	if(Asgc.isInit) return;
 	Asgc.isInit = true;
 
 	Asgc.showBaseInfo();
 
 	Asgc.path = Asgc.base.getAsgcUIScriptUrl();
+	callback = callback || function(){};
 
 	//初始化主题的路径
 	for(var theme in Asgc.theme){
 		Asgc.theme[theme].path = Asgc.path + '/theme/' + theme + '/';
 	}
 	
-	var deps = Asgc.dependentsLib.concat(dependents);
-
-	Asgc.base.loadFiles(deps,function(fileList){
+	Asgc.base.loadFiles(Asgc.dependents,function(fileList){
 		window.logger = Asgc.Logger('Asgc JS');
 		for(var file of fileList){
 			logger.info('load ' + file + '  finished.');
 		}
 
 		Asgc.UI.setTheme('win10',function(){
-			logger.info('Asgc JS inited.')
+			logger.info('Asgc JS inited.');
+			Asgc.base.loadFiles(dependents,function(fileList){
+				for(var file of fileList){
+					logger.info('load ' + file + '  finished.');
+				}
+				
+				callback();
+			});
 		});
 
 	});

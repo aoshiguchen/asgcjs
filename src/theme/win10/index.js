@@ -23,7 +23,15 @@ Asgc.UI.win10 = (function(){
 			this.create = function(){
 				this.super.create();
 				var content = document.createElement('div');
-				content.innerHTML = this.contentText
+				var hint = document.createElement('div');
+
+				hint.innerHTML = this.contentText;
+
+				if(this.hintIcon){
+					content.appendChild(this.hintIcon);
+				}
+
+				content.appendChild(hint);
 				this.ele.appendChild(content);
 				logger.info(logInfo + 'msg id:' + this.id,' create finished.');
 			}
@@ -31,9 +39,13 @@ Asgc.UI.win10 = (function(){
 			//Override
 			this.render = function(){
 				var ele = this.ele;
+				var hintIcon = this.hintIcon;
+
+				if(hintIcon){
+					hintIcon.style.setProperty('float','left');
+				}
 
 				ele.style.setProperty('max-width',options.maxWidth);
-				ele.style.setProperty('max-height',options.maxHeight);
 				ele.style.setProperty('left',options.left);
 				ele.style.setProperty('top',options.top);
 
@@ -58,12 +70,18 @@ Asgc.UI.win10 = (function(){
 				
 				var ele = this.ele;
 				var content = document.createElement('div');
+				var hint = document.createElement('div');
 				var bottom = document.createElement('div');
 				var btnOk = document.createElement('div');
 
-				content.innerHTML = this.contentText;
+				if(this.hintIcon){
+					content.appendChild(this.hintIcon);
+				}
+
+				hint.innerHTML = this.contentText;	
 				btnOk.innerHTML = '确定';
 
+				content.appendChild(hint);
 				ele.appendChild(content);
 				bottom.appendChild(btnOk);
 				ele.appendChild(bottom);
@@ -82,6 +100,12 @@ Asgc.UI.win10 = (function(){
 				var content = this.content;
 				var bottom = this.bottom;
 				var btnOk = this.btnOk;
+				var hintIcon = this.hintIcon;
+
+				if(hintIcon){
+					hintIcon.style.setProperty('float','left');
+					hintIcon.style.setProperty('margin-right','10px');
+				}
 
 				ele.classList.add('asgc-alert');
 
@@ -148,14 +172,21 @@ Asgc.UI.win10 = (function(){
 				
 				var ele = this.ele;
 				var content = document.createElement('div');
+				var hint = document.createElement('div');
 				var bottom = document.createElement('div');
 				var btnOk = document.createElement('div');
 				var btnCancel = document.createElement('div');
 
-				content.innerHTML = this.contentText;
+
+				if(this.hintIcon){
+					content.appendChild(this.hintIcon);
+				}
+
+				hint.innerHTML = this.contentText;
 				btnOk.innerHTML = '确定';
 				btnCancel.innerHTML = '取消';
 
+				content.appendChild(hint);
 				ele.appendChild(content);
 				bottom.appendChild(btnCancel);
 				bottom.appendChild(btnOk);
@@ -177,6 +208,13 @@ Asgc.UI.win10 = (function(){
 				var bottom = this.bottom;
 				var btnOk = this.btnOk;
 				var btnCancel = this.btnCancel;
+
+				var hintIcon = this.hintIcon;
+
+				if(hintIcon){
+					hintIcon.style.setProperty('float','left');
+					hintIcon.style.setProperty('margin-right','10px');
+				}
 
 				ele.classList.add('asgc-confirm');
 

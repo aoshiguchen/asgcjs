@@ -130,11 +130,23 @@ Asgc.UI = (function(){
 			}
 			
 		},
-		msg: function(msg){
-			this.create({
-				type: 'msg',
-				text: msg
-			});
+		msg: function(p1){
+
+			if(arguments.length === 0){
+				logger.error('参数有误!');
+			}else if (arguments.length >= 1){
+				if(Asgc.types.isObject(p1)){
+					this.create(Asgc.util.deepClone({},p1,{type: 'msg'}));
+				}else if(Asgc.types.isString(p1)){
+					this.create({
+						type: 'msg',
+						text: p1
+					});
+				}else{
+					logger.error('参数有误!');
+				}
+			}
+			;
 		},
 		confirm: function(p1,p2,p3){
 
@@ -200,7 +212,7 @@ Asgc.UI = (function(){
 				}else if(Asgc.types.isString(p1)){
 					this.create(Asgc.util.deepClone({},{
 						type: 'prompt',
-						title: '系统提示',
+						title: '请输入',
 						hint: p1
 					}));
 				}else{
@@ -212,7 +224,7 @@ Asgc.UI = (function(){
 				if(Asgc.types.isString(p1) && Asgc.types.isFunction(p2)){
 					this.create(Asgc.util.deepClone({},{
 						type: 'prompt',
-						title: '系统提示',
+						title: '请输入',
 						hint: p1,
 						callback: p2
 					}));

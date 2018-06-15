@@ -21,6 +21,23 @@ Asgc.Consts = {
 			invisible: 'invisible',//不可见
 			unavailable: 'unavailable',//不可用（可见）
 			available: 'available'//可用
+		},
+
+		//代码
+		code: {
+			ok: 'ok',
+			cancel: 'cancel',
+			min: 'min',
+			max: 'max',
+			close: 'close'
+		},
+
+		hintIcon: {
+			none: 'none',
+			success: 'success',
+			warn: 'warn',
+			error: 'error',
+			help: 'help'
 		}
 	}
 
