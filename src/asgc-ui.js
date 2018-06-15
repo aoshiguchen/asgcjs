@@ -67,7 +67,7 @@ Asgc.UI = (function(){
 		},
 		create: function(options){
 			var config = Asgc.util.deepClone({},context.getConfigByType(options.type),options);
-			context[options.type](config);
+			return context[options.type](config);
 		},
 		unLoad: function(id){
 			context.unLoad(id);
@@ -267,6 +267,15 @@ Asgc.UI = (function(){
 
 			}
 
+		},
+		rectangleLodding: function(options){
+			if(options && !Asgc.types.isObject(options)){
+				logger.error('参数有误!');
+			}
+
+			return this.create(Asgc.util.deepClone({},options,{
+				type: 'rectangleLodding'
+			}));
 		}
 	};
 

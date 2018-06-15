@@ -211,3 +211,13 @@ Asgc.UI.prompt({
 		console.log('取消',res);
 	}
 });
+
+
+# rectangleLodding
+var lodding = Asgc.UI.rectangleLodding();
+lodding.unLoad();
+
+var lodding = Asgc.UI.rectangleLodding({
+	color1: 'red',
+	color2: 'white'
+});

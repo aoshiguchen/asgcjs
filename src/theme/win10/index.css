@@ -21,6 +21,7 @@
     background-color: #fff;
 }
 
+
 .asgc-alert {
     border: 1px solid #3baced;
     box-shadow: rgb(0, 0, 0, 0.3) 1px 1px 24px;
@@ -142,6 +143,16 @@
         -webkit-box-shadow: 1px 1px 12px rgba(0, 0, 0, .3);
         box-shadow: 1px 1px 12px rgba(0, 0, 0, .3);
         opacity: 0.5;
+    }
+}
+
+@keyframes asgc-lodding-animation {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 3em 0;
     }
 }
 

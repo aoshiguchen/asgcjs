@@ -262,4 +262,31 @@ function main(){
 
 	});
 
+	$('#51').click(function(){
+		var lodding = Asgc.UI.rectangleLodding();
+		setTimeout(function(){
+			lodding.unLoad();
+		},3000);
+	});
+
+	$('#52').click(function(){
+		var lodding = Asgc.UI.rectangleLodding({
+			color1: 'red',
+			color2: 'white'
+		});
+		setTimeout(function(){
+			lodding.unLoad();
+		},3000);
+	});
+
+	$('#53').click(function(){
+		var lodding = Asgc.UI.rectangleLodding({
+			color1: 'yellow',
+			color2: 'blue'
+		});
+		setTimeout(function(){
+			lodding.unLoad();
+		},3000);
+	});
+
 }

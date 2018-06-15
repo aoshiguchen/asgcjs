@@ -578,6 +578,28 @@ Asgc.UI.win10.component = (function(){
 				
 			},'com.asgc.ui.win10.MenuItem');
 
+			//加载框
+			Class.define('com.asgc.ui.win10.Lodding',function(options){
+
+
+				//Override
+				this.create = function(){
+					this.super.create();
+					
+				}
+
+				//Override
+				this.render = function(){
+					this.super.render();
+				};
+
+				//Override
+				this.update = function(){
+					
+				};
+		 
+			},'com.asgc.ui.win10.Window');
+
 		}
 	};
 
