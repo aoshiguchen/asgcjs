@@ -32,7 +32,7 @@ Asgc.UI.win10.component = (function(){
 				this.onLoad = options.onLoad || function(){};
 				this.onUnLoad = options.onUnLoad || function(){};
 				this.onRefresh = options.onRefresh || function(){};
-				this.onClose = new Asgc.Callback(options.callback || function(){});
+				this.onClose = new Asgc.Callback(options.callback || options.onClose || function(){});
 
 				this.width = options.width;
 				this.height = options.height;
@@ -296,6 +296,7 @@ Asgc.UI.win10.component = (function(){
 					if(this.shadeConf){
 						var shade = document.createElement("div");
 						this.shade = shade;
+						document.body.appendChild(shade);
 					}
 
 					if(this.iconConf){
@@ -311,29 +312,23 @@ Asgc.UI.win10.component = (function(){
 						this.icon = icon;
 					}
 
-					if(this.minMenuConf === Asgc.Consts.UI.Usability.available){
+					if(this.minMenuConf != Asgc.Consts.UI.Usability.invisible){
 						var minMenu = document.createElement('div');
-						if(this.minMenuConf === UIConsts.Usability.available){
-							minMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-min"></use></svg>';
-						}
+						minMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-min"></use></svg>';
 						rightBar.appendChild(minMenu);
 						this.minMenu = minMenu;
 					}
 
-					if(this.maxMenuConf  === Asgc.Consts.UI.Usability.available){
+					if(this.maxMenuConf  != Asgc.Consts.UI.Usability.invisible){
 						var maxMenu = document.createElement('div');
-						if(this.maxMenuConf === UIConsts.Usability.available){
-							maxMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-max"></use></svg>';
-						}
+						maxMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-max"></use></svg>';
 						rightBar.appendChild(maxMenu);
 						this.maxMenu = maxMenu;
 					}
 
-					if(this.closeMenuConf === Asgc.Consts.UI.Usability.available){
+					if(this.closeMenuConf != Asgc.Consts.UI.Usability.invisible){
 						var closeMenu = document.createElement('div');
-						if(this.closeMenuConf === UIConsts.Usability.available){
-							closeMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-destroy"></use></svg>';
-						}
+						closeMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-destroy"></use></svg>';
 						rightBar.appendChild(closeMenu);
 						this.closeMenu = closeMenu;
 					}
@@ -344,7 +339,6 @@ Asgc.UI.win10.component = (function(){
 					controlBar.appendChild(leftBar);
 					controlBar.appendChild(rightBar);
 					ele.appendChild(controlBar);
-					document.body.appendChild(shade);
 
 					this.controlBar = controlBar;
 					this.leftBar = leftBar;
@@ -411,23 +405,37 @@ Asgc.UI.win10.component = (function(){
 					}
 					
 					if(minMenu){
-						minMenu.classList.add('asgc-menu-icon');
-						minMenu.style.setProperty('margin','0px 5px 0px 0px');
+						minMenu.style.setProperty('margin','0px');
+						minMenu.style.setProperty('padding','5px'); 
 						minMenu.style.setProperty('display','inline-block');
+						if(this.minMenuConf === Asgc.Consts.UI.Usability.available){
+							minMenu.classList.add('asgc-menu-icon');
+						}else if(this.minMenuConf === Asgc.Consts.UI.Usability.unavailable){
+							minMenu.style.setProperty('color','#ccc');
+						}
 					}
 
 					if(maxMenu){
-						maxMenu.classList.add('asgc-menu-icon');
-						maxMenu.style.setProperty('margin','0px 5px 0px 0px');
+						maxMenu.style.setProperty('margin','0px');
+						maxMenu.style.setProperty('padding','5px'); 
 						maxMenu.style.setProperty('display','inline-block');
+						if(this.maxMenuConf === Asgc.Consts.UI.Usability.available){
+							maxMenu.classList.add('asgc-menu-icon');
+						}else if(this.maxMenuConf === Asgc.Consts.UI.Usability.unavailable){
+							maxMenu.style.setProperty('color','#ccc');
+						}
 					}
 
 					if(closeMenu){
-						closeMenu.classList.add('asgc-menu-icon');
 						closeMenu.style.setProperty('border-radius','0px 5px 0px 0px');
 						closeMenu.style.setProperty('margin','0px');
 						closeMenu.style.setProperty('padding','5px'); 
 						closeMenu.style.setProperty('display','inline-block');
+						if(this.closeMenuConf === Asgc.Consts.UI.Usability.available){
+							closeMenu.classList.add('asgc-menu-icon');
+						}else if(this.closeMenuConf === Asgc.Consts.UI.Usability.unavailable){
+							closeMenu.style.setProperty('color','#ccc');
+						}
 					}
 
 					if(shade){
@@ -461,8 +469,17 @@ Asgc.UI.win10.component = (function(){
 		                };
 					}
 
-					if(this.controlBar && this.movable){
+					if(this.title && this.movable){
 						new themeContext.Drag(this);
+					}
+
+					if(this.closeMenu && this.closeMenuConf === Asgc.Consts.UI.Usability.available){
+						var ctx = this;
+						this.closeMenu.onclick = function(){
+							ctx.close({
+								btn: 'close'
+							});
+						};
 					}
 				};
 

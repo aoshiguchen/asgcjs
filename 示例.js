@@ -235,3 +235,18 @@ var lodding = Asgc.UI.rectangleLodding({
 var rectangleProgress = Asgc.UI.rectangleProgress();
 rectangleProgress.setValue(100);
 rectangleProgress.close();
+
+# htmlPage
+Asgc.UI.htmlPage({title:'测试页面',url:'http://www.baidu.com',minMenu: 'invisible'});
+Asgc.UI.htmlPage({title:'测试页面',url:'http://www.baidu.com',minMenu: 'unavailable'});
+Asgc.UI.htmlPage({title:'测试页面',url:'http://www.baidu.com',minMenu: 'available'});
+
+Asgc.UI.htmlPage({title:'测试页面',url:'http://www.baidu.com',minMenu: 'unavailable',maxMenu:'unavailable',closeMenu: 'unavailable'});
+
+Asgc.UI.htmlPage({
+	title:'测试页面',
+	minMenu: 'unavailable',
+	maxMenu:'unavailable',
+	closeMenu: 'available',
+	htmlContent: 'this is html page.'
+});

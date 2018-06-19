@@ -87,5 +87,19 @@ Asgc.UI.win10.config = (function(){
 				left: '30%',
 				color: 'red',
 			},
+			htmlPage: {
+				width: '900px',
+				height: '700px',
+				controlBar: true,
+				shade: false,
+				minMenu: UIConsts.Usability.available,
+				minable: UIConsts.Usability.available,
+				maxMenu: UIConsts.Usability.available,
+				maxble: UIConsts.Usability.available,
+				closeMenu: UIConsts.Usability.available,
+				closeBle: UIConsts.Usability.available,
+				icon: Asgc.Consts.default, //不配置则无图标，default为默认图标，自定义图标则传入图标路径
+				movable: true,
+			}
 		};
 })();

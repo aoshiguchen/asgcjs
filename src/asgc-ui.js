@@ -285,6 +285,15 @@ Asgc.UI = (function(){
 			return this.create(Asgc.util.deepClone({},options,{
 				type: 'rectangleProgress'
 			}));
+		},
+		htmlPage: function(options){
+			if(options && !Asgc.types.isObject(options)){
+				logger.error('参数有误!');
+			}
+
+			return this.create(Asgc.util.deepClone({},options,{
+				type: 'htmlPage'
+			}));
 		}
 	};
 

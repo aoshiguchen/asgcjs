@@ -127,7 +127,7 @@ Asgc.UI.win10 = (function(){
 			};
 
 			this.bindEvent = function(){
-				this.super.bindEvent();
+				this.super.bindEvent.call(this);
 
 				var ctx = this;
 
@@ -136,14 +136,6 @@ Asgc.UI.win10 = (function(){
 						btn: 'ok'
 					});
 				};
-
-				if(this.closeMenu){
-					this.closeMenu.onclick = function(){
-						ctx.close({
-							btn: 'close'
-						});
-					};
-				}
 				
 				logger.info(logInfo + 'alert id:' + this.id,' bindEvent finished.');
 			};
@@ -231,7 +223,7 @@ Asgc.UI.win10 = (function(){
 			};
 
 			this.bindEvent = function(){
-				this.super.bindEvent();
+				this.super.bindEvent.call(this); 
 
 				var ctx = this;
 
@@ -254,14 +246,6 @@ Asgc.UI.win10 = (function(){
 					ctx.onCancel.invoked(res);
 					logger.info(logInfo + 'confirm id:' + this.id,' close finished.');
 				};
-
-				if(this.closeMenu){
-					this.closeMenu.onclick = function(){
-						ctx.close({
-							btn: 'close'
-						});
-					};
-				}
 
 				logger.info(logInfo + 'confirm id:' + this.id,' bindEvent finished.');
 			};
@@ -388,7 +372,7 @@ Asgc.UI.win10 = (function(){
 			};
 
 			this.bindEvent = function(){
-				this.super.bindEvent();
+				this.super.bindEvent.call(this);
 
 				var ctx = this;
 
@@ -427,14 +411,6 @@ Asgc.UI.win10 = (function(){
 					ctx.onCancel.invoked(res);
 					logger.info(logInfo + 'prompt id:' + this.id,' close finished.');
 				};
-
-				if(this.closeMenu){
-					this.closeMenu.onclick = function(){
-						ctx.close({
-							btn: 'close'
-						});
-					};
-				}
 
 				logger.info(logInfo + 'prompt id:' + this.id,' bindEvent finished.');
 			};
@@ -569,6 +545,59 @@ Asgc.UI.win10 = (function(){
 
 		},'com.asgc.ui.win10.Progress');
 
+		//HtmlPage
+		Class.define('com.asgc.ui.win10.HtmlPage',function(options){
+
+			this.url = options.url || '';
+			this.htmlContent = options.htmlContent || '';
+
+			//Override
+			this.create = function(){
+				this.super.create();
+				
+				if(this.url){
+					var iframe = document.createElement('iframe');
+					iframe.src = this.url;
+
+					this.ele.appendChild(iframe);
+					this.iframe = iframe;
+				}else if(this.htmlContent){
+					var content = document.createElement('div');
+					content.innerHTML = this.htmlContent;
+					this.ele.appendChild(content);
+					this.content = content;
+				}	
+
+				logger.info(logInfo + 'htmlPage id:' + this.id,' create finished.');
+			};
+
+			//Override
+			this.render = function(){
+				this.super.render();
+
+				var ele = this.ele;
+				var iframe = this.iframe;
+				var content = this.content;
+
+				if(iframe){
+					iframe.style.setProperty('width','99%');
+					iframe.style.setProperty('height','89%');
+					iframe.style.setProperty('margin','0');
+					iframe.style.setProperty('padding','0');
+				}
+
+				if(content){
+					content.style.setProperty('margin','8px');
+					content.style.setProperty('font-family','宋体');
+				}
+
+				ele.classList.add('asgc-htmlPage');
+
+				logger.info(logInfo + 'htmlPage id:' + this.id,' render finished.');
+			};
+
+		},'com.asgc.ui.win10.Window');
+
 	}
 	
 
@@ -658,6 +687,15 @@ Asgc.UI.win10 = (function(){
 			rectangleProgress.show();
 
 			return rectangleProgress;
+		},
+		htmlPage: function(options){
+			logger.info(logInfo + 'htmlPage ',JSON.stringify(options));
+
+			var htmlPage = this.getInstance('HtmlPage',options);
+			
+			htmlPage.show();
+
+			return htmlPage;
 		}
 	};
 

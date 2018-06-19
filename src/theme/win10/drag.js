@@ -6,7 +6,7 @@
  */
 Asgc.UI.win10.Drag = function(handle){
 	var winform = handle.ele;
-	var bar = handle.controlBar;
+	var bar = handle.title;
 	var isMoveing = false;
     var isFirstMoveing = true;
     var logInfo = 'theme win10 ' + handle.fullClassName + ' id:' + handle.id + ' ';

@@ -428,5 +428,18 @@ function main(){
 
 	});
 
-
+	$('#71').click(function(){
+		Asgc.UI.htmlPage({
+			title:'测试页面',
+			width: '400px',
+			height: '300px',
+			minMenu: 'unavailable',
+			maxMenu:'unavailable',
+			closeMenu: 'available',
+			htmlContent: 'this is html page.',
+			onClose: function(){
+				log.info('页面已关闭');
+			}
+		});
+	});
 }
