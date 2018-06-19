@@ -47,6 +47,8 @@ AsgcJS 一款面向前端的开发工具包。
 
 ![](img/14.jpg)
 
+![](img/15.jpg)
+
 # 注意
 
 它与本人发布的其他诸如asgc-cli、asgc-web等等不同，其他都是面向node服务端，而AsgcJS则完全面向于前端开发。
