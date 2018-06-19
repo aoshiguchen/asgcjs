@@ -392,6 +392,21 @@ Asgc.UI.win10 = (function(){
 
 				var ctx = this;
 
+				if(this.input){
+					this.input.onkeydown = function(e){
+						if(e.key === 'Enter'){
+							var res = {
+								btn: 'ok',
+								value: ctx.getValue()
+							};
+
+							ctx.close(res);
+							ctx.onOk.invoked(res);
+							logger.info(logInfo + 'prompt id:' + this.id,' close finished.');
+						}
+					}
+				};
+
 				this.btnOk.onclick = function(){
 					var res = {
 						btn: 'ok',
