@@ -314,7 +314,7 @@ function main(){
 			}
 		});
 
-	});
+	}); 
 
 	$('#51').click(function(){
 		var lodding = Asgc.UI.rectangleLodding();
@@ -342,5 +342,67 @@ function main(){
 			lodding.close();
 		},3000);
 	});
+
+	$('#61').click(function(){
+		var rectangleProgress = Asgc.UI.rectangleProgress();
+
+		var run = function(){
+			rectangleProgress.addValue(Math.random() * 10);
+
+			if(!rectangleProgress.isFinished()){
+				setTimeout(run,Math.random()*1000);
+			}else{
+				setTimeout(function(){
+					rectangleProgress.close();
+				},3000);
+			}
+		};
+
+		run();
+
+	});
+
+	$('#62').click(function(){
+		var rectangleProgress = Asgc.UI.rectangleProgress({
+			color: '#bbbb00'
+		});
+
+		var run = function(){
+			rectangleProgress.addValue(Math.random() * 10);
+
+			if(!rectangleProgress.isFinished()){
+				setTimeout(run,Math.random()*1000);
+			}else{
+				setTimeout(function(){
+					rectangleProgress.close();
+				},3000);
+			}
+		};
+
+		run();
+
+	});
+
+	$('#63').click(function(){
+		var rectangleProgress = Asgc.UI.rectangleProgress({
+			color: 'blue'
+		});
+
+		var run = function(){
+			rectangleProgress.addValue(Math.random() * 10);
+
+			if(!rectangleProgress.isFinished()){
+				setTimeout(run,Math.random()*1000);
+			}else{
+				setTimeout(function(){
+					rectangleProgress.close();
+				},3000);
+			}
+		};
+
+		run();
+
+	});
+
 
 }

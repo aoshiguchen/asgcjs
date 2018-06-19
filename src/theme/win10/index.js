@@ -443,6 +443,80 @@ Asgc.UI.win10 = (function(){
 
 		},'com.asgc.ui.win10.Lodding');
 
+		//RectangleProgress矩形进度条
+		Class.define('com.asgc.ui.win10.RectangleProgress',function(options){
+
+			this.color = options.color;
+
+			//Override
+			this.create = function(){
+				this.super.create();
+				
+				var border = document.createElement('div');
+				var content = document.createElement('div');
+				var progress = document.createElement('div');
+				var valueDiv = document.createElement('div');
+
+				content.appendChild(progress);
+				border.appendChild(content);
+				border.appendChild(valueDiv);
+
+				valueDiv.innerHTML = '0%';
+
+				this.ele.appendChild(border);
+
+				this.border = border;
+				this.content = content;
+				this.progress = progress;
+				this.valueDiv = valueDiv;
+
+				logger.info(logInfo + 'rectangleProgress id:' + this.id,' create finished.');
+			};
+
+			//Override
+			this.render = function(){
+				this.super.render();
+
+				var border = this.border;
+				var content = this.content;
+				var progress = this.progress;
+				var valueDiv = this.valueDiv;
+
+				border.style.setProperty('width','40%');
+				border.style.setProperty('height','20px');
+				border.style.setProperty('left','30%');
+				border.style.setProperty('border','1px solid #3baced');
+				border.style.setProperty('box-shadow','rgb(0, 0, 0, 0.3) 1px 1px 24px');
+				border.style.setProperty('border-radius','0px');
+				border.style.setProperty('position','absolute');
+				border.style.setProperty('margin','auto');
+
+				content.style.setProperty('float','left');
+				content.style.setProperty('height','100%');
+				content.style.setProperty('width','100%');
+
+				progress.style.setProperty('height','100%');
+				progress.style.setProperty('width','0%');
+				progress.style.setProperty('background-color',this.color);
+
+				valueDiv.style.setProperty('float','right');
+				valueDiv.style.setProperty('position','absolute');
+				valueDiv.style.setProperty('margin-left','5px');
+				valueDiv.style.setProperty('display','inline-block');
+
+				this.ele.style.setProperty('margin-bottom','10px');
+
+				logger.info(logInfo + 'rectangleProgress id:' + this.id,' render finished.');
+			};
+
+
+			this.onValueChange = function(val){
+				this.progress.style.setProperty('width',val + '%');
+				this.valueDiv.innerHTML = val + '%';
+			}
+
+		},'com.asgc.ui.win10.Progress');
+
 	}
 	
 
@@ -523,6 +597,15 @@ Asgc.UI.win10 = (function(){
 			rectangleLodding.show();
 
 			return rectangleLodding;
+		},
+		rectangleProgress: function(options){
+			logger.info(logInfo + 'rectangleProgress ',JSON.stringify(options));
+
+			var rectangleProgress = this.getInstance('RectangleProgress',options);
+			
+			rectangleProgress.show();
+
+			return rectangleProgress;
 		}
 	};
 

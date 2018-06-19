@@ -156,6 +156,21 @@
     }
 }
 
+@keyframes asgc-progress-bar-stripes {
+    0% {
+        background-position: 40px 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+@keyframes asgc-progress-positive {
+    0% {
+        width: 0;
+    }
+}
+
 /* 
 以下是移植的layx样式
  */

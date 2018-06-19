@@ -230,3 +230,8 @@ var lodding = Asgc.UI.rectangleLodding({
 	color1: 'red',
 	color2: 'white'
 });
+
+# rectangleProgress
+var rectangleProgress = Asgc.UI.rectangleProgress();
+rectangleProgress.setValue(100);
+rectangleProgress.close();
