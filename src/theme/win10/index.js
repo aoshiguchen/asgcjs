@@ -276,6 +276,7 @@ Asgc.UI.win10 = (function(){
 			this.onCancel = new Asgc.Callback(options.onCancel || function(){});
 			this.hintText = options.hint || '';
 			this.defaultValue = options.defaultValue || '';
+			this.inputMode = options.inputMode;
 
 			//Override
 			this.create = function(){
@@ -283,24 +284,35 @@ Asgc.UI.win10 = (function(){
 				
 				var ele = this.ele;
 				var hint = document.createElement('div');
-				var textarea = document.createElement('textarea');
 				var bottom = document.createElement('div');
 				var btnOk = document.createElement('div');
 				var btnCancel = document.createElement('div');
 
 				hint.innerHTML = this.hintText;
-				textarea.innerHTML = this.defaultValue;
+				
 				btnOk.innerHTML = '确定';
 				btnCancel.innerHTML = '取消';
 
 				ele.appendChild(hint);
-				ele.appendChild(textarea);
+
+				if(this.inputMode === UIConsts.inputMode.multiLine){
+					var textarea = document.createElement('textarea');
+					textarea.innerHTML = this.defaultValue;
+					ele.appendChild(textarea);
+					this.textarea = textarea;
+				}else if(this.inputMode === UIConsts.inputMode.singleLine){
+					var input = document.createElement('input');
+					input.setAttribute('value',this.defaultValue);
+					ele.appendChild(input);
+					this.input = input;
+				}
+
+				
 				bottom.appendChild(btnCancel);
 				bottom.appendChild(btnOk);
 				ele.appendChild(bottom);
 
 				this.hint = hint;
-				this.textarea = textarea;
 				this.bottom = bottom;
 				this.btnOk = btnOk;
 				this.btnCancel = btnCancel;
@@ -314,6 +326,7 @@ Asgc.UI.win10 = (function(){
 				var ele = this.ele;
 				var hint = this.hint;
 				var textarea = this.textarea;
+				var input = this.input;
 				var bottom = this.bottom;
 				var btnOk = this.btnOk;
 				var btnCancel = this.btnCancel;
@@ -326,14 +339,22 @@ Asgc.UI.win10 = (function(){
 				hint.style.setProperty('height','20%');
 				hint.style.setProperty('user-select','none');
 
-				textarea.style.setProperty('display','block');
-				textarea.style.setProperty('border','1px solid #dfdfdf');
-				textarea.style.setProperty('width','90%');
-				textarea.style.setProperty('resize','none');
-				textarea.style.setProperty('height','28%');
-				textarea.style.setProperty('margin','8px');
-				textarea.style.setProperty('font-size','15px');
-				textarea.style.setProperty('color','#000');
+
+				if(textarea){
+					textarea.style.setProperty('display','block');
+					textarea.style.setProperty('border','1px solid #dfdfdf');
+					textarea.style.setProperty('width','90%');
+					textarea.style.setProperty('resize','none');
+					textarea.style.setProperty('height','28%');
+					textarea.style.setProperty('margin','8px');
+					textarea.style.setProperty('font-size','15px');
+					textarea.style.setProperty('color','#000');
+				}else if(input){
+					input.style.setProperty('margin','8px');
+					input.style.setProperty('width','90%');
+					input.style.setProperty('height','16px');
+					hint.style.setProperty('height','34%');
+				}
 
 				bottom.style.setProperty('border-radius','0px 0px 5px 5px');
 				bottom.style.setProperty('height','22%');
@@ -350,6 +371,22 @@ Asgc.UI.win10 = (function(){
 				logger.info(logInfo + 'prompt id:' + this.id,' render finished.');
 			};
 
+			this.getValue = function(){
+				if(this.textarea){
+					return this.textarea.innerHTML;
+				}else if(this.input){
+					return this.input.value;
+				}
+			};
+
+			this.setValue = function(val){
+				if(this.textarea){
+					this.textarea.innerHTML = val;
+				}else if(this.input){
+					this.input.value = val;
+				}
+			};
+
 			this.bindEvent = function(){
 				this.super.bindEvent();
 
@@ -358,7 +395,7 @@ Asgc.UI.win10 = (function(){
 				this.btnOk.onclick = function(){
 					var res = {
 						btn: 'ok',
-						value: ctx.textarea.value
+						value: ctx.getValue()
 					};
 
 					ctx.close(res);

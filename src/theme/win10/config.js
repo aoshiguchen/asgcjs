@@ -71,7 +71,8 @@ Asgc.UI.win10.config = (function(){
 				icon: Asgc.Consts.default, //不配置则无图标，default为默认图标，自定义图标则传入图标路径
 				position: 'ct',
 				shade: true,
-				movable: true
+				movable: true,
+				inputMode: UIConsts.inputMode.multiLine
 			},
 			rectangleLodding: {
 				width: '30%',

@@ -38,6 +38,11 @@ Asgc.Consts = {
 			warn: 'warn',
 			error: 'error',
 			help: 'help'
+		},
+
+		inputMode: {
+			singleLine: 'singleLine',
+			multiLine: 'multiLine'
 		}
 	}
 

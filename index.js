@@ -316,6 +316,30 @@ function main(){
 
 	}); 
 
+	$('#46').click(function(){
+		Asgc.UI.prompt({
+			title: '请输入结果',
+			hint: '5 * 6 = ?',
+			closeMenu: 'available',
+			inputMode: 'singleLine',
+			//点击ok时回调
+			onOk: ['value',function(value){
+				console.log('确定',value);
+				if(value == 30){
+					Asgc.UI.msg({
+						text: '回答正确!',
+						hintIcon: 'success'
+					});
+				}else{
+					Asgc.UI.msg({
+						text: '回答错误!',
+						hintIcon: 'error'
+					});
+				}
+			}]
+		});
+	});
+
 	$('#51').click(function(){
 		var lodding = Asgc.UI.rectangleLodding();
 		setTimeout(function(){
