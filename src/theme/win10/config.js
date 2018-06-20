@@ -17,6 +17,7 @@ Asgc.UI.win10.config = (function(){
 				display: 'block',
 				movable: false,
 				resizable: false,
+				activable: true,
 			},
 			alert: {
 				width: '200px',
@@ -40,7 +41,8 @@ Asgc.UI.win10.config = (function(){
 				maxWidth: '210px',
 				menuBar: false,
 				aliveTime: 2000,
-				maxWidth: '150px'
+				maxWidth: '150px',
+				activable: false
 			},
 			confirm: {
 				width: '200px',
@@ -80,13 +82,15 @@ Asgc.UI.win10.config = (function(){
 				height: '10px',
 				left: '30%',
 				color1: '#96D923',
-				color2: 'rgba(135, 141, 62, 0.54)'
+				color2: 'rgba(135, 141, 62, 0.54)',
+				activable: false
 			},
 			rectangleProgress: {
 				width: '40%',
 				height: '20px',
 				left: '30%',
 				color: 'red',
+				activable: false
 			},
 			htmlPage: {
 				width: '700px',
@@ -105,7 +109,7 @@ Asgc.UI.win10.config = (function(){
 				closeBle: UIConsts.Usability.available,
 				icon: Asgc.Consts.default, //不配置则无图标，default为默认图标，自定义图标则传入图标路径
 				movable: true,
-				resizable: true
+				resizable: true,
 			}
 		};
 })();

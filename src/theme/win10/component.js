@@ -251,6 +251,7 @@ Asgc.UI.win10.component = (function(){
 				this.resizable = options.resizable || false;
 				this.isActive = false;
 				this.zIndex = 0;
+				this.activable = options.activable;
 
 				//API
 				this.setStatusBar = function(statusBar){
@@ -263,6 +264,7 @@ Asgc.UI.win10.component = (function(){
 				};
 
 				this.setZIndex = function(zIndex){
+					logger.info(logInfo + 'window id:' + this.id,' title:' + this.titleText,' setZIndex:' + zIndex);
 					this.zIndex = zIndex;
 					this.ele.style.setProperty('z-index',this.zIndex);
 				};
@@ -504,8 +506,11 @@ Asgc.UI.win10.component = (function(){
 
 				this.showBefore = function(){
 					var ele = this.ele;
-					windows.push(this);
-					this.active();
+					
+					if(this.activable){
+						windows.push(this);
+						this.active();
+					}
 				};
 
 				//窗口被激活
@@ -539,11 +544,13 @@ Asgc.UI.win10.component = (function(){
 
 				this.bindEvent = function(){
 					var ctx = this;
-					this.ele.onclick = function(){
-						if(currentWindow != ctx){
-							ctx.active();
-						}
-					};
+					if(this.activable){
+						this.ele.onclick = function(){
+							if(currentWindow != ctx){
+								ctx.active();
+							}
+						};
+					}
 
 					if(this.shade){ 
 						var ele = this.ele;
