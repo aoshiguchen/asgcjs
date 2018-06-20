@@ -16,6 +16,7 @@ Asgc.UI.win10.config = (function(){
 				top: '100px',
 				display: 'block',
 				movable: false,
+				resizable: false,
 			},
 			alert: {
 				width: '200px',
@@ -88,8 +89,12 @@ Asgc.UI.win10.config = (function(){
 				color: 'red',
 			},
 			htmlPage: {
-				width: '900px',
-				height: '700px',
+				width: '700px',
+				height: '500px',
+				minWidth: '300px',
+				maxWidth: '900px',
+				minHeight: '200px',
+				maxHeight: '700px',
 				controlBar: true,
 				shade: false,
 				minMenu: UIConsts.Usability.available,
@@ -100,6 +105,7 @@ Asgc.UI.win10.config = (function(){
 				closeBle: UIConsts.Usability.available,
 				icon: Asgc.Consts.default, //不配置则无图标，default为默认图标，自定义图标则传入图标路径
 				movable: true,
+				resizable: true
 			}
 		};
 })();

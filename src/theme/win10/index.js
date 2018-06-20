@@ -611,6 +611,7 @@ Asgc.UI.win10 = (function(){
 			'index.css',
 			'config.js',
 			'drag.js',
+			'resize.js',
 			'component.js'
 		],
 		init: function(){

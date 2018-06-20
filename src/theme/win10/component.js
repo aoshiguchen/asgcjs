@@ -238,6 +238,8 @@ Asgc.UI.win10.component = (function(){
 				this.moveBefore = options.moveBefore || function(e){};
 				this.moveAfter = options.moveAfter  || function(e){};
 				this.hintIconConf = options.hintIcon || Asgc.Consts.UI.hintIcon.none;
+				this.resizable = options.resizable || false;
+
 
 				//API
 				this.setStatusBar = function(statusBar){
@@ -266,6 +268,7 @@ Asgc.UI.win10.component = (function(){
 				//Override
 				this.create = function(){
 					this.super.create();
+					var ele = this.ele;
 
 					if(this.hintIconConf != Asgc.Consts.UI.hintIcon.none){
 						var hintIcon = document.createElement("div");
@@ -285,9 +288,46 @@ Asgc.UI.win10.component = (function(){
 						this.hintIcon = hintIcon;
 					}
 
-					if(!this.controlBarConf) return;
+					if(this.resizable){
+						var resizeLeft = document.createElement('div');
+						var resizeRight = document.createElement('div');
+						var resizeTop = document.createElement('div');
+						var resizeBottom = document.createElement('div');
+						var resizeLeftTop = document.createElement('div');
+						var resizeLeftBottom = document.createElement('div');
+						var resizeRightTop = document.createElement('div');
+						var resizeRightBottom = document.createElement('div');
 
-					var ele = this.ele;
+						resizeLeft.classList.add('asgc-resize-left');
+						resizeRight.classList.add('asgc-resize-right');
+						resizeTop.classList.add('asgc-resize-top');
+						resizeBottom.classList.add('asgc-resize-bottom');
+						resizeLeftTop.classList.add('asgc-resize-left-top');
+						resizeLeftBottom.classList.add('asgc-resize-left-bottom');
+						resizeRightTop.classList.add('asgc-resize-right-top');
+						resizeRightBottom.classList.add('asgc-resize-right-bottom');
+
+						ele.appendChild(resizeLeft);
+						ele.appendChild(resizeRight);
+						ele.appendChild(resizeTop);
+						ele.appendChild(resizeBottom);
+						ele.appendChild(resizeLeftTop);
+						ele.appendChild(resizeLeftBottom);
+						ele.appendChild(resizeRightTop);
+						ele.appendChild(resizeRightBottom);
+
+						this.resizeLeft = resizeLeft;
+						this.resizeRight = resizeRight;
+						this.resizeTop = resizeTop;
+						this.resizeBottom = resizeBottom;
+						this.resizeLeftTop = resizeLeftTop;
+						this.resizeLeftBottom = resizeLeftBottom;
+						this.resizeRightTop = resizeRightTop;
+						this.resizeRightBottom = resizeRightBottom;
+					}
+
+					if(!this.controlBarConf) return;
+					
 					var controlBar = document.createElement('div');
 					var leftBar = document.createElement('div');
 					var rightBar = document.createElement('div');
@@ -378,6 +418,8 @@ Asgc.UI.win10.component = (function(){
 		            ele.style.setProperty('height',this.height);
 		            ele.style.setProperty('min-width',this.minWidth);
 		            ele.style.setProperty('min-height',this.minHeight);
+		            ele.style.setProperty('max-width',this.maxWidth);
+		            ele.style.setProperty('max-height',this.maxHeight);
 		            ele.style.setProperty('top',this.top);
 		            ele.style.setProperty('left',this.left);
 
@@ -471,6 +513,17 @@ Asgc.UI.win10.component = (function(){
 
 					if(this.title && this.movable){
 						new themeContext.Drag(this);
+					}
+
+					if(this.resizable){
+						new themeContext.Resize(this,this.resizeLeft, false, true, false, true);
+						new themeContext.Resize(this,this.resizeRight, false, false, false, true);
+						new themeContext.Resize(this,this.resizeTop, true, false, true, false);
+						new themeContext.Resize(this,this.resizeBottom, false, false, true, false);
+						new themeContext.Resize(this,this.resizeLeftTop, true, true, false, false);
+						new themeContext.Resize(this,this.resizeLeftBottom, false, true, false, false);
+						new themeContext.Resize(this,this.resizeRightTop, true, false, false, false);
+						new themeContext.Resize(this,this.resizeRightBottom, false, false, false, false);
 					}
 
 					if(this.closeMenu && this.closeMenuConf === Asgc.Consts.UI.Usability.available){

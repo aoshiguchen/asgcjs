@@ -4,9 +4,10 @@
  * author : 傲世孤尘/aoshiguchen
  * version : v0.0.1
  */
+//先不考虑最小化的情况
 Asgc.UI.win10.Drag = function(handle){
 	var winform = handle.ele;
-	var bar = handle.title;
+	var bar = handle.controlBar;
 	var isMoveing = false;
     var isFirstMoveing = true;
     var logInfo = 'theme win10 ' + handle.fullClassName + ' id:' + handle.id + ' ';
@@ -14,22 +15,13 @@ Asgc.UI.win10.Drag = function(handle){
 
     var drag = function (e) {
         e = e || window.event;
-
+ 
         var moveMouseCoord = Asgc.util.getMousePosition(e);
         var distX = moveMouseCoord.x - handle.mouseStartCoord.x;
         var distY = moveMouseCoord.y - handle.mouseStartCoord.y;
 
         logger.info(logInfo + 'drag x:' + moveMouseCoord.x + ' y:' + moveMouseCoord.y);
-
-        isMoveing = true;
-        if (isFirstMoveing) {
-            isFirstMoveing = false;
-            isMoveing = false;
-            isFirstMoveing = true;
-            document.ontouchend = null;
-            document.ontouchmove = null;
-        }
-
+ 
         var _left = area.x + distX;
         var _top = area.y + distY;
 
