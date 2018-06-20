@@ -437,6 +437,40 @@ function main(){
 			maxMenu:'unavailable',
 			closeMenu: 'available',
 			htmlContent: 'this is html page.',
+			resizable: false,
+			onClose: function(){
+				log.info('页面已关闭');
+			}
+		});
+	});
+
+	$('#72').click(function(){
+		Asgc.UI.htmlPage({
+			title:'测试页面',
+			width: '400px',
+			height: '300px',
+			minMenu: 'unavailable',
+			maxMenu:'unavailable',
+			closeMenu: 'available',
+			htmlContent: 'this is html page.',
+			resizable: true,
+			onClose: function(){
+				log.info('页面已关闭');
+			}
+		});
+	});
+
+	$('#73').click(function(){
+		Asgc.UI.htmlPage({
+			title:'测试页面',
+			width: '400px',
+			height: '300px',
+			minMenu: 'unavailable',
+			maxMenu:'unavailable',
+			closeMenu: 'available',
+			htmlContent: 'this is html page.',
+			resizable: false,
+			shade: true,
 			onClose: function(){
 				log.info('页面已关闭');
 			}
