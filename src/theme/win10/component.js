@@ -12,6 +12,10 @@ Asgc.UI.win10.component = (function(){
 	var themeContext = Asgc.UI.win10; 
 	var logInfo = 'theme win10 ';
 
+	var currentMaxZIndex = 1;
+	var currentWindow = null;
+	var windows = [];
+
 	return {
 		component: component,
 		init: function(){
@@ -239,7 +243,8 @@ Asgc.UI.win10.component = (function(){
 				this.moveAfter = options.moveAfter  || function(e){};
 				this.hintIconConf = options.hintIcon || Asgc.Consts.UI.hintIcon.none;
 				this.resizable = options.resizable || false;
-
+				this.isActive = false;
+				this.zIndex = 0;
 
 				//API
 				this.setStatusBar = function(statusBar){
@@ -249,6 +254,11 @@ Asgc.UI.win10.component = (function(){
 				//API
 				this.setMenuBar = function(menuBar){
 					this.menuBar = menuBar;
+				};
+
+				this.setZIndex = function(zIndex){
+					this.zIndex = zIndex;
+					this.ele.style.setProperty('z-index',this.zIndex);
 				};
 
 				//API
@@ -486,7 +496,31 @@ Asgc.UI.win10.component = (function(){
 				};
 
 				this.showBefore = function(){
-					
+					var ele = this.ele;
+					windows.push(this);
+					this.active();
+				};
+
+				//窗口被激活
+				this.active = function(){
+					logger.info(logInfo + 'window id:' + this.id,' title:' + this.titleText,' active.');
+					for(var win of windows){
+						if(win != this){
+							win.unActive();
+						}
+					}
+
+					this.isActive = true;
+					currentWindow = this;
+					this.setZIndex(currentMaxZIndex++);
+					this.ele.style.setProperty('border','1px solid #3baced');
+				};
+
+				//窗口变为不激活状态
+				this.unActive = function(){
+					logger.info(logInfo + 'window id:' + this.id,' title:' +  this.titleText,' unActive.');
+					this.isActive = false;
+					this.ele.style.setProperty('border','1px solid #ccc');
 				};
 
 				this.unLoadAfter = function(){
@@ -496,6 +530,13 @@ Asgc.UI.win10.component = (function(){
 				};
 
 				this.bindEvent = function(){
+					var ctx = this;
+					this.ele.onclick = function(){
+						if(currentWindow != ctx){
+							ctx.active();
+						}
+					};
+
 					if(this.shade){ 
 						var ele = this.ele;
 						var shade = this.shade;                
@@ -528,7 +569,15 @@ Asgc.UI.win10.component = (function(){
 
 					if(this.closeMenu && this.closeMenuConf === Asgc.Consts.UI.Usability.available){
 						var ctx = this;
-						this.closeMenu.onclick = function(){
+						this.closeMenu.onclick = function(e){
+							e.stopPropagation();
+
+							for(var i in windows){
+								if(windows[i] === ctx){
+									windows.splice(i,1);
+								}
+							}
+
 							ctx.close({
 								btn: 'close'
 							});
