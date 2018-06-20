@@ -138,9 +138,10 @@ touch-action: none; */
 }
 
 .asgc-resize-top {
-    height: 3px;
+     position: absolute;
+    height: 1px;
     left: 3px;
-    right: 3px;
+    right: 5px;
     top: 0;
     cursor: n-resize;
 }

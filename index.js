@@ -428,9 +428,10 @@ function main(){
 
 	});
 
+	var htmlPageCount = 0;
 	$('#71').click(function(){
 		Asgc.UI.htmlPage({
-			title:'测试页面',
+			title:'测试页面' + (++htmlPageCount),
 			width: '400px',
 			height: '300px',
 			minMenu: 'unavailable',
@@ -446,7 +447,7 @@ function main(){
 
 	$('#72').click(function(){
 		Asgc.UI.htmlPage({
-			title:'测试页面',
+			title:'测试页面' + (++htmlPageCount),
 			width: '400px',
 			height: '300px',
 			minMenu: 'unavailable',
@@ -462,7 +463,7 @@ function main(){
 
 	$('#73').click(function(){
 		Asgc.UI.htmlPage({
-			title:'测试页面',
+			title:'测试页面' + (++htmlPageCount),
 			width: '400px',
 			height: '300px',
 			minMenu: 'unavailable',
