@@ -16,6 +16,12 @@ Asgc.UI.win10.component = (function(){
 	var currentWindow = null;
 	var windows = [];
 
+	function windowsSort(){
+		windows.sort(function(a,b){
+			return a.zIndex - b.zIndex;
+		});
+	}
+
 	return {
 		component: component,
 		init: function(){
@@ -513,6 +519,7 @@ Asgc.UI.win10.component = (function(){
 					this.isActive = true;
 					currentWindow = this;
 					this.setZIndex(currentMaxZIndex++);
+					windowsSort();
 					this.ele.style.setProperty('border','1px solid #3baced');
 				};
 
@@ -576,6 +583,10 @@ Asgc.UI.win10.component = (function(){
 								if(windows[i] === ctx){
 									windows.splice(i,1);
 								}
+							}
+
+							if(windows && windows.length > 0){
+								windows[windows.length - 1].active();
 							}
 
 							ctx.close({
