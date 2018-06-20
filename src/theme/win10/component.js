@@ -351,6 +351,7 @@ Asgc.UI.win10.component = (function(){
 
 					if(this.shadeConf){
 						var shade = document.createElement("div");
+						shade.style.setProperty('z-index',currentMaxZIndex++);
 						this.shade = shade;
 						document.body.appendChild(shade);
 					}
