@@ -142,7 +142,7 @@ touch-action: none; */
 }
 
 .asgc-resize-top {
-     position: absolute;
+    position: absolute;
     height: 1px;
     left: 3px;
     right: 5px;

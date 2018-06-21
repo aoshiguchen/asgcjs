@@ -256,8 +256,6 @@ Asgc.UI.win10.component = (function(){
 				this.position = options.position;
 				this.shadeConf = options.shade;
 				this.movable = options.movable;
-				this.isMin = false;
-				this.isMax = false;
 				this.onMove = options.onMove || function(e){};
 				this.moveBefore = options.moveBefore || function(e){};
 				this.moveAfter = options.moveAfter  || function(e){};
@@ -266,6 +264,7 @@ Asgc.UI.win10.component = (function(){
 				this.isActive = false;
 				this.zIndex = 0;
 				this.activable = options.activable;
+				this.status = UIConsts.windowStatus.normal;
 
 				//API
 				this.setStatusBar = function(statusBar){
@@ -461,6 +460,7 @@ Asgc.UI.win10.component = (function(){
 		            
 		            if(leftBar){
 		            	leftBar.style.setProperty('display','inline-block');
+		            	leftBar.style.setProperty('width','75%');
 		            }
 					
 					if(rightBar){
@@ -610,7 +610,6 @@ Asgc.UI.win10.component = (function(){
 					}
 
 					if(this.closeMenu && this.closeMenuConf === Asgc.Consts.UI.Usability.available){
-						var ctx = this;
 						this.closeMenu.onclick = function(e){
 							e.stopPropagation();
 
@@ -628,6 +627,42 @@ Asgc.UI.win10.component = (function(){
 								btn: 'close'
 							});
 						};
+					}
+
+					if(this.minMenu && this.minMenuConf === Asgc.Consts.UI.Usability.available){
+						this.minMenu.onclick = function(e){
+							e.stopPropagation();
+
+							ctx.min();
+						}; 
+					}
+
+					if(this.maxMenu && this.maxMenuConf === Asgc.Consts.UI.Usability.available){
+						this.maxMenu.onclick = function(e){
+							e.stopPropagation();
+
+							ctx.max();
+						};
+					}
+				};
+
+				this.min = function(){
+					if(this.status === UIConsts.windowStatus.min){
+						this.minMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-min"></use></svg>';
+						this.status = UIConsts.windowStatus.normal;
+					}else{
+ 						this.minMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-restore"></use></svg>';
+						this.status = UIConsts.windowStatus.min;
+					}
+				};
+
+				this.max = function(){
+					if(this.status === UIConsts.windowStatus.max){
+						this.maxMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-max"></use></svg>';
+						this.status = UIConsts.windowStatus.normal;
+					}else{
+						this.maxMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-restore"></use></svg>';
+						this.status = UIConsts.windowStatus.min;
 					}
 				};
 

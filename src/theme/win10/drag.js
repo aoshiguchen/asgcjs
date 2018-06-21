@@ -7,7 +7,7 @@
 //先不考虑最小化的情况
 Asgc.UI.win10.Drag = function(handle){
 	var winform = handle.ele;
-	var bar = handle.controlBar;
+	var bar = handle.leftBar;
 	var isMoveing = false;
     var isFirstMoveing = true;
     var logInfo = 'theme win10 ' + handle.fullClassName + ' id:' + handle.id + ' ';

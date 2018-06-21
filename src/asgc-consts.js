@@ -45,6 +45,12 @@ Asgc.Consts = {
 			multiLine: 'multiLine'
 		},
 
+		windowStatus: {
+			normal: 'normal',
+			min: 'min',
+			max: 'max'
+		},
+
 		maxZIndex: 999999
 	}
 
