@@ -551,4 +551,40 @@ function main(){
 			}
 		});
 	});
+ 
+	$('#76').click(function(){
+		Asgc.UI.htmlPage({
+			title:'测试页面' + (++htmlPageCount),
+			width: '400px',
+			height: '300px',
+			minMenu: 'invisible',
+			maxMenu:'unavailable',
+			closeMenu: 'available',
+			htmlContent: 'this is html page.',
+			resizable: false,
+			shade: true,
+			icon: 'img/Aim_128px_1134223_easyicon.net.png',
+			onClose: function(){
+				log.info('页面已关闭');
+			}
+		});
+	});
+
+	$('#77').click(function(){
+		Asgc.UI.htmlPage({
+			title:'测试页面' + (++htmlPageCount),
+			width: '400px',
+			height: '300px',
+			minMenu: 'available',
+			maxMenu:'unavailable',
+			closeMenu: 'available',
+			htmlContent: 'this is html page.',
+			resizable: false,
+			shade: true,
+			icon: 'img/Aim_128px_1134223_easyicon.net.png',
+			onClose: function(){
+				log.info('页面已关闭');
+			}
+		});
+	});
 }

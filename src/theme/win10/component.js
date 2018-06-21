@@ -468,7 +468,7 @@ Asgc.UI.win10.component = (function(){
 						rightBar.style.setProperty('float','right');
 					}
 
-					if(icon){
+					if(icon){ 
 						icon.style.setProperty('display','inline-block');
 						icon.style.setProperty('margin','0px 5px 0px 5px');
 					}
@@ -509,7 +509,7 @@ Asgc.UI.win10.component = (function(){
 						closeMenu.style.setProperty('padding','5px'); 
 						closeMenu.style.setProperty('display','inline-block');
 						if(this.closeMenuConf === Asgc.Consts.UI.Usability.available){
-							closeMenu.classList.add('asgc-menu-icon');
+							closeMenu.classList.add('asgc-menu-icon-close');
 						}else if(this.closeMenuConf === Asgc.Consts.UI.Usability.unavailable){
 							closeMenu.style.setProperty('color','#ccc');
 						}
@@ -534,7 +534,7 @@ Asgc.UI.win10.component = (function(){
 					}else{
 						this.setZIndex(++currentMaxZIndex);
 						windowsSort();
-						// zIndexGC();
+						zIndexGC();
 					}
 				};
 
@@ -559,7 +559,7 @@ Asgc.UI.win10.component = (function(){
 				this.unActive = function(){
 					logger.info(logInfo + 'window id:' + this.id,' title:' +  this.titleText,' unActive.');
 					this.isActive = false;
-					this.ele.style.setProperty('border','1px solid #ccc');
+					this.ele.style.setProperty('border','1px solid #888');
 				};
 
 				this.unLoadAfter = function(){

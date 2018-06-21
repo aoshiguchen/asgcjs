@@ -20,7 +20,7 @@ Asgc.UI.win10.Drag = function(handle){
         var distX = moveMouseCoord.x - handle.mouseStartCoord.x;
         var distY = moveMouseCoord.y - handle.mouseStartCoord.y;
 
-        logger.info(logInfo + 'drag x:' + moveMouseCoord.x + ' y:' + moveMouseCoord.y);
+        logger.debug(logInfo + 'drag x:' + moveMouseCoord.x + ' y:' + moveMouseCoord.y);
  
         var _left = area.x + distX;
         var _top = area.y + distY;
@@ -39,7 +39,7 @@ Asgc.UI.win10.Drag = function(handle){
     };
 
     var dragend = function (e) {
-        logger.info(logInfo + ' ' + handle.fullClassName + ' id:' + handle.id + ' dragend');
+        logger.debug(logInfo + ' ' + handle.fullClassName + ' id:' + handle.id + ' dragend');
         e = e || window.event;
 
         document.ontouchend = null;
@@ -57,7 +57,7 @@ Asgc.UI.win10.Drag = function(handle){
         handle.mouseStartCoord = mouseCoord;
         area = handle.ele.getBoundingClientRect();
 
-        logger.info(logInfo + ' dragstart x:' + mouseCoord.x + ' y:' + mouseCoord.y);
+        logger.debug(logInfo + ' dragstart x:' + mouseCoord.x + ' y:' + mouseCoord.y);
         if(Asgc.types.isFunction(handle.moveBefore)){
             handle.moveBefore(e);
         }

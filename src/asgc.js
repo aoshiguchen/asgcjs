@@ -311,14 +311,13 @@ Asgc.config = {
 	theme: ''
 };
 
-Asgc.init = function(dependents = [],callback){
+Asgc.init = function(dependents = [],callback = function(){}){
 	if(Asgc.isInit) return;
 	Asgc.isInit = true;
 
 	Asgc.showBaseInfo();
 
 	Asgc.path = Asgc.base.getAsgcUIScriptUrl();
-	callback = callback || function(){};
 
 	//初始化主题的路径
 	for(var theme in Asgc.theme){
@@ -333,13 +332,18 @@ Asgc.init = function(dependents = [],callback){
 
 		Asgc.UI.setTheme('win10',function(){
 			logger.info('Asgc JS inited.');
-			Asgc.base.loadFiles(dependents,function(fileList){
-				for(var file of fileList){
-					logger.info('load ' + file + '  finished.');
-				}
-				
+
+			if(dependents && dependents.length > 0){
+				Asgc.base.loadFiles(dependents,function(fileList){
+					for(var file of fileList){
+						logger.info('load ' + file + '  finished.');
+					}
+					
+					callback();
+				});
+			}else{
 				callback();
-			});
+			}
 		});
 
 	});

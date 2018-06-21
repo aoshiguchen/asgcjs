@@ -107,6 +107,10 @@ touch-action: none; */
 }
 
 .asgc-menu-icon:hover {
+    background-color: #e5e5e5;
+}
+
+.asgc-menu-icon-close:hover {
     background-color: #e81123;
     color: #fff;
 }

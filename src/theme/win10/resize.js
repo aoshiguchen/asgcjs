@@ -18,7 +18,7 @@ Asgc.UI.win10.Resize = function(win,handle, isTop, isLeft, lockX, lockY){
         var distX = moveMouseCoord.x - handle.mouseStartCoord.x;
         var distY = moveMouseCoord.y - handle.mouseStartCoord.y;
 
-        logger.info(logInfo + 'drag x:' + moveMouseCoord.x + ' y:' + moveMouseCoord.y);
+        logger.debug(logInfo + 'drag x:' + moveMouseCoord.x + ' y:' + moveMouseCoord.y);
 
         var _top = handle.area.top + distY;
         var _left = handle.area.left + distX;
@@ -63,7 +63,7 @@ Asgc.UI.win10.Resize = function(win,handle, isTop, isLeft, lockX, lockY){
 
 	var dragend = function (e) {
 		e = e || window.event;
-		logger.info(logInfo + ' ' + win.fullClassName + ' id:' + win.id + ' dragend');
+		logger.debug(logInfo + ' ' + win.fullClassName + ' id:' + win.id + ' dragend');
 
 		document.ontouchend = null;
         document.ontouchmove = null;
@@ -81,7 +81,7 @@ Asgc.UI.win10.Resize = function(win,handle, isTop, isLeft, lockX, lockY){
 		handle.mouseStartCoord = mouseCoord;
 		handle.area = win.ele.getBoundingClientRect();
 
-		logger.info(logInfo + ' dragstart x:' + mouseCoord.x + ' y:' + mouseCoord.y);
+		logger.debug(logInfo + ' dragstart x:' + mouseCoord.x + ' y:' + mouseCoord.y);
 
 		//TODO触发resize事件
 		
