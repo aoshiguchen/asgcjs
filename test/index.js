@@ -117,6 +117,18 @@ function main(){
 		});
 	});
 
+	$('#2a').click(function(){
+		Asgc.UI.alert({
+			title: '标题',
+			content: '自定义图标的弹框',
+			closeMenu: 'available',
+			icon: 'img/Aim_128px_1134223_easyicon.net.png',
+			callback: function(res){
+				console.log('关闭',res);
+			}
+		});
+	});
+
 	$('#31').click(function(){
 		Asgc.UI.confirm('默认标题询问');
 	});
@@ -258,6 +270,18 @@ function main(){
 		});
 	});
 
+	$('#3a').click(function(){
+		Asgc.UI.confirm({
+			title: '标题',
+			content: '自定义图标询问',
+			closeMenu: 'available',
+			icon: 'img/Aim_128px_1134223_easyicon.net.png',
+			callback: function(res){
+				console.log('关闭',res);
+			},
+		});
+	});
+
 	$('#41').click(function(){
 		Asgc.UI.prompt('默认标题输入');
 	});
@@ -338,6 +362,20 @@ function main(){
 				}
 			}]
 		});
+	});
+
+	$('#47').click(function(){
+		Asgc.UI.prompt({
+			title: '标题',
+			hint: '自定义图标输入',
+			defaultValue: '默认值',
+			closeMenu: 'available',
+			icon: 'img/Aim_128px_1134223_easyicon.net.png',
+			callback: function(res){
+				console.log('关闭',res);
+			}
+		});
+
 	});
 
 	$('#51').click(function(){
@@ -472,6 +510,42 @@ function main(){
 			htmlContent: 'this is html page.',
 			resizable: false,
 			shade: true,
+			onClose: function(){
+				log.info('页面已关闭');
+			}
+		});
+	});
+
+	$('#74').click(function(){
+		Asgc.UI.htmlPage({
+			title:'测试页面' + (++htmlPageCount),
+			width: '400px',
+			height: '300px',
+			minMenu: 'unavailable',
+			maxMenu:'unavailable',
+			closeMenu: 'available',
+			htmlContent: 'this is html page.',
+			resizable: false,
+			shade: true,
+			icon: '',
+			onClose: function(){
+				log.info('页面已关闭');
+			}
+		});
+	});
+
+	$('#75').click(function(){
+		Asgc.UI.htmlPage({
+			title:'测试页面' + (++htmlPageCount),
+			width: '400px',
+			height: '300px',
+			minMenu: 'unavailable',
+			maxMenu:'unavailable',
+			closeMenu: 'available',
+			htmlContent: 'this is html page.',
+			resizable: false,
+			shade: true,
+			icon: 'img/Aim_128px_1134223_easyicon.net.png',
 			onClose: function(){
 				log.info('页面已关闭');
 			}

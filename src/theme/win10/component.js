@@ -378,7 +378,7 @@ Asgc.UI.win10.component = (function(){
 							icon.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-default-icon"></use></svg>';
 						}else{
 							//TODO 自定义图标
-							icon.innerHTML = this.iconConf;
+							icon.innerHTML = '<img width="16px" height="16px" style="vertical-align: -0.15em;" src="' + this.iconConf + '">';
 						}
 						leftBar.appendChild(icon);
 						this.icon = icon;
@@ -476,6 +476,9 @@ Asgc.UI.win10.component = (function(){
 					if(title){
 						title.style.setProperty('display','inline-block');
 						title.style.setProperty('user-select','none');
+						if(!this.iconConf){
+							title.style.setProperty('margin-left','5px');
+						}
 					}
 					
 					if(minMenu){
