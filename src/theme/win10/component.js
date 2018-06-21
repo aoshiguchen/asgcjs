@@ -12,7 +12,8 @@ Asgc.UI.win10.component = (function(){
 	var themeContext = Asgc.UI.win10; 
 	var logInfo = 'theme win10 ';
 
-	var currentMaxZIndex = 1;
+	var hasShade = false;
+	var currentMaxZIndex = 0;
 	var currentWindow = null;
 	var windows = [];
 
@@ -20,6 +21,19 @@ Asgc.UI.win10.component = (function(){
 		windows.sort(function(a,b){
 			return a.zIndex - b.zIndex;
 		});
+	}
+
+	function zIndexGC(){
+		if(!hasShade && currentMaxZIndex > UIConsts.maxZIndex && currentMaxZIndex > windows.length){
+			logger.info(logInfo + 'ZIndex GC','currentMaxZIndex:' + currentMaxZIndex,'currentWindowCount:' + windows.length);
+			// windowsSort();
+			for(var i = 0;i < windows.length; i++){
+				windows[i].zIndex = i + 1;
+				windows[i].ele.style.setProperty('z-index',i + 1);
+			}
+			currentMaxZIndex = windows.length;
+			logger.info(logInfo + 'ZIndex GC finished','currentMaxZIndex:' + currentMaxZIndex,'currentWindowCount:' + windows.length);
+		}
 	}
 
 	return {
@@ -353,7 +367,6 @@ Asgc.UI.win10.component = (function(){
 
 					if(this.shadeConf){
 						var shade = document.createElement("div");
-						shade.style.setProperty('z-index',currentMaxZIndex++);
 						this.shade = shade;
 						document.body.appendChild(shade);
 					}
@@ -507,9 +520,18 @@ Asgc.UI.win10.component = (function(){
 				this.showBefore = function(){
 					var ele = this.ele;
 					
+					if(this.shade){
+						hasShade = true;
+						this.shade.style.setProperty('z-index',++currentMaxZIndex);
+					}
+
 					if(this.activable){
 						windows.push(this);
 						this.active();
+					}else{
+						this.setZIndex(++currentMaxZIndex);
+						windowsSort();
+						// zIndexGC();
 					}
 				};
 
@@ -524,8 +546,9 @@ Asgc.UI.win10.component = (function(){
 
 					this.isActive = true;
 					currentWindow = this;
-					this.setZIndex(currentMaxZIndex++);
+					this.setZIndex(++currentMaxZIndex);
 					windowsSort();
+					zIndexGC();
 					this.ele.style.setProperty('border','1px solid #3baced');
 				};
 
@@ -539,6 +562,7 @@ Asgc.UI.win10.component = (function(){
 				this.unLoadAfter = function(){
 					if(this.shade){
 						this.shade.remove();
+						hasShade = false;
 					}
 				};
 

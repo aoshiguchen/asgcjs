@@ -33,7 +33,8 @@ Asgc.UI.win10.config = (function(){
 				icon: Asgc.Consts.default, //不配置则无图标，default为默认图标，自定义图标则传入图标路径
 				position: 'ct',
 				shade: true,
-				movable: true
+				movable: true,
+				activable: false,
 			},
 			msg: {
 				width: '100px',
@@ -58,7 +59,8 @@ Asgc.UI.win10.config = (function(){
 				icon: Asgc.Consts.default, //不配置则无图标，default为默认图标，自定义图标则传入图标路径
 				position: 'ct',
 				shade: true,
-				movable: true
+				movable: true,
+				activable: false,
 			},
 			prompt: {
 				width: '300px',
@@ -75,7 +77,8 @@ Asgc.UI.win10.config = (function(){
 				position: 'ct',
 				shade: true,
 				movable: true,
-				inputMode: UIConsts.inputMode.multiLine
+				inputMode: UIConsts.inputMode.multiLine,
+				activable: false,
 			},
 			rectangleLodding: {
 				width: '30%',

@@ -43,7 +43,9 @@ Asgc.Consts = {
 		inputMode: {
 			singleLine: 'singleLine',
 			multiLine: 'multiLine'
-		}
+		},
+
+		maxZIndex: 999999
 	}
 
 };
