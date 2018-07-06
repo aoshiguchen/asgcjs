@@ -80,7 +80,6 @@ Asgc.UI = (function(){
 			context.unLoad(id);
 		},
 		close: function(id){
-			console.log(currentWindow)
 			context.close(id);
 		},
 		hide: function(id){

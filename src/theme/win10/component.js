@@ -144,7 +144,7 @@ Asgc.UI.win10.component = (function(){
 				//API
 				this.create = function(){
 					this.id = this.getId();
-					component[this.id] = this;
+					component[this.id] = this.this; 
 					this.ele = document.createElement('div');//默认用div包裹
 					this.ele.setAttribute('id',this.id);
 				};
@@ -264,6 +264,8 @@ Asgc.UI.win10.component = (function(){
 				this.zIndex = 0;
 				this.activable = options.activable;
 				this.status = UIConsts.windowStatus.normal;
+				//这个为false，则禁止esc快捷键关闭
+				this.closeBle = options.closeBle === UIConsts.Usability.available;
 
 				//API
 				this.setStatusBar = function(statusBar){
@@ -531,6 +533,9 @@ Asgc.UI.win10.component = (function(){
 						windows.push(this);
 						this.active();
 					}else{
+						if(this.closeBle){
+							global.currentWindow = this;
+						}
 						this.setZIndex(++currentMaxZIndex);
 						windowsSort();
 						zIndexGC();
@@ -689,7 +694,7 @@ Asgc.UI.win10.component = (function(){
 
 					this.unLoad();
 					this.onClose.invoked(res);
-					logger.info(logInfo + 'component id:' + this.id,' close finished.');
+					logger.info(logInfo + 'component id:' + this.id,' close finished. res:' + JSON.stringify(res));
 				};
 
 			},'com.asgc.ui.win10.Container');

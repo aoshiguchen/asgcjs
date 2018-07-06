@@ -5,9 +5,11 @@
 		if(e.key === 'Escape'){
 			e.stopPropagation();
 
-			if(global.currentWindow) global.currentWindow.close({
-				btn: 'close'
-			});
+			if(global.currentWindow){
+				global.currentWindow.close({
+					btn: 'esc'
+				});
+			}
 		}
 	});
 

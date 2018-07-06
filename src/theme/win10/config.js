@@ -93,7 +93,7 @@ Asgc.UI.win10.config = (function(){
 				height: '20px',
 				left: '30%',
 				color: 'red',
-				activable: false
+				activable: false,
 			},
 			htmlPage: {
 				width: '700px',

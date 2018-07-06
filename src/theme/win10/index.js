@@ -67,6 +67,9 @@ Asgc.UI.win10 = (function(){
 			//Override
 			this.create = function(){
 				this.super.create();
+
+				//在基类中this指的是基类的this，这里进行覆盖,TODO
+				component[this.id] = this;
 				
 				var ele = this.ele;
 				var content = document.createElement('div');
@@ -152,6 +155,9 @@ Asgc.UI.win10 = (function(){
 			//Override
 			this.create = function(){
 				this.super.create();
+
+				//在基类中this指的是基类的this，这里进行覆盖,TODO
+				component[this.id] = this;
 				
 				var ele = this.ele;
 				var content = document.createElement('div');
@@ -266,6 +272,9 @@ Asgc.UI.win10 = (function(){
 			this.create = function(){
 				this.super.create();
 				
+				//在基类中this指的是基类的this，这里进行覆盖,TODO
+				component[this.id] = this;
+
 				var ele = this.ele;
 				var hint = document.createElement('div');
 				var bottom = document.createElement('div');
@@ -555,7 +564,7 @@ Asgc.UI.win10 = (function(){
 			this.create = function(){
 				this.super.create();
 
-				//在基类中this指的是基类的this，这里进行覆盖
+				//在基类中this指的是基类的this，这里进行覆盖,TODO
 				component[this.id] = this;
 
 				
@@ -643,8 +652,12 @@ Asgc.UI.win10 = (function(){
 			if(component[id]) component[id].hide();
 		},
 		close: function(id){
-			logger.info(logInfo + 'close id:' + id);
-			if(component[id]) component[id].close();
+			if(id){
+				logger.info(logInfo + 'close id:' + id);
+				if(component[id]) component[id].close();
+			}else if(global.currentWindow){
+				global.currentWindow.close();
+			}
 		},
 		show: function(id){
 			logger.info(logInfo + 'show id:' + id);
