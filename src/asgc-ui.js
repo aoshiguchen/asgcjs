@@ -17,6 +17,8 @@ Asgc.UI = (function(){
 			Asgc.config.theme = theme;
 
 			if(Asgc.theme[theme].isLoad){
+				//更新global为当前主题的global
+				window.global = Asgc.UI[theme].global || {};
 				this.init();
 				return;
 			}
@@ -40,10 +42,15 @@ Asgc.UI = (function(){
 						for(var file of fileList){
 							logger.info('theme dependents load ' + file + '  finished.');
 						}
+
+						//更新global为当前主题的global
+						window.global = Asgc.UI[theme].global || {};
 						ctx.init();
 						callback();
 					});
 				}else{
+					//更新global为当前主题的global
+					window.global = Asgc.UI[theme].global || {};
 					ctx.init();
 					callback();
 				}
@@ -71,6 +78,10 @@ Asgc.UI = (function(){
 		},
 		unLoad: function(id){
 			context.unLoad(id);
+		},
+		close: function(id){
+			console.log(currentWindow)
+			context.close(id);
 		},
 		hide: function(id){
 			context.hide(id);

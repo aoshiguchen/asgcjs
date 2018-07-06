@@ -14,7 +14,6 @@ Asgc.UI.win10.component = (function(){
 
 	var hasShade = false;
 	var currentMaxZIndex = 0;
-	var currentWindow = null;
 	var windows = [];
 
 	function windowsSort(){
@@ -548,7 +547,7 @@ Asgc.UI.win10.component = (function(){
 					}
 
 					this.isActive = true;
-					currentWindow = this;
+					global.currentWindow = this;
 					this.setZIndex(++currentMaxZIndex);
 					windowsSort();
 					zIndexGC();
@@ -571,13 +570,34 @@ Asgc.UI.win10.component = (function(){
 
 				this.bindEvent = function(){
 					var ctx = this;
-					if(this.activable){
-						this.ele.onclick = function(){
-							if(currentWindow != ctx){
+
+					if(this.activable){//onmousedown
+						this.ele.onmousedown = function(){
+							if(global.currentWindow != ctx){
 								ctx.active();
 							}
 						};
 					}
+
+					// document.addEventListener("keydown", function (e) {
+					// 	if(e.key === 'Escape'){
+					// 		e.stopPropagation();
+
+					// 		for(var i in windows){
+					// 			if(windows[i] === ctx){
+					// 				windows.splice(i,1);
+					// 			}
+					// 		}
+
+					// 		if(windows && windows.length > 0){
+					// 			windows[windows.length - 1].active();
+					// 		}
+
+					// 		if(currentWindow) currentWindow.close({
+					// 			btn: 'close'
+					// 		});
+					// 	}
+					// });
 
 					if(this.shade){ 
 						var ele = this.ele;
@@ -612,16 +632,6 @@ Asgc.UI.win10.component = (function(){
 					if(this.closeMenu && this.closeMenuConf === Asgc.Consts.UI.Usability.available){
 						this.closeMenu.onclick = function(e){
 							e.stopPropagation();
-
-							for(var i in windows){
-								if(windows[i] === ctx){
-									windows.splice(i,1);
-								}
-							}
-
-							if(windows && windows.length > 0){
-								windows[windows.length - 1].active();
-							}
 
 							ctx.close({
 								btn: 'close'
@@ -664,6 +674,22 @@ Asgc.UI.win10.component = (function(){
 						this.maxMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-restore"></use></svg>';
 						this.status = UIConsts.windowStatus.min;
 					}
+				};
+
+				this.close = function(res){
+					for(var i in windows){
+						if(windows[i] === this){
+							windows.splice(i,1);
+						}
+					}
+
+					if(windows && windows.length > 0){
+						windows[windows.length - 1].active();
+					}
+
+					this.unLoad();
+					this.onClose.invoked(res);
+					logger.info(logInfo + 'component id:' + this.id,' close finished.');
 				};
 
 			},'com.asgc.ui.win10.Container');

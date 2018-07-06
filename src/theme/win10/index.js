@@ -554,6 +554,10 @@ Asgc.UI.win10 = (function(){
 			//Override
 			this.create = function(){
 				this.super.create();
+
+				//在基类中this指的是基类的this，这里进行覆盖
+				component[this.id] = this;
+
 				
 				if(this.url){
 					var iframe = document.createElement('iframe');
@@ -608,11 +612,13 @@ Asgc.UI.win10 = (function(){
 
 	var UI = {
 		dependents: [
+			'global.js',
 			'index.css',
 			'config.js',
 			'drag.js',
 			'resize.js',
-			'component.js'
+			'component.js',
+			'event.js'
 		],
 		init: function(){
 			logger.info(logInfo + 'init...');
@@ -635,6 +641,10 @@ Asgc.UI.win10 = (function(){
 		hide: function(id){
 			logger.info(logInfo + 'hide id:' + id);
 			if(component[id]) component[id].hide();
+		},
+		close: function(id){
+			logger.info(logInfo + 'close id:' + id);
+			if(component[id]) component[id].close();
 		},
 		show: function(id){
 			logger.info(logInfo + 'show id:' + id);
