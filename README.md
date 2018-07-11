@@ -84,3 +84,5 @@ AsgcJS 一款面向前端的开发工具包。
 2018-06-21 加入z-index GC机制，防止z-index无限叠加，alert、confirm、prompt、htmlPage支持自定义图标
 
 2018-07-06 窗口激活体验优化，支持[ESC]按键关闭窗口
+
+2018-07-11 支持定位日志输出的位置
