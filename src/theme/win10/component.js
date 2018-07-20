@@ -386,7 +386,7 @@ Asgc.UI.win10.component = (function(){
 							icon.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-default-icon"></use></svg>';
 						}else{
 							//TODO 自定义图标
-							icon.innerHTML = '<img width="16px" height="16px" style="vertical-align: -0.15em;" src="' + this.iconConf + '">';
+							icon.innerHTML = '<img width="16px" height="16px" style="vertical-align: -0.15em;user-select:none;" src="' + this.iconConf + '">';
 						}
 						leftBar.appendChild(icon);
 						this.icon = icon;
