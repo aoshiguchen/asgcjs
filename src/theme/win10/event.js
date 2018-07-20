@@ -19,6 +19,13 @@
 	
 	});
 
+	//防止图标拖拽
+	document.addEventListener("dragstart", function (e) {
+		if('IMG' === e.srcElement.nodeName){
+			e.preventDefault();
+		}
+	});
+
 	// document.addEventListener("click", function (e) {
 
 	// });

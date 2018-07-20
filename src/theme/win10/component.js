@@ -283,6 +283,14 @@ Asgc.UI.win10.component = (function(){
 					this.ele.style.setProperty('z-index',this.zIndex);
 				};
 
+				this.setPopUpMenuGroup = function(popUpMenuGroup){
+					this.popUpMenuGroup = popUpMenuGroup;
+				};
+
+				this.setControlMenuGroup = function(controlMenuGroup){
+					this.controlMenuGroup = controlMenuGroup;
+				};
+
 				//API
 				//Override
 				this.refresh = function(){
