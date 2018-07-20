@@ -34,7 +34,7 @@ Asgc.author = {
 };
 
 Asgc.showBaseInfo = function(){
-	console.log('%c' + Asgc.logo,'color:green');
+	console.log('%c' + Asgc.logo,'color:green;text-shadow: 8px -5px 5px #0000FF;'); 
 	console.log('%c ' + Asgc.title + ' ' + Asgc.version,'color:green');
 	console.log('%c 作者：' + Asgc.author.nickname,'color:green');
 	console.log('%c 博客：' + Asgc.author.blog,'color:green');
