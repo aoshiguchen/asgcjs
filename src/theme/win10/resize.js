@@ -7,6 +7,7 @@
 //先不考虑最小化的情况
 Asgc.UI.win10.Resize = function(win,handle, isTop, isLeft, lockX, lockY){
 
+    var UIConsts = Asgc.Consts.UI;
 	var isResizing = false;
     var isFirstResizing = true;
     var logInfo = 'theme win10 ' + win.fullClassName + ' id:' + win.id + ' resize ';
@@ -77,6 +78,10 @@ Asgc.UI.win10.Resize = function(win,handle, isTop, isLeft, lockX, lockY){
 	var dragstart = function (e) {
 		e = e || window.event;
 
+        if(win.status != UIConsts.windowStatus.normal){
+            return;
+        }
+
 		var mouseCoord = Asgc.util.getMousePosition(e);
 		handle.mouseStartCoord = mouseCoord;
 		handle.area = win.ele.getBoundingClientRect();
@@ -94,7 +99,8 @@ Asgc.UI.win10.Resize = function(win,handle, isTop, isLeft, lockX, lockY){
 	 	
 	};
 
-	handle.ontouchstart = dragstart;
+    
+    handle.ontouchstart = dragstart;
     if (Asgc.util.isPC()) {
         handle.onmousedown = dragstart;
     }

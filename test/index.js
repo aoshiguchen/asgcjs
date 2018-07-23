@@ -598,7 +598,7 @@ function main(){
 			closeMenu: 'available',
 			htmlContent: 'this is html page.',
 			resizable: true,
-			shade: true,
+			shade: false,
 			icon: 'img/Aim_128px_1134223_easyicon.net.png',
 			onClose: function(){
 				log.info('页面已关闭');
