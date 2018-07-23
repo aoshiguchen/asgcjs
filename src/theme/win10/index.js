@@ -584,6 +584,31 @@ Asgc.UI.win10 = (function(){
 				logger.info(logInfo + 'htmlPage id:' + this.id,' create finished.');
 			};
 
+			this.onMinBefore = function(){
+				if(this.url){
+					this.iframe.style.display = 'none';
+				}else{
+					this.content.style.display = 'none';
+				}
+				
+			};
+
+			this.onMinAfter = function(){
+
+			};
+
+			this.onNomalBefore = function(){
+				if(this.url){
+					this.iframe.style.display = 'block';
+				}else{
+					this.content.style.display = 'block';
+				}
+			};
+
+			this.onNomalAfter = function(){
+
+			};
+
 			//Override
 			this.render = function(){
 				this.super.render();
