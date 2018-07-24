@@ -699,6 +699,17 @@ Asgc.UI.win10.component = (function(){
 						this.ele.style.left = this.left;
 						this.minMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-min"></use></svg>';
 						this.status = UIConsts.windowStatus.normal;
+
+						if(this.resizable){
+							this.resizeTop.style.display = 'block';
+							this.resizeBottom.style.display = 'block';
+							this.resizeLeft.style.display = 'block';
+							this.resizeRight.style.display = 'block';
+							this.resizeLeftTop.style.display = 'block';
+							this.resizeLeftBottom.style.display = 'block';
+							this.resizeRightTop.style.display = 'block';
+							this.resizeRightBottom.style.display = 'block';
+						}
 						
 						this.onNomalAfter();
 					}else{
@@ -717,6 +728,18 @@ Asgc.UI.win10.component = (function(){
 						this.ele.style.top = window.innerHeight - 30 + 'px';
  						this.minMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-restore"></use></svg>';
 						this.status = UIConsts.windowStatus.min;
+
+						if(this.resizable){
+							this.resizeTop.style.display = 'none';
+							this.resizeBottom.style.display = 'none';
+							this.resizeLeft.style.display = 'none';
+							this.resizeRight.style.display = 'none';
+							this.resizeLeftTop.style.display = 'none';
+							this.resizeLeftBottom.style.display = 'none';
+							this.resizeRightTop.style.display = 'none';
+							this.resizeRightBottom.style.display = 'none';
+						}
+						
 
 						this.onMinAfter();
 					}
