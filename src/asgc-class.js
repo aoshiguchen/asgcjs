@@ -33,6 +33,9 @@ Asgc.Class = (function(){
 			_objContext.method = this.method;
 			_objContext.hasSuper = false;
 
+			options = options || {};
+			options.self = options.self || _objContext;
+
 			if(parentClassName){
 				var parentClass = Class.get(parentClassName);
 				if(!parentClass){

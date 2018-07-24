@@ -67,9 +67,6 @@ Asgc.UI.win10 = (function(){
 			//Override
 			this.create = function(){
 				this.super.create();
-
-				//在基类中this指的是基类的this，这里进行覆盖,TODO
-				component[this.id] = this;
 				
 				var ele = this.ele;
 				var content = document.createElement('div');
@@ -155,9 +152,6 @@ Asgc.UI.win10 = (function(){
 			//Override
 			this.create = function(){
 				this.super.create();
-
-				//在基类中this指的是基类的this，这里进行覆盖,TODO
-				component[this.id] = this;
 				
 				var ele = this.ele;
 				var content = document.createElement('div');
@@ -271,9 +265,6 @@ Asgc.UI.win10 = (function(){
 			//Override
 			this.create = function(){
 				this.super.create();
-				
-				//在基类中this指的是基类的this，这里进行覆盖,TODO
-				component[this.id] = this;
 
 				var ele = this.ele;
 				var hint = document.createElement('div');
@@ -563,10 +554,6 @@ Asgc.UI.win10 = (function(){
 			//Override
 			this.create = function(){
 				this.super.create();
-
-				//在基类中this指的是基类的this，这里进行覆盖,TODO
-				component[this.id] = this;
-
 				
 				if(this.url){
 					var iframe = document.createElement('iframe');

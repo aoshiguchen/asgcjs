@@ -68,6 +68,8 @@ Asgc.UI.win10.component = (function(){
 				this.display = options.display || 'block';
 				this.type = options.type || '';
 
+				var self = options.self;
+
 				//API
 				this.show = function(){
 					if(this.isShow) return;
@@ -144,7 +146,7 @@ Asgc.UI.win10.component = (function(){
 				//API
 				this.create = function(){
 					this.id = this.getId();
-					component[this.id] = this.this; 
+					component[this.id] = self; 
 					this.ele = document.createElement('div');//默认用div包裹
 					this.ele.setAttribute('id',this.id);
 				};
