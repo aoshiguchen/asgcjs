@@ -679,6 +679,14 @@ Asgc.UI.win10.component = (function(){
 
 				};
 
+				this.onMaxBefore = function(){
+
+				};
+
+				this.onMaxAfter = function(){
+
+				};
+
 				this.onNomalBefore = function(){
 
 				};
@@ -712,6 +720,11 @@ Asgc.UI.win10.component = (function(){
 							this.resizeRightTop.style.display = 'block';
 							this.resizeRightBottom.style.display = 'block';
 						}
+
+						if(this.maxMenuConf === Asgc.Consts.UI.Usability.available){
+							this.maxMenu.classList.add('asgc-menu-icon');
+							this.maxMenu.style.setProperty('color','#000');
+						}
 						
 						this.onNomalAfter();
 					}else{
@@ -741,7 +754,11 @@ Asgc.UI.win10.component = (function(){
 							this.resizeRightTop.style.display = 'none';
 							this.resizeRightBottom.style.display = 'none';
 						}
-						
+
+						if(this.maxMenuConf === Asgc.Consts.UI.Usability.available){
+							this.maxMenu.classList.remove('asgc-menu-icon');
+							this.maxMenu.style.setProperty('color','#ccc');
+						}
 
 						this.onMinAfter();
 					}
@@ -749,11 +766,71 @@ Asgc.UI.win10.component = (function(){
 
 				this.max = function(){
 					if(this.status === UIConsts.windowStatus.max){
+						this.onNomalBefore();
+
+						this.ele.style.maxHeight = this.maxHeight;
+						this.ele.style.maxWidth = this.maxWidth;
+						this.ele.style.height = this.height;
+						this.ele.style.width = this.width;
+						this.leftBar.style.setProperty('width','75%');
+						this.rightBar.style.removeProperty('width');
+						this.ele.style.top = this.top;
+						this.ele.style.left = this.left;
 						this.maxMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-max"></use></svg>';
 						this.status = UIConsts.windowStatus.normal;
+
+						if(this.resizable){
+							this.resizeTop.style.display = 'block';
+							this.resizeBottom.style.display = 'block';
+							this.resizeLeft.style.display = 'block';
+							this.resizeRight.style.display = 'block';
+							this.resizeLeftTop.style.display = 'block';
+							this.resizeLeftBottom.style.display = 'block';
+							this.resizeRightTop.style.display = 'block';
+							this.resizeRightBottom.style.display = 'block';
+						}
+
+						if(this.minMenuConf === Asgc.Consts.UI.Usability.available){
+							this.minMenu.classList.add('asgc-menu-icon');
+							this.minMenu.style.setProperty('color','#000');
+						}
+
+						this.onNomalAfter();
 					}else{
+						this.onMaxBefore();
+
+						this.height = this.ele.style.height;
+						this.width = this.ele.style.width;
+						this.left = this.ele.style.left;
+						this.top = this.ele.style.top;
+						this.ele.style.maxWidth = '99999999px';
+						this.ele.style.maxHeight = '99999999px';
+						this.ele.style.width = window.innerWidth + 'px';
+						this.ele.style.height = window.innerHeight + 'px';
+						this.leftBar.style.setProperty('width','94.7%');
+						this.rightBar.style.setProperty('width','5.3%');
+						this.ele.style.left = '0px';
+						this.ele.style.top = '0px';
 						this.maxMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-restore"></use></svg>';
-						this.status = UIConsts.windowStatus.min;
+						this.status = UIConsts.windowStatus.max;
+
+						if(this.resizable){
+							this.resizeTop.style.display = 'none';
+							this.resizeBottom.style.display = 'none';
+							this.resizeLeft.style.display = 'none';
+							this.resizeRight.style.display = 'none';
+							this.resizeLeftTop.style.display = 'none';
+							this.resizeLeftBottom.style.display = 'none';
+							this.resizeRightTop.style.display = 'none';
+							this.resizeRightBottom.style.display = 'none';
+						}
+
+						if(this.minMenuConf === Asgc.Consts.UI.Usability.available){
+							this.minMenu.classList.remove('asgc-menu-icon');
+							this.minMenu.style.setProperty('color','#ccc');
+						}
+
+						this.onMaxAfter();
 					}
 				};
 
