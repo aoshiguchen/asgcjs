@@ -125,9 +125,9 @@ Asgc.UI.win10 = (function(){
 
 				logger.info(logInfo + 'alert id:' + this.id,' render finished.');
 			};
-
+ 
 			this.bindEvent = function(){
-				this.super.bindEvent.call(this);
+				this.super.bindEvent(); 
 
 				var ctx = this;
 
@@ -223,7 +223,7 @@ Asgc.UI.win10 = (function(){
 			};
 
 			this.bindEvent = function(){
-				this.super.bindEvent.call(this); 
+				this.super.bindEvent(); 
 
 				var ctx = this;
 
@@ -372,7 +372,7 @@ Asgc.UI.win10 = (function(){
 			};
 
 			this.bindEvent = function(){
-				this.super.bindEvent.call(this);
+				this.super.bindEvent();
 
 				var ctx = this;
 
@@ -620,6 +620,10 @@ Asgc.UI.win10 = (function(){
 
 				logger.info(logInfo + 'htmlPage id:' + this.id,' render finished.');
 			};
+
+			this.bindEvent = function(){
+				this.super.bindEvent();
+			}
 
 		},'com.asgc.ui.win10.Window');
 

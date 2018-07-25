@@ -42,6 +42,8 @@ Asgc.UI.win10.component = (function(){
 			//组件
 			Class.define('com.asgc.ui.win10.Component',function(options){
 
+				this.config = Asgc.util.deepClone({},options);
+
 				this.isLoad = false;
 				this.isShow = false;
 				this.isCreate = false;
@@ -246,6 +248,7 @@ Asgc.UI.win10.component = (function(){
 			//窗口
 			Class.define('com.asgc.ui.win10.Window',function(options){
 
+				var self = options.self;
 				this.iconConf = options.icon;
 				this.titleText = options.title || '';
 				this.minMenuConf = options.minMenu;
@@ -266,8 +269,6 @@ Asgc.UI.win10.component = (function(){
 				this.zIndex = 0;
 				this.activable = options.activable;
 				this.status = UIConsts.windowStatus.normal;
-				//这个为false，则禁止esc快捷键关闭
-				this.closeBle = options.closeBle === UIConsts.Usability.available;
 
 				//API
 				this.setStatusBar = function(statusBar){
@@ -312,25 +313,25 @@ Asgc.UI.win10.component = (function(){
 					this.super.create();
 					var ele = this.ele;
 
-					if(this.hintIconConf != Asgc.Consts.UI.hintIcon.none){
+					if(this.config.hintIcon != Asgc.Consts.UI.hintIcon.none){
 						var hintIcon = document.createElement("div");
-						if(this.hintIconConf === Asgc.Consts.UI.hintIcon.success){
+						if(this.config.hintIcon === Asgc.Consts.UI.hintIcon.success){
 							hintIcon.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-right"></use></svg>';
 							hintIcon.style.setProperty('color','#01aaed');
-						}else if(this.hintIconConf === Asgc.Consts.UI.hintIcon.warn){
+						}else if(this.config.hintIcon === Asgc.Consts.UI.hintIcon.warn){
 							hintIcon.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-warn"></use></svg>';
 							hintIcon.style.setProperty('color','#ffb800');
-						}else if(this.hintIconConf === Asgc.Consts.UI.hintIcon.error){
+						}else if(this.config.hintIcon === Asgc.Consts.UI.hintIcon.error){
 							hintIcon.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-error"></use></svg>';
 							hintIcon.style.setProperty('color','#f00');
-						}else if(this.hintIconConf === Asgc.Consts.UI.hintIcon.help){
+						}else if(this.config.hintIcon === Asgc.Consts.UI.hintIcon.help){
 							hintIcon.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-help"></use></svg>';
 							hintIcon.style.setProperty('color','#009688');
 						}
 						this.hintIcon = hintIcon;
 					}
 
-					if(this.resizable){
+					if(this.config.resizable){
 						var resizeLeft = document.createElement('div');
 						var resizeRight = document.createElement('div');
 						var resizeTop = document.createElement('div');
@@ -368,20 +369,20 @@ Asgc.UI.win10.component = (function(){
 						this.resizeRightBottom = resizeRightBottom;
 					}
 
-					if(!this.controlBarConf) return;
+					if(!this.config.controlBar) return;
 					
 					var controlBar = document.createElement('div');
 					var leftBar = document.createElement('div');
 					var rightBar = document.createElement('div');
 					var title = document.createElement('div');
 
-					if(this.shadeConf){
+					if(this.config.shade){
 						var shade = document.createElement("div");
 						this.shade = shade;
 						document.body.appendChild(shade);
 					}
 
-					if(this.iconConf){
+					if(this.config.icon){
 						var icon = document.createElement('div');
 						//默认图标
 						if(this.iconConf === Asgc.Consts.default){
@@ -394,21 +395,21 @@ Asgc.UI.win10.component = (function(){
 						this.icon = icon;
 					}
 
-					if(this.minMenuConf != Asgc.Consts.UI.Usability.invisible){
+					if(this.config.minMenu != Asgc.Consts.UI.Usability.invisible){
 						var minMenu = document.createElement('div');
 						minMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-min"></use></svg>';
 						rightBar.appendChild(minMenu);
 						this.minMenu = minMenu;
 					}
 
-					if(this.maxMenuConf  != Asgc.Consts.UI.Usability.invisible){
+					if(this.config.maxMenu  != Asgc.Consts.UI.Usability.invisible){
 						var maxMenu = document.createElement('div');
 						maxMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-max"></use></svg>';
 						rightBar.appendChild(maxMenu);
 						this.maxMenu = maxMenu;
-					}
+					}  
 
-					if(this.closeMenuConf != Asgc.Consts.UI.Usability.invisible){
+					if(this.config.closeMenu != Asgc.Consts.UI.Usability.invisible){
 						var closeMenu = document.createElement('div');
 						closeMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-destroy"></use></svg>';
 						rightBar.appendChild(closeMenu);
@@ -543,7 +544,7 @@ Asgc.UI.win10.component = (function(){
 						windows.push(this);
 						this.active();
 					}else{
-						if(this.closeBle){
+						if(this.config.closeBle === UIConsts.Usability.available){
 							global.currentWindow = this;
 						}
 						this.setZIndex(++currentMaxZIndex);
@@ -599,7 +600,7 @@ Asgc.UI.win10.component = (function(){
 					// 		e.stopPropagation();
 
 					// 		for(var i in windows){
-					// 			if(windows[i] === ctx){
+					// 			if(windows[i] === ctx){ 
 					// 				windows.splice(i,1);
 					// 			}
 					// 		}
@@ -644,29 +645,29 @@ Asgc.UI.win10.component = (function(){
 						new themeContext.Resize(this,this.resizeRightBottom, false, false, false, false);
 					}
 
-					if(this.closeMenu && this.closeMenuConf === Asgc.Consts.UI.Usability.available){
-						this.closeMenu.onclick = function(e){
+					if(self.closeMenu && self.closeMenuConf === Asgc.Consts.UI.Usability.available){
+						self.closeMenu.onclick = function(e){
 							e.stopPropagation();
 
-							ctx.close({
+							self.close({
 								btn: 'close'
 							});
 						};
 					}
 
-					if(this.minMenu && this.minMenuConf === Asgc.Consts.UI.Usability.available){
-						this.minMenu.onclick = function(e){
+					if(self.minMenu && self.minMenuConf === Asgc.Consts.UI.Usability.available){
+						self.minMenu.onclick = function(e){
 							e.stopPropagation();
 
-							ctx.min();
+							self.min();
 						}; 
 					}
 
-					if(this.maxMenu && this.maxMenuConf === Asgc.Consts.UI.Usability.available){
-						this.maxMenu.onclick = function(e){
+					if(self.maxMenu && self.maxMenuConf === Asgc.Consts.UI.Usability.available){
+						self.maxMenu.onclick = function(e){
 							e.stopPropagation();
 
-							ctx.max();
+							self.max();
 						};
 					}
 				};
@@ -710,7 +711,7 @@ Asgc.UI.win10.component = (function(){
 						this.minMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-min"></use></svg>';
 						this.status = UIConsts.windowStatus.normal;
 
-						if(this.resizable){
+						if(this.config.resizable){
 							this.resizeTop.style.display = 'block';
 							this.resizeBottom.style.display = 'block';
 							this.resizeLeft.style.display = 'block';
@@ -744,7 +745,7 @@ Asgc.UI.win10.component = (function(){
  						this.minMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-restore"></use></svg>';
 						this.status = UIConsts.windowStatus.min;
 
-						if(this.resizable){
+						if(this.config.resizable){
 							this.resizeTop.style.display = 'none';
 							this.resizeBottom.style.display = 'none';
 							this.resizeLeft.style.display = 'none';
@@ -772,14 +773,12 @@ Asgc.UI.win10.component = (function(){
 						this.ele.style.maxWidth = this.maxWidth;
 						this.ele.style.height = this.height;
 						this.ele.style.width = this.width;
-						this.leftBar.style.setProperty('width','75%');
-						this.rightBar.style.removeProperty('width');
 						this.ele.style.top = this.top;
 						this.ele.style.left = this.left;
 						this.maxMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-max"></use></svg>';
 						this.status = UIConsts.windowStatus.normal;
 
-						if(this.resizable){
+						if(this.config.resizable){
 							this.resizeTop.style.display = 'block';
 							this.resizeBottom.style.display = 'block';
 							this.resizeLeft.style.display = 'block';
@@ -807,14 +806,13 @@ Asgc.UI.win10.component = (function(){
 						this.ele.style.maxHeight = '99999999px';
 						this.ele.style.width = window.innerWidth + 'px';
 						this.ele.style.height = window.innerHeight + 'px';
-						this.leftBar.style.setProperty('width','94.7%');
-						this.rightBar.style.setProperty('width','5.3%');
+
 						this.ele.style.left = '0px';
 						this.ele.style.top = '0px';
 						this.maxMenu.innerHTML = '<svg class="asgc-iconfont" aria-hidden="true"><use xlink:href="#asgc-icon-restore"></use></svg>';
 						this.status = UIConsts.windowStatus.max;
 
-						if(this.resizable){
+						if(this.config.resizable){
 							this.resizeTop.style.display = 'none';
 							this.resizeBottom.style.display = 'none';
 							this.resizeLeft.style.display = 'none';

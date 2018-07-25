@@ -106,7 +106,7 @@ Asgc.UI.win10.config = (function(){
 				shade: false,
 				minMenu: UIConsts.Usability.available,
 				minable: UIConsts.Usability.available,
-				maxMenu: UIConsts.Usability.available,
+				maxMenu: UIConsts.Usability.invisible,
 				maxble: UIConsts.Usability.available,
 				closeMenu: UIConsts.Usability.available,
 				closeBle: UIConsts.Usability.available,
