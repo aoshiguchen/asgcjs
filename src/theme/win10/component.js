@@ -545,11 +545,19 @@ Asgc.UI.win10.component = (function(){
 						this.active();
 					}else{
 						if(this.config.closeBle === UIConsts.Usability.available){
-							global.currentWindow = this;
+							global.currentWindow = self;
 						}
 						this.setZIndex(++currentMaxZIndex);
 						windowsSort();
 						zIndexGC();
+					}
+				};
+
+				this.highlight = function(flag){
+					if(flag){
+						this.ele.style.setProperty('border','1px solid #D5B32B');
+					}else{
+						this.ele.style.setProperty('border','1px solid #888');
 					}
 				};
 
@@ -563,7 +571,7 @@ Asgc.UI.win10.component = (function(){
 					}
 
 					this.isActive = true;
-					global.currentWindow = this;
+					global.currentWindow = self;
 					this.setZIndex(++currentMaxZIndex);
 					windowsSort();
 					zIndexGC();
@@ -589,8 +597,20 @@ Asgc.UI.win10.component = (function(){
 
 					if(this.activable){//onmousedown
 						this.ele.onmousedown = function(){
-							if(global.currentWindow != ctx){
+							if(global.currentWindow != self){
 								ctx.active();
+							}
+						};
+
+						this.ele.onmouseover = function(){
+							if(global.currentWindow != self){
+								ctx.highlight(true);
+							}
+						};
+
+						this.ele.onmouseout = function(){
+							if(global.currentWindow != self){
+								ctx.highlight(false);
 							}
 						};
 					}
@@ -674,7 +694,7 @@ Asgc.UI.win10.component = (function(){
 
 				this.onMinBefore = function(){
 
-				};
+				};				
 
 				this.onMinAfter = function(){
 
