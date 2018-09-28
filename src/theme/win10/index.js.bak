@@ -600,6 +600,22 @@ Asgc.UI.win10 = (function(){
 	var logInfo = 'theme win10 ';
 
 	var UI = {
+		dependents: [
+			'global.js',
+			'index.css',
+			'config/common.js',
+			'config/alert.js',
+			'config/msg.js',
+			'config/confirm.js',
+			'config/prompt.js',
+			'config/rectangleLodding.js',
+			'config/rectangleProgress.js',
+			'config/htmlPage.js',
+			'drag.js',
+			'resize.js',
+			'component.js',
+			'event.js'
+		],
 		init: function(){
 			logger.info(logInfo + 'init...');
 			this.component.init();

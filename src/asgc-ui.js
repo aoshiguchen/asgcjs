@@ -26,13 +26,13 @@ Asgc.UI = (function(){
 			var ctx = this;
 			callback = callback || function(){};
 
-			Asgc.util.loadFiles([Asgc.theme[theme].path + 'index.js'],function(fileList){
+			Asgc.util.loadFiles([Asgc.theme[theme].path + 'dependents.js'],function(fileList){
 				for(var file of fileList){
 					logger.info('set theme load ' + file + '  finished.');
 				}
 
 				//加载主题的依赖
-				var themeDeps = Asgc.UI[theme].dependents;
+				var themeDeps = Asgc.UI.dependents;
 				if(themeDeps && themeDeps.length > 0){
 					for(var i in themeDeps){
 						themeDeps[i] = Asgc.theme[theme].path + themeDeps[i];
