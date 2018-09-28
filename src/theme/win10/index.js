@@ -609,6 +609,7 @@ Asgc.UI.win10 = (function(){
 					iframe.style.setProperty('height','89%');
 					iframe.style.setProperty('margin','0');
 					iframe.style.setProperty('padding','0');
+					iframe.style.setProperty('border','0');
 				}
 
 				if(content){

@@ -532,7 +532,7 @@ Asgc.UI.win10.component = (function(){
 					}
 				};
 
-				this.showBefore = function(){
+				this.showBefore = function(){ 
 					var ele = this.ele;
 					
 					if(this.shade){
