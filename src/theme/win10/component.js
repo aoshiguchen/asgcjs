@@ -159,6 +159,24 @@ Asgc.UI.win10.component = (function(){
 					logger.info(logInfo + 'component id:' + this.id,' close finished.');
 				};
 
+				this.setStyle = function(names){
+					if(!names || !this.config.dom) return;
+
+					if(Asgc.types.isString(names)){
+						names = [names];
+					}
+
+					for(var name of names){
+						var ele = this[name];
+						if(!ele || !this.config.dom[name] || !this.config.dom[name].style) continue;
+
+						for(var key in this.config.dom[name].style){
+							ele.style.setProperty(key,this.config.dom[name].style[key]);
+						}
+					}
+
+				};
+
 				//需后代实现
 				this.init = function(){
 

@@ -505,33 +505,10 @@ Asgc.UI.win10 = (function(){
 			this.render = function(){
 				this.super.render();
 
-				var border = this.border;
-				var content = this.content;
 				var progress = this.progress;
-				var valueDiv = this.valueDiv;
 
-				border.style.setProperty('width','40%');
-				border.style.setProperty('height','20px');
-				border.style.setProperty('left','30%');
-				border.style.setProperty('border','1px solid #3baced');
-				border.style.setProperty('box-shadow','rgb(0, 0, 0, 0.3) 1px 1px 24px');
-				border.style.setProperty('border-radius','0px');
-				border.style.setProperty('position','absolute');
-				border.style.setProperty('margin','auto');
-
-				content.style.setProperty('float','left');
-				content.style.setProperty('height','100%');
-				content.style.setProperty('width','100%');
-
-				progress.style.setProperty('height','100%');
-				progress.style.setProperty('width','0%');
 				progress.style.setProperty('background-color',this.color);
-
-				valueDiv.style.setProperty('float','right');
-				valueDiv.style.setProperty('position','absolute');
-				valueDiv.style.setProperty('margin-left','5px');
-				valueDiv.style.setProperty('display','inline-block');
-
+				this.setStyle(['border','content','progress','valueDiv']);
 				this.ele.style.setProperty('margin-bottom','10px');
 
 				logger.info(logInfo + 'rectangleProgress id:' + this.id,' render finished.');
@@ -601,22 +578,8 @@ Asgc.UI.win10 = (function(){
 				this.super.render();
 
 				var ele = this.ele;
-				var iframe = this.iframe;
-				var content = this.content;
 
-				if(iframe){
-					iframe.style.setProperty('width','99%');
-					iframe.style.setProperty('height','89%');
-					iframe.style.setProperty('margin','0');
-					iframe.style.setProperty('padding','0');
-					iframe.style.setProperty('border','0');
-				}
-
-				if(content){
-					content.style.setProperty('margin','8px');
-					content.style.setProperty('font-family','宋体');
-				}
-
+				this.setStyle(['iframe','content']);
 				ele.classList.add('asgc-htmlPage');
 
 				logger.info(logInfo + 'htmlPage id:' + this.id,' render finished.');
@@ -640,7 +603,14 @@ Asgc.UI.win10 = (function(){
 		dependents: [
 			'global.js',
 			'index.css',
-			'config.js',
+			'config/common.js',
+			'config/alert.js',
+			'config/msg.js',
+			'config/confirm.js',
+			'config/prompt.js',
+			'config/rectangleLodding.js',
+			'config/rectangleProgress.js',
+			'config/htmlPage.js',
 			'drag.js',
 			'resize.js',
 			'component.js',

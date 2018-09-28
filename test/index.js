@@ -625,10 +625,6 @@ function main(){
 	});
 
 	$('#81').click(function(){ 
-		// $('#81').unbind('click');
-		// $('#81').click(function(){
-		// 	alert(1)
-		// })
 		Asgc.UI.htmlPage({
 			title:'测试页面' + (++htmlPageCount),
 			width: '400px',
@@ -640,6 +636,24 @@ function main(){
 			resizable: true,
 			shade: false,
 			icon: 'img/Aim_128px_1134223_easyicon.net.png',
+			onClose: function(){
+				log.info('页面已关闭');
+			}
+		});
+	});
+
+	$('#82').click(function(){ 
+		Asgc.UI.htmlPage({
+			title:'百度',
+			width: '800px',
+			height: '600px',
+			minMenu: 'available',
+			maxMenu:'available',
+			closeMenu: 'available',
+			url: 'http://www.baidu.com',
+			resizable: true,
+			shade: false,
+			icon: 'http://img2.imgtn.bdimg.com/it/u=825124447,3121939879&fm=27&gp=0.jpg',
 			onClose: function(){
 				log.info('页面已关闭');
 			}

@@ -11,4 +11,8 @@ Asgc.UI.win10.global = (function(){
 	return {
 		currentWindow: null
 	};
+
 })();
+
+//初始化
+Asgc.UI.win10.config = {};
