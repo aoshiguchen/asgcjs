@@ -43,8 +43,6 @@ Asgc.UI = (function(){
 							logger.info('theme dependents load ' + file + '  finished.');
 						}
 
-						//更新global为当前主题的global
-						window.global = Asgc.UI[theme].global || {};
 						ctx.init();
 						callback();
 					});
