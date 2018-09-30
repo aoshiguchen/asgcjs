@@ -117,4 +117,14 @@
 		return htmlPage;
 	};
 
+	Asgc.UI.win10.imageView = function(options){
+		logger.info(logInfo + 'imageView ',JSON.stringify(options));
+
+		var imageView = this.getInstance('ImageView',options);
+		
+		imageView.show();
+
+		return imageView;
+	};
+
 })();

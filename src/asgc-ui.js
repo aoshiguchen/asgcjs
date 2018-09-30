@@ -48,7 +48,7 @@ Asgc.UI = (function(){
 					});
 				}else{
 					//更新global为当前主题的global
-					window.global = Asgc.UI[theme].global || {};
+					// window.global = Asgc.UI[theme].global || {};
 					ctx.init();
 					callback();
 				}
@@ -302,6 +302,25 @@ Asgc.UI = (function(){
 			return this.create(Asgc.util.deepClone({},options,{
 				type: 'htmlPage'
 			}));
+		},
+		imageView: function(p1){
+			if(!p1){
+				logger.error('参数有误!');
+			}
+
+			if(Asgc.types.isObject(p1)){
+				return this.create(Asgc.util.deepClone({},p1,{
+					type: 'imageView'
+				}));
+			}else if(Asgc.types.isString(p1)){
+				return this.create(Asgc.util.deepClone({},{
+					src: p1
+				},{
+					type: 'imageView'
+				}));
+			}
+
+			
 		}
 	};
 

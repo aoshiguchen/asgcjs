@@ -29,9 +29,6 @@ Asgc.UI.default = (function(){
 				aliveTime: 2000
 			}
 		},
-		dependents: [
-			'index.css'
-		],
 		init: function(){
 
 		},
@@ -45,19 +42,20 @@ Asgc.UI.default = (function(){
 			if(component[id]) component[id].show();
 		},
 		msg: function(options){
-			var id = 'asgc-msg' + Asgc.util.getUuid();
+			// var id = 'asgc-msg' + Asgc.util.getUuid();
 
-			var msg = document.createElement('div');
-			msg.setAttribute('id',id);
+			// var msg = document.createElement('div');
+			// msg.setAttribute('id',id);
 
-			var label = document.createElement('div');
-			label.innerHTML = options.text;
+			// var label = document.createElement('div');
+			// label.innerHTML = options.text;
 
-			msg.appendChild(label);
-			document.body.appendChild(msg);
+			// msg.appendChild(label);
+			// document.body.appendChild(msg);
+			alert(options.text);
 		},
 		alert: function(options){
-
+			alert(options.content);
 		}
 	};
 

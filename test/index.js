@@ -660,4 +660,16 @@ function main(){
 		});
 	});
 
+	$('#91').click(function(){ 
+		Asgc.UI.imageView({
+			src: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=108664394,3970512532&fm=173&app=25&f=JPEG?w=218&h=146&s=4FB0BEE25C424ECE08B7A748030000FF',
+			onClose: function(){
+				log.info('页面已关闭');
+			}
+		});
+	});
+
+	$('#92').click(function(){ 
+		Asgc.UI.imageView('https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3456421808,4079941850&fm=173&app=25&f=JPEG?w=218&h=146&s=84E1DA5AE2B1A6755679F3A70300E00F');
+	});
 }
